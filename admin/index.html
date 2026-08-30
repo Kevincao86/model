@@ -135,7 +135,7 @@
     </div>
     <div class="wrap">
       <h1>案例</h1>
-      <p class="lead">可改标题、介绍、封面、演示地址和打开密码。删除后前台立即不再展示。</p>
+      <p class="lead">每个案例单独设置「查看密码」。访客在前台点开卡片后，必须输入正确密码才能进入演示。</p>
       <div class="warn hidden" id="ephemeral">当前未绑定持久存储，冷启动后改动可能回退到默认案例。部署后请在 Vercel 创建 KV。</div>
       <table>
         <thead>
@@ -143,6 +143,7 @@
             <th>封面</th>
             <th>案例</th>
             <th>演示地址</th>
+            <th>查看密码</th>
             <th>排序</th>
             <th>操作</th>
           </tr>
@@ -178,8 +179,8 @@
           <input id="fSort" type="number" />
         </div>
         <div>
-          <label>打开密码（留空则不改）</label>
-          <input id="fPass" type="text" placeholder="新密码" />
+          <label id="fPassLabel">查看密码</label>
+          <input id="fPass" type="text" placeholder="设置或修改查看密码" autocomplete="off" />
         </div>
       </div>
       <label class="check"><input id="fVisible" type="checkbox" checked /> 前台展示</label>
@@ -225,10 +226,14 @@
       document.getElementById('fDemo').value = item ? item.demoUrl : '';
       document.getElementById('fSort').value = item ? item.sort : 10;
       document.getElementById('fPass').value = '';
+      document.getElementById('fPassLabel').textContent = item && item.hasPassword
+        ? '查看密码（已设置，填写后覆盖）'
+        : '查看密码（访客打开此案例时输入）';
       document.getElementById('fPass').placeholder = item ? '留空则不改原密码' : '必填';
       document.getElementById('fVisible').checked = item ? item.visible !== false : true;
       document.getElementById('formErr').textContent = '';
       drawer.classList.add('on');
+      document.getElementById('fPass').focus();
     }
 
     async function loadCases() {
@@ -239,13 +244,14 @@
           <td>${c.cover ? `<img src="${c.cover}" alt="">` : '—'}</td>
           <td>
             <b>${c.title}</b><br>
-            <span style="color:#B8AA96">${c.tag || ''} · ${c.id}${c.hasPassword ? ' · 已设密码' : ''}</span><br>
+            <span style="color:#B8AA96">${c.tag || ''} · ${c.id}</span><br>
             <span style="color:#B8AA96">${c.blurb || ''}</span>
           </td>
-          <td><a href="${c.demoUrl}" style="color:#C4A46A">${c.demoUrl}</a></td>
+          <td>${c.demoUrl}</td>
+          <td>${c.hasPassword ? '已设置' : '<span style="color:#D27A5A">未设置</span>'}</td>
           <td>${c.sort || 0}${c.visible === false ? '<br>已隐藏' : ''}</td>
           <td class="ops">
-            <button class="ghost" data-edit="${c.id}" type="button">编辑</button>
+            <button class="ghost" data-edit="${c.id}" type="button">设置密码</button>
             <button class="ghost" data-del="${c.id}" type="button">删除</button>
           </td>
         </tr>
@@ -302,6 +308,9 @@
       if (password) payload.password = password;
       document.getElementById('formErr').textContent = '';
       try {
+        if (editing && !editing.hasPassword && !password) {
+          throw new Error('请设置查看密码，否则前台无法打开');
+        }
         if (editing) {
           await api('/api/admin/cases/' + editing.id, {
             method: 'PUT',

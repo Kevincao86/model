@@ -1,4 +1,4 @@
-const { getAdmin, getUnlocks, json } = require('../lib/auth');
+const { getUnlocks, json } = require('../lib/auth');
 const { readStore } = require('../lib/store');
 
 module.exports = async function handler(req, res) {
@@ -8,7 +8,6 @@ module.exports = async function handler(req, res) {
   const store = await readStore();
   const item = store.cases.find((c) => c.id === id);
   if (!item) return json(res, 404, { ok: false, error: '案例不存在' });
-  const admin = getAdmin(req);
-  const unlocked = Boolean(admin) || getUnlocks(req).includes(id);
+  const unlocked = getUnlocks(req).includes(id);
   json(res, 200, { ok: unlocked, id, demoUrl: unlocked ? item.demoUrl : null });
 };

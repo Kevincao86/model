@@ -240,7 +240,7 @@
           <div class="tag">${item.tag || 'CASE'}</div>
           <h2>${item.title}</h2>
           <p>${item.blurb || ''}</p>
-          <div class="go"><i></i>${item.unlocked ? '继续查看' : '输入密码查看'}</div>
+          <div class="go"><i></i>输入密码查看</div>
         </div>
       </button>`;
     }
@@ -309,8 +309,7 @@
         el.addEventListener('click', () => {
           const item = cases.find((c) => c.id === el.dataset.id);
           if (!item) return;
-          if (item.unlocked) location.href = item.demoUrl;
-          else openModal(item);
+          openModal(item);
         });
       });
       const need = new URLSearchParams(location.search).get('need');
