@@ -239,6 +239,9 @@
     async function loadCases() {
       const j = await api('/api/admin/cases');
       document.getElementById('ephemeral').classList.toggle('hidden', !j.ephemeral);
+      document.getElementById('ephemeral').textContent = j.ephemeral
+        ? '存储未接通，改密码不会真正生效。请联系部署方检查 Edge Config。'
+        : '';
       document.getElementById('tbody').innerHTML = j.cases.map((c) => `
         <tr>
           <td>${c.cover ? `<img src="${c.cover}" alt="">` : '—'}</td>

@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
     return json(res, 400, { error: 'invalid json' });
   }
   const id = String(body.id || '').trim();
-  const password = String(body.password || '');
+  const password = String(body.password || '').trim();
   if (!id || !password) return json(res, 400, { error: '请输入密码' });
 
   const store = await readStore();

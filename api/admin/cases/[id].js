@@ -31,9 +31,12 @@ module.exports = async function handler(req, res) {
     if (body.demoUrl != null) item.demoUrl = String(body.demoUrl).slice(0, 400);
     if (body.sort != null) item.sort = Number(body.sort) || item.sort;
     if (body.visible != null) item.visible = Boolean(body.visible);
-    if (body.password) item.passwordHash = hashPassword(body.password);
+    if (body.password) item.passwordHash = hashPassword(String(body.password).trim());
     item.updatedAt = Date.now();
     const result = await writeStore(store);
+    if (!result.persisted) {
+      return json(res, 500, { error: '密码未保存成功，请重试', ...result });
+    }
     return json(res, 200, { ok: true, case: adminCase(item), ...result });
   }
 
