@@ -4,3 +4,6 @@ node_modules/
 miniprogram_npm/
 .idea/
 .vscode/
+.vercel
+.env
+.env.local

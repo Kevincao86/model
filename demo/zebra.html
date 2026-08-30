@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>魔楽斑马小程序演示 · 墨典网络</title>
+  <link rel="icon" href="/assets/brand/logo-mark.png" />
+  <script src="/js/gate.js" data-case="zebra"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height:100dvh; background:#0C0C0C; color:#F4F1EA; font-family:"PingFang SC","Hiragino Sans GB",sans-serif; }
+    .bar { display:flex; align-items:center; justify-content:space-between; padding:14px 22px; color:#C4A46A; font-size:12px; letter-spacing:.14em; }
+    .bar img { width:28px; height:28px; vertical-align:middle; margin-right:8px; }
+    .bar a { color:#C4A46A; text-decoration:none; }
+    .stage { display:flex; justify-content:center; padding:10px 16px 40px; }
+    .phone {
+      width:390px; height:844px; background:#111; color:#F4F1EA;
+      border-radius:40px; overflow:hidden; border:10px solid #222;
+      display:flex; flex-direction:column; box-shadow:0 30px 70px rgba(0,0,0,.5);
+    }
+    .stripe { height:10px; background: repeating-linear-gradient(90deg,#111 0 12px,#F4F1EA 12px 22px); }
+    .head { padding:18px 18px 8px; }
+    .head b { font-size:24px; letter-spacing:.16em; }
+    .head span { display:block; margin-top:6px; color:#B8AA96; font-size:12px; }
+    .hero {
+      margin:10px 16px 0; height:180px; border-radius:18px; overflow:hidden;
+      background: url('/assets/covers/cover-zebra.jpg') center/cover;
+      position:relative;
+    }
+    .hero em {
+      position:absolute; left:14px; bottom:14px; font-style:normal;
+      background:#C4A46A; color:#1A140C; padding:6px 10px; font-size:12px; letter-spacing:.1em;
+    }
+    .cards { padding:16px; display:grid; gap:10px; flex:1; }
+    .card { background:#1A1A1A; border:1px solid #2A2A2A; padding:14px; border-radius:14px; }
+    .card b { display:block; font-size:16px; letter-spacing:.08em; }
+    .card span { color:#B8AA96; font-size:12px; }
+    .card i { float:right; color:#C4A46A; font-style:normal; }
+    .tab { display:grid; grid-template-columns:repeat(4,1fr); text-align:center; padding:12px 0 18px; color:#8A8276; font-size:11px; border-top:1px solid #2A2A2A; }
+    .tab b { display:block; color:#F4F1EA; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <a href="/"><img src="/assets/brand/logo-mark.png" alt="" />墨典网络 · 案例库</a>
+    <a href="/">返回</a>
+  </div>
+  <div class="stage">
+    <div class="phone">
+      <div class="stripe"></div>
+      <div class="head"><b>魔楽斑马</b><span>亲子场馆预约 · 课程卡 · 周末场次</span></div>
+      <div class="hero"><em>本周亲子场 余 6</em></div>
+      <div class="cards">
+        <div class="card"><i>¥199</i><b>周末畅玩卡</b><span>2 大 1 小 · 不约可改期</span></div>
+        <div class="card"><i>¥129</i><b>斑马体能课</b><span>45 分钟 · 适合 4–8 岁</span></div>
+        <div class="card"><i>¥88</i><b>下午茶套票</b><span>场馆 + 点心 · 限量</span></div>
+      </div>
+      <div class="tab"><div><b>首页</b>发现</div><div>场次</div><div>卡包</div><div>我家</div></div>
+    </div>
+  </div>
+</body>
+</html>

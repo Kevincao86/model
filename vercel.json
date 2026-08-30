@@ -1,3 +1,10 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "admin.modianmodel.online" }],
+      "destination": "/admin/index.html"
+    }
+  ]
 }

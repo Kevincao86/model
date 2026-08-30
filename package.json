@@ -1,0 +1,8 @@
+{
+  "name": "modian-case-library",
+  "private": true,
+  "description": "墨典网络案例库与管理后台",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}

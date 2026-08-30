@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>灵祺商家ERP演示 · 墨典网络</title>
+  <link rel="icon" href="/assets/brand/logo-mark.png" />
+  <script src="/js/gate.js" data-case="lingqi"></script>
+  <style>
+    :root { --bg:#0F1418; --panel:#172026; --line:#2A363C; --text:#E8EEF0; --mute:#8AA0A8; --acc:#3C8A7A; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100dvh; background: var(--bg); color: var(--text); font-family: "PingFang SC", "Hiragino Sans GB", sans-serif; }
+    .bar { display:flex; align-items:center; justify-content:space-between; padding:12px 20px; border-bottom:1px solid var(--line); }
+    .brand { display:flex; align-items:center; gap:10px; color:#C4A46A; letter-spacing:.12em; font-size:12px; }
+    .brand img { width:28px; height:28px; }
+    .bar a { color: var(--mute); font-size:12px; letter-spacing:.12em; text-decoration:none; }
+    .app { display:grid; grid-template-columns: 220px 1fr; min-height: calc(100dvh - 53px); }
+    aside { border-right:1px solid var(--line); padding:22px 14px; }
+    .logo { font-size:18px; letter-spacing:.16em; margin-bottom:22px; }
+    .logo span { color: var(--acc); }
+    nav button {
+      display:block; width:100%; text-align:left; background:transparent; border:0; color:var(--mute);
+      padding:11px 12px; margin-bottom:4px; font:inherit; cursor:pointer;
+    }
+    nav button.on, nav button:hover { background: #1E2C30; color: var(--text); }
+    main { padding: 28px; }
+    h1 { font-size: 26px; font-weight: 560; letter-spacing: .08em; }
+    .sub { color: var(--mute); margin: 8px 0 22px; font-size: 13px; }
+    .kpis { display:grid; grid-template-columns: repeat(4,1fr); gap:12px; }
+    .kpi { background: var(--panel); border:1px solid var(--line); padding:16px; }
+    .kpi b { display:block; font-size:26px; margin-top:8px; letter-spacing:.04em; }
+    .kpi span { color: var(--mute); font-size:12px; letter-spacing:.12em; }
+    table { width:100%; border-collapse: collapse; margin-top: 24px; }
+    th, td { text-align:left; padding:12px 8px; border-bottom:1px solid var(--line); font-size:13px; }
+    th { color: var(--mute); font-weight:500; letter-spacing:.1em; font-size:11px; }
+    .ok { color: #7DCFB6; }
+    .wait { color: #E0C089; }
+    @media (max-width: 860px) {
+      .app { grid-template-columns: 1fr; }
+      aside { display:none; }
+      .kpis { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <a class="brand" href="/"><img src="/assets/brand/logo-mark.png" alt="" />墨典网络 · 案例库</a>
+    <a href="/">返回案例库</a>
+  </div>
+  <div class="app">
+    <aside>
+      <div class="logo">灵祺<span>ERP</span></div>
+      <nav>
+        <button class="on">今日概览</button>
+        <button>订单中心</button>
+        <button>门店库存</button>
+        <button>财务对账</button>
+        <button>员工权限</button>
+      </nav>
+    </aside>
+    <main>
+      <h1>今日经营</h1>
+      <p class="sub">灵祺商家ERP演示 · 餐饮零售中台 · 数据为示意，点击仅作浏览。</p>
+      <div class="kpis">
+        <div class="kpi"><span>订单</span><b>128</b></div>
+        <div class="kpi"><span>营收</span><b>¥18,420</b></div>
+        <div class="kpi"><span>库存预警</span><b>6</b></div>
+        <div class="kpi"><span>待发货</span><b>23</b></div>
+      </div>
+      <table>
+        <thead><tr><th>单号</th><th>门店</th><th>金额</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td>LQ-240830-018</td><td>鳌江一店</td><td>¥186</td><td class="ok">已完成</td></tr>
+          <tr><td>LQ-240830-017</td><td>昆阳店</td><td>¥64</td><td class="wait">备货中</td></tr>
+          <tr><td>LQ-240830-016</td><td>鳌江一店</td><td>¥238</td><td class="ok">已完成</td></tr>
+          <tr><td>LQ-240830-015</td><td>萧江店</td><td>¥92</td><td class="wait">待配送</td></tr>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>光明牛奶小程序演示 · 墨典网络</title>
+  <link rel="icon" href="/assets/brand/logo-mark.png" />
+  <script src="/js/gate.js" data-case="guangming"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100dvh;
+      background: #14110E;
+      color: #EDE4D6;
+      font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+    }
+    .bar { display:flex; align-items:center; justify-content:space-between; padding:14px 22px; color:#C4A46A; font-size:12px; letter-spacing:.14em; }
+    .bar img { width:28px; height:28px; vertical-align:middle; margin-right:8px; }
+    .bar a { color:#C4A46A; text-decoration:none; }
+    .stage { display:flex; justify-content:center; padding: 10px 16px 40px; }
+    .phone {
+      width: 390px; height: 844px;
+      background: #F6F1E8;
+      color: #2A241C;
+      border-radius: 40px;
+      overflow: hidden;
+      border: 10px solid #2A2622;
+      display:flex; flex-direction:column;
+      box-shadow: 0 30px 70px rgba(0,0,0,.4);
+    }
+    .head { padding: 18px 18px 10px; }
+    .head b { font-size: 22px; letter-spacing: .08em; }
+    .head span { display:block; margin-top:4px; color:#7A6F62; font-size:12px; }
+    .banner {
+      margin: 8px 16px 0;
+      height: 148px;
+      background: url('/assets/covers/cover-guangming.jpg') center/cover;
+      border-radius: 16px;
+    }
+    .cats { display:flex; gap:8px; padding: 16px; }
+    .cats i { flex:1; text-align:center; background:#EFE6D6; padding:10px 0; border-radius:12px; font-size:12px; font-style:normal; }
+    .list { padding: 0 16px; display:grid; gap:10px; flex:1; overflow:auto; }
+    .item { display:flex; gap:12px; background:#fff; border-radius:14px; padding:10px; }
+    .item img { width:72px; height:72px; object-fit:cover; border-radius:10px; }
+    .item b { display:block; font-size:15px; }
+    .item span { color:#8A7D6E; font-size:12px; }
+    .item em { color:#C45C3A; font-style:normal; font-size:16px; }
+    .tab { display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid #E8DFD0; padding:10px 0 16px; text-align:center; font-size:11px; color:#8A7D6E; }
+    .tab b { display:block; color:#2A241C; }
+  </style>
+</head>
+<body>
+  <div class="bar">
+    <a href="/"><img src="/assets/brand/logo-mark.png" alt="" />墨典网络 · 案例库</a>
+    <a href="/">返回</a>
+  </div>
+  <div class="stage">
+    <div class="phone">
+      <div class="head"><b>光明牛奶</b><span>每日鲜送 · 门店自提 · 积分兑换</span></div>
+      <div class="banner"></div>
+      <div class="cats"><i>鲜奶</i><i>酸奶</i><i>订阅</i><i>积分</i></div>
+      <div class="list">
+        <div class="item">
+          <img src="/assets/covers/cover-guangming.jpg" alt="" />
+          <div><b>每日鲜牛乳 950ml</b><span>冷链直达 · 当日鲜</span><em>¥12.8</em></div>
+        </div>
+        <div class="item">
+          <img src="/assets/covers/cover-guangming.jpg" alt="" />
+          <div><b>原味发酵乳 120g×6</b><span>早餐搭配 · 会员价</span><em>¥19.9</em></div>
+        </div>
+        <div class="item">
+          <img src="/assets/covers/cover-guangming.jpg" alt="" />
+          <div><b>高钙早餐奶 250ml×12</b><span>家庭装 · 满赠兑换</span><em>¥42.0</em></div>
+        </div>
+      </div>
+      <div class="tab"><div><b>首页</b>逛逛</div><div>分类</div><div>购物车</div><div>我的</div></div>
+    </div>
+  </div>
+</body>
+</html>

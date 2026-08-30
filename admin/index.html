@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>案例库管理 · 墨典网络</title>
+  <link rel="icon" href="/assets/brand/logo-mark.png" />
+  <style>
+    :root {
+      --ink: #12100D;
+      --panel: #1B1814;
+      --paper: #EDE4D6;
+      --mute: #B8AA96;
+      --line: rgba(237,228,214,.12);
+      --gold: #C4A46A;
+      --warn: #D27A5A;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100dvh;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+    }
+    .top {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand img { width: 32px; height: 32px; }
+    .brand b { letter-spacing: .16em; font-size: 13px; }
+    .brand small { display: block; color: var(--mute); font-size: 11px; letter-spacing: .14em; }
+    .ghost, .gold, button, input, textarea {
+      font: inherit;
+    }
+    .ghost, .gold {
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--paper);
+      padding: 8px 12px;
+      letter-spacing: .12em;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .gold { background: var(--gold); border-color: var(--gold); color: #1A140C; }
+    .wrap { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 60px; }
+    h1 { font-size: 28px; letter-spacing: .12em; font-weight: 540; }
+    .lead { margin: 8px 0 22px; color: var(--mute); font-size: 13px; line-height: 1.7; }
+    .warn { color: var(--warn); margin-bottom: 16px; font-size: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 12px 8px; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 13px; }
+    th { color: var(--gold); font-weight: 520; letter-spacing: .12em; font-size: 11px; }
+    td img { width: 72px; height: 44px; object-fit: cover; background: #000; }
+    .ops { display: flex; gap: 8px; flex-wrap: wrap; }
+    .hidden { display: none !important; }
+    .login {
+      min-height: 100dvh;
+      display: grid; place-items: center;
+      padding: 24px;
+    }
+    .sheet {
+      width: min(400px, 100%);
+      background: var(--panel);
+      border: 1px solid rgba(196,164,106,.35);
+      padding: 28px;
+    }
+    .sheet h2 { letter-spacing: .16em; font-size: 20px; font-weight: 540; }
+    .sheet p { color: var(--mute); font-size: 13px; margin: 10px 0 20px; line-height: 1.7; }
+    label { display: block; margin: 14px 0 6px; color: var(--mute); font-size: 12px; letter-spacing: .1em; }
+    input, textarea {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(237,228,214,.25);
+      color: var(--paper);
+      padding: 8px 0;
+      outline: none;
+    }
+    textarea { min-height: 72px; resize: vertical; }
+    input:focus, textarea:focus { border-bottom-color: var(--gold); }
+    .err { color: var(--warn); min-height: 18px; margin-top: 10px; font-size: 12px; }
+    .drawer {
+      position: fixed; inset: 0; background: rgba(8,6,4,.7);
+      display: none; place-items: center; padding: 20px; z-index: 8;
+    }
+    .drawer.on { display: grid; }
+    .form {
+      width: min(520px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      padding: 22px;
+      max-height: 90dvh;
+      overflow: auto;
+    }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .check { display: flex; align-items: center; gap: 8px; margin-top: 16px; color: var(--mute); font-size: 13px; }
+    .check input { width: auto; }
+    .form-actions { display: flex; gap: 10px; margin-top: 22px; }
+    @media (max-width: 720px) {
+      .row2 { grid-template-columns: 1fr; }
+      table, thead, tbody, th, td, tr { display: block; }
+      th { display: none; }
+      td { border: 0; padding: 6px 0; }
+      tr { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    }
+  </style>
+</head>
+<body>
+  <div id="loginView" class="login">
+    <div class="sheet">
+      <div class="brand" style="margin-bottom:16px">
+        <img src="/assets/brand/logo-mark.png" alt="" />
+        <span><b>墨典网络</b><small>ADMIN / 案例库</small></span>
+      </div>
+      <h2>管理后台</h2>
+      <p>admin.modianmodel.online · 用于设置案例密码、调整介绍与上下架。</p>
+      <label>管理员密码</label>
+      <input id="adminPass" type="password" autocomplete="current-password" />
+      <div class="err" id="loginErr"></div>
+      <button class="gold" id="loginBtn" type="button" style="margin-top:16px;width:100%">进入</button>
+    </div>
+  </div>
+
+  <div id="appView" class="hidden">
+    <div class="top">
+      <div class="brand">
+        <img src="/assets/brand/logo-mark.png" alt="" />
+        <span><b>案例库管理</b><small>admin.modianmodel.online</small></span>
+      </div>
+      <div>
+        <button class="ghost" id="addBtn" type="button">新增案例</button>
+        <button class="ghost" id="logoutBtn" type="button">退出</button>
+      </div>
+    </div>
+    <div class="wrap">
+      <h1>案例</h1>
+      <p class="lead">可改标题、介绍、封面、演示地址和打开密码。删除后前台立即不再展示。</p>
+      <div class="warn hidden" id="ephemeral">当前未绑定持久存储，冷启动后改动可能回退到默认案例。部署后请在 Vercel 创建 KV。</div>
+      <table>
+        <thead>
+          <tr>
+            <th>封面</th>
+            <th>案例</th>
+            <th>演示地址</th>
+            <th>排序</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="drawer" id="drawer">
+    <form class="form" id="form">
+      <h2 id="formTitle" style="letter-spacing:.12em;font-size:20px;font-weight:540">编辑案例</h2>
+      <input type="hidden" id="fId" />
+      <div class="row2">
+        <div>
+          <label>标题</label>
+          <input id="fTitle" required />
+        </div>
+        <div>
+          <label>标签</label>
+          <input id="fTag" />
+        </div>
+      </div>
+      <label>介绍</label>
+      <textarea id="fBlurb"></textarea>
+      <label>封面图 URL</label>
+      <input id="fCover" placeholder="/assets/covers/cover-yangli.jpg" />
+      <label>演示地址</label>
+      <input id="fDemo" placeholder="/yangli/" />
+      <div class="row2">
+        <div>
+          <label>排序</label>
+          <input id="fSort" type="number" />
+        </div>
+        <div>
+          <label>打开密码（留空则不改）</label>
+          <input id="fPass" type="text" placeholder="新密码" />
+        </div>
+      </div>
+      <label class="check"><input id="fVisible" type="checkbox" checked /> 前台展示</label>
+      <div class="err" id="formErr"></div>
+      <div class="form-actions">
+        <button class="ghost" id="cancelBtn" type="button">取消</button>
+        <button class="gold" type="submit">保存</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const loginView = document.getElementById('loginView');
+    const appView = document.getElementById('appView');
+    const drawer = document.getElementById('drawer');
+    let editing = null;
+
+    async function api(url, opt) {
+      const r = await fetch(url, { credentials: 'include', ...opt });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok) throw new Error(j.error || '请求失败');
+      return j;
+    }
+
+    function showApp() {
+      loginView.classList.add('hidden');
+      appView.classList.remove('hidden');
+    }
+
+    function showLogin() {
+      appView.classList.add('hidden');
+      loginView.classList.remove('hidden');
+    }
+
+    function openForm(item) {
+      editing = item;
+      document.getElementById('formTitle').textContent = item ? '编辑案例' : '新增案例';
+      document.getElementById('fId').value = item ? item.id : '';
+      document.getElementById('fTitle').value = item ? item.title : '';
+      document.getElementById('fTag').value = item ? item.tag : '';
+      document.getElementById('fBlurb').value = item ? item.blurb : '';
+      document.getElementById('fCover').value = item ? item.cover : '';
+      document.getElementById('fDemo').value = item ? item.demoUrl : '';
+      document.getElementById('fSort').value = item ? item.sort : 10;
+      document.getElementById('fPass').value = '';
+      document.getElementById('fPass').placeholder = item ? '留空则不改原密码' : '必填';
+      document.getElementById('fVisible').checked = item ? item.visible !== false : true;
+      document.getElementById('formErr').textContent = '';
+      drawer.classList.add('on');
+    }
+
+    async function loadCases() {
+      const j = await api('/api/admin/cases');
+      document.getElementById('ephemeral').classList.toggle('hidden', !j.ephemeral);
+      document.getElementById('tbody').innerHTML = j.cases.map((c) => `
+        <tr>
+          <td>${c.cover ? `<img src="${c.cover}" alt="">` : '—'}</td>
+          <td>
+            <b>${c.title}</b><br>
+            <span style="color:#B8AA96">${c.tag || ''} · ${c.id}${c.hasPassword ? ' · 已设密码' : ''}</span><br>
+            <span style="color:#B8AA96">${c.blurb || ''}</span>
+          </td>
+          <td><a href="${c.demoUrl}" style="color:#C4A46A">${c.demoUrl}</a></td>
+          <td>${c.sort || 0}${c.visible === false ? '<br>已隐藏' : ''}</td>
+          <td class="ops">
+            <button class="ghost" data-edit="${c.id}" type="button">编辑</button>
+            <button class="ghost" data-del="${c.id}" type="button">删除</button>
+          </td>
+        </tr>
+      `).join('');
+      document.querySelectorAll('[data-edit]').forEach((btn) => {
+        btn.onclick = () => openForm(j.cases.find((c) => c.id === btn.dataset.edit));
+      });
+      document.querySelectorAll('[data-del]').forEach((btn) => {
+        btn.onclick = async () => {
+          if (!confirm('确定删除这个案例？')) return;
+          await api('/api/admin/cases/' + btn.dataset.del, { method: 'DELETE' });
+          loadCases();
+        };
+      });
+    }
+
+    document.getElementById('loginBtn').onclick = async () => {
+      document.getElementById('loginErr').textContent = '';
+      try {
+        await api('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: document.getElementById('adminPass').value })
+        });
+        showApp();
+        await loadCases();
+      } catch (e) {
+        document.getElementById('loginErr').textContent = e.message;
+      }
+    };
+    document.getElementById('adminPass').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') document.getElementById('loginBtn').click();
+    });
+    document.getElementById('logoutBtn').onclick = async () => {
+      await api('/api/admin/logout', { method: 'POST' });
+      showLogin();
+    };
+    document.getElementById('addBtn').onclick = () => openForm(null);
+    document.getElementById('cancelBtn').onclick = () => drawer.classList.remove('on');
+    drawer.addEventListener('click', (e) => { if (e.target === drawer) drawer.classList.remove('on'); });
+
+    document.getElementById('form').onsubmit = async (e) => {
+      e.preventDefault();
+      const payload = {
+        title: document.getElementById('fTitle').value.trim(),
+        tag: document.getElementById('fTag').value.trim(),
+        blurb: document.getElementById('fBlurb').value.trim(),
+        cover: document.getElementById('fCover').value.trim(),
+        demoUrl: document.getElementById('fDemo').value.trim(),
+        sort: Number(document.getElementById('fSort').value || 0),
+        visible: document.getElementById('fVisible').checked,
+      };
+      const password = document.getElementById('fPass').value;
+      if (password) payload.password = password;
+      document.getElementById('formErr').textContent = '';
+      try {
+        if (editing) {
+          await api('/api/admin/cases/' + editing.id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        } else {
+          if (!password) throw new Error('新增案例必须设置密码');
+          await api('/api/admin/cases', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
+        drawer.classList.remove('on');
+        await loadCases();
+      } catch (err) {
+        document.getElementById('formErr').textContent = err.message;
+      }
+    };
+
+    api('/api/admin/me').then(() => {
+      showApp();
+      return loadCases();
+    }).catch(showLogin);
+  </script>
+</body>
+</html>

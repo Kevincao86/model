@@ -1,0 +1,49 @@
+{
+  "updatedAt": 0,
+  "cases": [
+    {
+      "id": "yangli",
+      "title": "垟里GO",
+      "tag": "本地生活 · 小程序",
+      "blurb": "墨典联盟 · 温州平阳本地生活。五套风格可切换：江南生活、微信本地、亲子周末、商务预订、鳌江夜色，会员与商家双身份演示。",
+      "cover": "/assets/covers/cover-yangli.jpg",
+      "demoUrl": "/yangli/",
+      "passwordHash": "b787a48ce87d6f63b1ea6164ed3b7c6f114faea3b1aaa7f92fd68087d8aabab9",
+      "sort": 1,
+      "visible": true
+    },
+    {
+      "id": "lingqi",
+      "title": "灵祺商家ERP",
+      "tag": "商家中台 · 演示",
+      "blurb": "面向餐饮与零售门店的经营中台演示：订单、营收、库存预警与待发货一目了然，适合给商家看系统长什么样。",
+      "cover": "/assets/covers/cover-lingqi.jpg",
+      "demoUrl": "/demo/lingqi.html",
+      "passwordHash": "b3867f5944905e2c4a3842fcebb72997d67563e11aea89477f458361972cf9a7",
+      "sort": 2,
+      "visible": true
+    },
+    {
+      "id": "guangming",
+      "title": "光明牛奶小程序",
+      "tag": "品牌零售 · 小程序",
+      "blurb": "乳品品牌会员小程序演示：鲜奶订阅、门店自提、积分兑换。干净的货架陈列，适合品牌方看转化路径。",
+      "cover": "/assets/covers/cover-guangming.jpg",
+      "demoUrl": "/demo/guangming.html",
+      "passwordHash": "0b663b1d2802d8dcdd80a0dfe2712ce6a9830c2ce1a30e55aff82d384060cbd1",
+      "sort": 3,
+      "visible": true
+    },
+    {
+      "id": "zebra",
+      "title": "魔楽斑马小程序",
+      "tag": "亲子娱乐 · 小程序",
+      "blurb": "亲子场馆预约小程序演示：课程卡、周末场次、亲子套票。黑白条纹加暖金，适合场馆招商与家长端演示。",
+      "cover": "/assets/covers/cover-zebra.jpg",
+      "demoUrl": "/demo/zebra.html",
+      "passwordHash": "c4f6baca3fbd20f3117b48cb67b8eaa8f93548dd86d952a24d2e4523a360fea0",
+      "sort": 4,
+      "visible": true
+    }
+  ]
+}
