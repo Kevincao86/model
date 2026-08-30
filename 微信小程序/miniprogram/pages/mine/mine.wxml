@@ -1,0 +1,75 @@
+<view class="shell theme-{{theme}}">
+  <app-nav
+    theme="{{theme}}"
+    role="{{role}}"
+    title="{{navTitle}}"
+    loc="{{navLoc}}"
+    bind:rolechange="onRoleChange"
+    bind:themechange="onThemeChange"
+  />
+
+  <scroll-view scroll-y class="body">
+    <block wx:if="{{theme === 'ink'}}">
+      <view class="ink-colo">
+        <text class="ink-colo-mark">{{role === 'merchant' ? '店' : '墨'}}</text>
+        <text class="ink-colo-n">{{role === 'merchant' ? '昆阳茶寮' : '平阳会员'}}</text>
+        <text class="ink-colo-s">{{role === 'merchant' ? '二级商户 · 执照已核' : '锁客于昆阳茶寮'}}</text>
+        <text class="ink-colo-t">当前版式 · {{themeName}}</text>
+      </view>
+      <view class="ink-entry" wx:for="{{role === 'member' ? memberMenu : merchantMenu}}" wx:key="k" bindtap="demo">
+        <text class="ink-no">·</text>
+        <view class="ink-entry-main">
+          <text class="ink-entry-name">{{item.k}}</text>
+        </view>
+        <text class="ink-entry-km">{{item.v}}</text>
+      </view>
+      <text class="ink-foot">温州平阳墨典网络科技 · 演示不接通支付</text>
+    </block>
+
+    <block wx:elif="{{theme === 'wechat'}}">
+      <view class="wx-me">
+        <view class="wx-avatar">{{role === 'merchant' ? '店' : '墨'}}</view>
+        <view>
+          <text class="wx-me-n">{{role === 'merchant' ? '昆阳茶寮' : '平阳会员'}}</text>
+          <text class="wx-me-s">{{role === 'merchant' ? '执照审核通过' : '已锁客'}}</text>
+        </view>
+      </view>
+      <view class="wx-menu">
+        <view class="wx-menu-item" wx:for="{{role === 'member' ? memberMenu : merchantMenu}}" wx:key="k" bindtap="demo">
+          <text>{{item.k}}</text>
+          <text class="wx-menu-v">{{item.v}}</text>
+        </view>
+      </view>
+      <view class="wx-menu">
+        <view class="wx-menu-item" bindtap="demo">AI 能力<text class="wx-menu-v">二期</text></view>
+        <view class="wx-menu-item" bindtap="demo">VR 预览<text class="wx-menu-v">占位</text></view>
+      </view>
+    </block>
+
+    <block wx:elif="{{theme === 'family'}}">
+      <view class="fam-me">
+        <view class="fam-me-face">{{role === 'merchant' ? '店' : '娃'}}</view>
+        <text class="fam-me-n">{{role === 'merchant' ? '昆阳茶寮家长店' : '平阳小朋友'}}</text>
+        <text class="fam-me-s">{{themeName}}</text>
+      </view>
+      <view class="fam-ticket" wx:for="{{role === 'member' ? memberMenu : merchantMenu}}" wx:key="k" bindtap="demo">
+        <text class="fam-ticket-n">{{item.k}}</text>
+        <text class="fam-ticket-s">{{item.v || '点开看看'}}</text>
+      </view>
+    </block>
+
+    <block wx:else>
+      <view class="biz-me">
+        <image class="biz-me-img" src="{{role === 'merchant' ? shopCover : memberCover}}" mode="aspectFill" />
+        <view class="biz-me-copy">
+          <text class="biz-me-n">{{role === 'merchant' ? '昆阳茶寮' : '平阳会员'}}</text>
+          <text class="biz-me-s">{{role === 'merchant' ? '二级商户 · 执照已核' : '已锁客 · 昆阳茶寮'}}</text>
+        </view>
+      </view>
+      <view class="biz-menu" wx:for="{{role === 'member' ? memberMenu : merchantMenu}}" wx:key="k" bindtap="demo">
+        <text class="biz-menu-k">{{item.k}}</text>
+        <text class="biz-menu-v">{{item.v || '查看'}}</text>
+      </view>
+    </block>
+  </scroll-view>
+</view>

@@ -1,0 +1,381 @@
+/* 墨典夜刊：满幅杂志，无卡片，宋体竖排 */
+
+.theme-ink .body {
+  padding: 0 0 calc(160rpx + env(safe-area-inset-bottom));
+}
+
+.ink-spread {
+  position: relative;
+  height: 720rpx;
+  overflow: hidden;
+}
+
+.ink-spread-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ink-spread::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70%;
+  background: linear-gradient(180deg, transparent, #0C0A08);
+}
+
+.ink-vert {
+  position: absolute;
+  top: 40rpx;
+  left: 20rpx;
+  z-index: 2;
+  writing-mode: vertical-rl;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 28rpx;
+  letter-spacing: 0.4em;
+  color: #D4A574;
+}
+
+.ink-spread-copy {
+  position: absolute;
+  left: 48rpx;
+  right: 48rpx;
+  bottom: 40rpx;
+  z-index: 2;
+}
+
+.ink-kicker {
+  display: block;
+  font-size: 20rpx;
+  letter-spacing: 0.24em;
+  color: #D4A574;
+}
+
+.ink-spread-name {
+  display: block;
+  margin-top: 12rpx;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 64rpx;
+  letter-spacing: 0.12em;
+  color: #F4EDE3;
+  line-height: 1.15;
+}
+
+.ink-spread-meta {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: rgba(244, 237, 227, 0.7);
+}
+
+.ink-spread-ops {
+  display: flex;
+  gap: 32rpx;
+  margin-top: 28rpx;
+}
+
+.ink-link {
+  font-size: 22rpx;
+  letter-spacing: 0.2em;
+  color: #D4A574;
+  border-bottom: 1rpx solid #D4A574;
+  padding-bottom: 4rpx;
+}
+
+.ink-link.ghost {
+  color: #F4EDE3;
+  border-bottom-color: rgba(244, 237, 227, 0.4);
+}
+
+.ink-rail {
+  display: flex;
+  justify-content: space-around;
+  padding: 28rpx 0;
+  border-top: 1rpx solid rgba(212, 165, 116, 0.22);
+  border-bottom: 1rpx solid rgba(212, 165, 116, 0.22);
+}
+
+.ink-rail-item {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 32rpx;
+  color: #D4A574;
+}
+
+.ink-issue {
+  display: flex;
+  align-items: baseline;
+  gap: 20rpx;
+  padding: 36rpx 40rpx 12rpx;
+}
+
+.ink-vol {
+  font-size: 18rpx;
+  letter-spacing: 0.2em;
+  color: #C45C3A;
+}
+
+.ink-issue-t {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 34rpx;
+  letter-spacing: 0.12em;
+}
+
+.ink-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 28rpx 40rpx;
+  border-bottom: 1rpx solid rgba(244, 237, 227, 0.08);
+}
+
+.ink-no {
+  width: 56rpx;
+  flex-shrink: 0;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 28rpx;
+  color: #D4A574;
+  letter-spacing: 0.08em;
+}
+
+.ink-entry-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ink-entry-name {
+  display: block;
+  font-size: 32rpx;
+  letter-spacing: 0.08em;
+}
+
+.ink-entry-sub {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #9A9084;
+}
+
+.ink-entry-km {
+  font-size: 22rpx;
+  color: #6E675E;
+}
+
+.ink-stamp-row {
+  display: flex;
+  gap: 16rpx;
+  padding: 28rpx 40rpx;
+}
+
+.ink-stamp {
+  flex: 1;
+  padding: 24rpx 8rpx;
+  border: 1rpx dashed #D4A574;
+  text-align: center;
+}
+
+.ink-stamp-off {
+  display: block;
+  font-size: 32rpx;
+  color: #C45C3A;
+}
+
+.ink-stamp-shop {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 18rpx;
+  color: #9A9084;
+}
+
+.ink-film {
+  position: relative;
+  height: 280rpx;
+  margin: 0 0 2rpx;
+}
+
+.ink-film-img {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.ink-film-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx 40rpx;
+  background: linear-gradient(180deg, transparent, #0C0A08);
+  display: flex;
+  justify-content: space-between;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 28rpx;
+}
+
+.ink-film-yen {
+  color: #D4A574;
+}
+
+.ink-ledger {
+  padding: 64rpx 40rpx 40rpx;
+  border-bottom: 1rpx solid rgba(212, 165, 116, 0.22);
+}
+
+.ink-ledger-l {
+  display: block;
+  font-size: 20rpx;
+  letter-spacing: 0.24em;
+  color: #9A9084;
+}
+
+.ink-ledger-n {
+  display: block;
+  margin-top: 12rpx;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 96rpx;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.ink-ledger-u {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 20rpx;
+  color: #6E675E;
+}
+
+.ink-links {
+  display: flex;
+  justify-content: space-around;
+  padding: 32rpx 0;
+  font-size: 24rpx;
+  letter-spacing: 0.28em;
+  color: #D4A574;
+}
+
+.ink-pass {
+  padding: 48rpx 40rpx;
+}
+
+.ink-pass-l {
+  display: block;
+  font-size: 20rpx;
+  letter-spacing: 0.2em;
+  color: #9A9084;
+}
+
+.ink-pass-n {
+  display: block;
+  margin: 8rpx 0 20rpx;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 80rpx;
+  line-height: 1;
+}
+
+.ink-map {
+  height: 280rpx;
+  margin: 0 0 12rpx;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(212, 165, 116, 0.2), transparent 42%),
+    radial-gradient(circle at 70% 60%, rgba(196, 92, 58, 0.18), transparent 36%),
+    #14110E;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 32rpx 40rpx;
+  box-sizing: border-box;
+}
+
+.ink-map-t {
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 48rpx;
+  letter-spacing: 0.2em;
+}
+
+.ink-map-s {
+  margin-top: 8rpx;
+  font-size: 20rpx;
+  color: #9A9084;
+}
+
+.ink-time {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 20rpx 40rpx;
+  border-bottom: 1rpx solid rgba(244, 237, 227, 0.08);
+}
+
+.ink-time-img {
+  width: 160rpx;
+  height: 160rpx;
+  flex-shrink: 0;
+}
+
+.ink-time-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ink-time-km {
+  display: block;
+  font-size: 20rpx;
+  letter-spacing: 0.16em;
+  color: #C45C3A;
+}
+
+.ink-time-n {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 32rpx;
+  letter-spacing: 0.08em;
+}
+
+.ink-time-s {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #9A9084;
+}
+
+.ink-colo {
+  padding: 56rpx 40rpx 32rpx;
+  text-align: center;
+}
+
+.ink-colo-mark {
+  display: block;
+  width: 96rpx;
+  height: 96rpx;
+  margin: 0 auto 24rpx;
+  border: 2rpx solid #D4A574;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 44rpx;
+  color: #D4A574;
+  line-height: 96rpx;
+}
+
+.ink-colo-n {
+  display: block;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 40rpx;
+  letter-spacing: 0.16em;
+}
+
+.ink-colo-s,
+.ink-colo-t {
+  display: block;
+  margin-top: 10rpx;
+  font-size: 22rpx;
+  color: #9A9084;
+}
+
+.ink-foot {
+  display: block;
+  padding: 48rpx 0 24rpx;
+  text-align: center;
+  font-size: 20rpx;
+  letter-spacing: 0.08em;
+  color: #6E675E;
+}

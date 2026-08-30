@@ -1,0 +1,16 @@
+<view class="tab theme-{{theme}}">
+  <view class="tab-row">
+    <view
+      wx:for="{{list}}"
+      wx:key="pagePath"
+      class="tab-item {{selected === index ? 'on' : ''}}"
+      data-path="{{item.pagePath}}"
+      data-index="{{index}}"
+      bindtap="switchTab"
+    >
+      <view class="glyph g-{{item.key}} {{selected === index ? 'on' : ''}}"></view>
+      <text class="tab-text">{{item.text}}</text>
+    </view>
+  </view>
+  <view class="safe"></view>
+</view>

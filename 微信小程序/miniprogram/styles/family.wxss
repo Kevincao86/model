@@ -1,0 +1,383 @@
+/* 带娃出行：故事环 + 便当拼图 + 时间线 */
+
+.theme-family .body {
+  padding: 8rpx 28rpx calc(180rpx + env(safe-area-inset-bottom));
+}
+
+.fam-rings {
+  white-space: nowrap;
+  margin: 0 -28rpx 24rpx;
+  padding: 8rpx 28rpx 12rpx;
+}
+
+.fam-ring {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  width: 140rpx;
+  margin-right: 20rpx;
+  font-size: 20rpx;
+  color: #3A2416;
+  white-space: normal;
+  text-align: center;
+}
+
+.fam-ring-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 6rpx solid #FFB020;
+  margin-bottom: 8rpx;
+  box-sizing: border-box;
+}
+
+.fam-bento {
+  display: flex;
+  gap: 16rpx;
+  height: 420rpx;
+  margin-bottom: 32rpx;
+}
+
+.fam-bento-main {
+  flex: 1.4;
+  height: 100%;
+  border-radius: 40rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.fam-bento-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.fam-bento-s {
+  flex: 1;
+  border-radius: 32rpx;
+  overflow: hidden;
+  position: relative;
+}
+
+.fam-bento-s text {
+  position: absolute;
+  left: 16rpx;
+  bottom: 12rpx;
+  color: #fff;
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+.fam-bento-cap {
+  position: absolute;
+  left: 24rpx;
+  bottom: 20rpx;
+  color: #fff;
+}
+
+.fam-bento-cap text {
+  display: block;
+  font-size: 20rpx;
+}
+
+.fam-bento-n {
+  font-size: 32rpx !important;
+  font-weight: 700;
+  margin-top: 6rpx;
+}
+
+.fam-sec {
+  display: block;
+  margin: 12rpx 0 20rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #3A2416;
+}
+
+.fam-route {
+  background: #fff;
+  border-radius: 40rpx;
+  padding: 32rpx 28rpx 12rpx;
+  margin-bottom: 32rpx;
+}
+
+.fam-step {
+  display: flex;
+  position: relative;
+  padding-bottom: 36rpx;
+  padding-left: 48rpx;
+}
+
+.fam-dot {
+  position: absolute;
+  left: 8rpx;
+  top: 10rpx;
+  width: 20rpx;
+  height: 20rpx;
+  background: #FF6B3D;
+  border-radius: 50%;
+}
+
+.fam-line {
+  position: absolute;
+  left: 16rpx;
+  top: 34rpx;
+  bottom: 0;
+  width: 4rpx;
+  background: #FFE0CC;
+}
+
+.fam-when {
+  display: block;
+  font-size: 20rpx;
+  color: #FF6B3D;
+  font-weight: 600;
+}
+
+.fam-step-n {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.fam-tip {
+  display: block;
+  margin-top: 4rpx;
+  font-size: 22rpx;
+  color: #A07858;
+}
+
+.fam-packs {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.fam-ticket {
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 20rpx 24rpx 28rpx;
+  box-shadow: 0 16rpx 40rpx rgba(255, 107, 61, 0.1);
+  position: relative;
+}
+
+.fam-ticket-img {
+  width: 100%;
+  height: 160rpx;
+  border-radius: 20rpx;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.fam-ticket::before,
+.fam-ticket::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 28rpx;
+  height: 28rpx;
+  margin-top: -14rpx;
+  background: #FFF1E3;
+  border-radius: 50%;
+}
+
+.fam-ticket::before {
+  left: -14rpx;
+}
+
+.fam-ticket::after {
+  right: -14rpx;
+}
+
+.fam-ticket-n {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.fam-ticket-s {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #A07858;
+}
+
+.fam-ticket-p {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #FF6B3D;
+}
+
+.fam-ops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-bottom: 28rpx;
+}
+
+.fam-op {
+  width: calc(50% - 8rpx);
+  height: 160rpx;
+  background: #FF6B3D;
+  color: #fff;
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+.fam-op.alt {
+  background: #FFB020;
+}
+
+.fam-polar {
+  background: #fff;
+  border-radius: 36rpx;
+  padding: 20rpx 20rpx 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 16rpx 40rpx rgba(255, 107, 61, 0.1);
+}
+
+.fam-polar-img {
+  width: 100%;
+  height: 280rpx;
+  border-radius: 24rpx;
+  display: block;
+}
+
+.fam-polar-n {
+  display: block;
+  margin-top: 16rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.fam-polar-s {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #A07858;
+}
+
+.fam-near-hi {
+  margin: 8rpx 0 24rpx;
+  font-size: 44rpx;
+  font-weight: 700;
+}
+
+.fam-near-sub {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #A07858;
+}
+
+.fam-near-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: #fff;
+  border-radius: 36rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.fam-km {
+  width: 120rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #FF6B3D;
+  flex-shrink: 0;
+}
+
+.fam-near-img {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fam-near-n {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+}
+
+.fam-near-s {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #A07858;
+}
+
+.fam-coin {
+  background: linear-gradient(160deg, #FF8A4C, #FF6B3D);
+  color: #fff;
+  border-radius: 48rpx;
+  padding: 40rpx 36rpx;
+  margin-bottom: 28rpx;
+  text-align: center;
+}
+
+.fam-coin-l {
+  font-size: 24rpx;
+}
+
+.fam-coin-n {
+  display: block;
+  margin: 8rpx 0 24rpx;
+  font-size: 80rpx;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.fam-coin-btn {
+  display: inline-flex;
+  height: 72rpx;
+  padding: 0 48rpx;
+  background: #fff;
+  color: #FF6B3D;
+  border-radius: 999rpx;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.fam-me {
+  text-align: center;
+  padding: 24rpx 0 32rpx;
+}
+
+.fam-me-face {
+  width: 160rpx;
+  height: 160rpx;
+  margin: 0 auto 20rpx;
+  background: #FF6B3D;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 56rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fam-me-n {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+}
+
+.fam-me-s {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #A07858;
+}

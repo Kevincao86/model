@@ -1,0 +1,91 @@
+.theme-ink {
+  --bg: #0C0A08;
+  --bg-2: #14110E;
+  --surface: #1A1613;
+  --surface-2: #241E18;
+  --line: rgba(212, 165, 116, 0.22);
+  --text: #F4EDE3;
+  --muted: #9A9084;
+  --faint: #6E675E;
+  --accent: #C45C3A;
+  --accent-2: #D4A574;
+  --on-accent: #1A1613;
+  --good: #7BC47F;
+  --radius: 0;
+  --radius-lg: 0;
+  --radius-btn: 0;
+  --shadow: none;
+  --tab-bg: #0C0A08;
+  --hero-overlay: linear-gradient(180deg, rgba(12, 10, 8, 0) 10%, rgba(12, 10, 8, 0.92) 100%);
+  --search-bg: transparent;
+  --chip-bg: rgba(212, 165, 116, 0.12);
+}
+
+.theme-wechat {
+  --bg: #EDEDED;
+  --bg-2: #E7E7E7;
+  --surface: #FFFFFF;
+  --surface-2: #F7F7F7;
+  --line: #E5E5E5;
+  --text: #191919;
+  --muted: #888888;
+  --faint: #B2B2B2;
+  --accent: #07C160;
+  --accent-2: #06AD56;
+  --on-accent: #FFFFFF;
+  --good: #07C160;
+  --radius: 0;
+  --radius-lg: 8rpx;
+  --radius-btn: 8rpx;
+  --shadow: none;
+  --tab-bg: #F7F7F7;
+  --hero-overlay: none;
+  --search-bg: #FFFFFF;
+  --chip-bg: #F0FFF6;
+}
+
+.theme-family {
+  --bg: #FFF1E3;
+  --bg-2: #FFE4C8;
+  --surface: #FFFFFF;
+  --surface-2: #FFF8F1;
+  --line: rgba(255, 107, 61, 0.12);
+  --text: #3A2416;
+  --muted: #A07858;
+  --faint: #C4A488;
+  --accent: #FF6B3D;
+  --accent-2: #FFB020;
+  --on-accent: #FFFFFF;
+  --good: #2BA84A;
+  --radius: 36rpx;
+  --radius-lg: 48rpx;
+  --radius-btn: 999rpx;
+  --shadow: 0 20rpx 48rpx rgba(255, 107, 61, 0.14);
+  --tab-bg: #FFF8F0;
+  --hero-overlay: linear-gradient(180deg, rgba(58, 36, 22, 0) 20%, rgba(58, 36, 22, 0.7) 100%);
+  --search-bg: #FFFFFF;
+  --chip-bg: #FFE8D0;
+}
+
+.theme-biz {
+  --bg: #E8EDF2;
+  --bg-2: #DCE3EA;
+  --surface: #FFFFFF;
+  --surface-2: #F4F7FA;
+  --line: #0B1F33;
+  --text: #0B1F33;
+  --muted: #5B7388;
+  --faint: #9AAEBE;
+  --accent: #0B1F33;
+  --accent-2: #3A7CA5;
+  --on-accent: #E8EDF2;
+  --good: #1E7A54;
+  --radius: 0;
+  --radius-lg: 0;
+  --radius-btn: 0;
+  --shadow: none;
+  --tab-bg: #F4F7FA;
+  --hero-overlay: none;
+  --search-bg: #FFFFFF;
+  --chip-bg: #DCE3EA;
+}

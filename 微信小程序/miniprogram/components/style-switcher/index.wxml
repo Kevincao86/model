@@ -1,0 +1,12 @@
+<view class="ss ss-{{theme}} theme-{{theme}}">
+  <view
+    wx:for="{{themes}}"
+    wx:key="id"
+    class="ss-btn {{theme === item.id ? 'on' : ''}}"
+    data-id="{{item.id}}"
+    bindtap="pick"
+  >
+    <view class="ss-dot" style="background: {{item.dot}}"></view>
+    <text>{{item.short}}</text>
+  </view>
+</view>

@@ -1,0 +1,32 @@
+@import "./styles/tokens.wxss";
+@import "./styles/ink.wxss";
+@import "./styles/wechat.wxss";
+@import "./styles/family.wxss";
+@import "./styles/biz.wxss";
+
+page {
+  height: 100%;
+  font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", -apple-system, sans-serif;
+  font-weight: 400;
+}
+
+.shell {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+.body {
+  flex: 1;
+  height: 0;
+  box-sizing: border-box;
+}
+
+.thumb {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

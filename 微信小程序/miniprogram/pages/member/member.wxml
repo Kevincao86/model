@@ -1,0 +1,193 @@
+<view class="shell theme-{{theme}}">
+  <app-nav
+    theme="{{theme}}"
+    role="{{role}}"
+    title="{{navTitle}}"
+    loc="{{navLoc}}"
+    bind:rolechange="onRoleChange"
+    bind:themechange="onThemeChange"
+  />
+
+  <scroll-view scroll-y class="body">
+    <block wx:if="{{theme === 'ink'}}">
+      <block wx:if="{{role === 'member'}}">
+        <view class="ink-pass">
+          <text class="ink-pass-l">可用积分</text>
+          <text class="ink-pass-n">1280</text>
+          <text class="ink-link" bindtap="demo">抵现</text>
+        </view>
+        <view class="ink-issue">
+          <text class="ink-vol">STAMPS</text>
+          <text class="ink-issue-t">券印</text>
+        </view>
+        <view class="ink-stamp-row">
+          <view class="ink-stamp" wx:for="{{coupons}}" wx:key="id" bindtap="demo">
+            <text class="ink-stamp-off">¥{{item.off}}</text>
+            <text class="ink-stamp-shop">{{item.shop}}</text>
+          </view>
+        </view>
+        <view class="ink-film" wx:for="{{packs}}" wx:key="id" bindtap="demo">
+          <image class="ink-film-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="packs" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="ink-film-cap">
+            <text>{{item.name}}</text>
+            <text class="ink-film-yen">¥{{item.price}}</text>
+          </view>
+        </view>
+        <view class="ink-entry" wx:for="{{tickets}}" wx:key="id">
+          <text class="ink-no">票</text>
+          <view class="ink-entry-main">
+            <text class="ink-entry-name">{{item.name}}</text>
+            <text class="ink-entry-sub">{{item.date}}</text>
+          </view>
+          <text class="ink-link" bindtap="demoVr">VR</text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="ink-ledger">
+          <text class="ink-ledger-l">待核销</text>
+          <text class="ink-ledger-n">3</text>
+        </view>
+        <view class="ink-film" wx:for="{{verifyQueue}}" wx:key="id" bindtap="demo">
+          <image class="ink-film-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="verifyQueue" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="ink-film-cap">
+            <text>{{item.title}} · {{item.user}}</text>
+            <text class="ink-film-yen">{{item.remain}}</text>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <block wx:elif="{{theme === 'wechat'}}">
+      <block wx:if="{{role === 'member'}}">
+        <view class="wx-cardpack">
+          <text class="wx-cardpack-l">可用积分</text>
+          <text class="wx-cardpack-n">1280</text>
+          <view class="wx-cardpack-ops">
+            <text bindtap="demo">抵现</text>
+            <text bindtap="demo">明细</text>
+          </view>
+        </view>
+        <view class="wx-sec">优惠券</view>
+        <view class="wx-coupon wx-coupon-full" wx:for="{{coupons}}" wx:key="id" bindtap="demo">
+          <view class="wx-coupon-l">
+            <text class="wx-coupon-yen">¥{{item.off}}</text>
+            <text>{{item.expire}}</text>
+          </view>
+          <view class="wx-coupon-r">
+            <text>{{item.shop}}</text>
+            <text class="wx-coupon-use">去使用</text>
+          </view>
+        </view>
+        <view class="wx-sec">套餐卡</view>
+        <view class="wx-cell" wx:for="{{packs}}" wx:key="id" bindtap="demo">
+          <image class="wx-thumb" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="packs" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="wx-cell-body">
+            <text class="wx-cell-name">{{item.name}}</text>
+            <text class="wx-cell-meta">{{item.shops}}</text>
+          </view>
+          <view class="wx-pay">核销</view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="wx-menu">
+          <view class="wx-menu-item">待核销 3</view>
+          <view class="wx-menu-item">本周已核 26</view>
+        </view>
+        <view class="wx-cell" wx:for="{{verifyQueue}}" wx:key="id" bindtap="demo">
+          <image class="wx-thumb" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="verifyQueue" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="wx-cell-body">
+            <text class="wx-cell-name">{{item.title}}</text>
+            <text class="wx-cell-meta">{{item.user}} · {{item.remain}}</text>
+          </view>
+          <view class="wx-pay">核销</view>
+        </view>
+      </block>
+    </block>
+
+    <block wx:elif="{{theme === 'family'}}">
+      <block wx:if="{{role === 'member'}}">
+        <view class="fam-coin">
+          <text class="fam-coin-l">可以花的星星</text>
+          <text class="fam-coin-n">1280</text>
+          <view class="fam-coin-btn" bindtap="demo">去抵现</view>
+        </view>
+        <text class="fam-sec">口袋里的券</text>
+        <view class="fam-ticket" wx:for="{{coupons}}" wx:key="id" bindtap="demo">
+          <image class="fam-ticket-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="coupons" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <text class="fam-ticket-n">{{item.title}}</text>
+          <text class="fam-ticket-s">{{item.shop}} · {{item.expire}}</text>
+        </view>
+        <text class="fam-sec">套餐卡</text>
+        <view class="fam-polar" wx:for="{{packs}}" wx:key="id" bindtap="demo">
+          <image class="fam-polar-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="packs" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <text class="fam-polar-n">{{item.name}}</text>
+          <text class="fam-polar-s">¥{{item.price}}</text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="fam-ops">
+          <view class="fam-op" bindtap="demo"><text>核销</text></view>
+          <view class="fam-op alt" bindtap="demo"><text>已核</text></view>
+        </view>
+        <view class="fam-polar" wx:for="{{verifyQueue}}" wx:key="id" bindtap="demo">
+          <image class="fam-polar-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="verifyQueue" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <text class="fam-polar-n">{{item.title}}</text>
+          <text class="fam-polar-s">{{item.user}}</text>
+        </view>
+      </block>
+    </block>
+
+    <block wx:else>
+      <block wx:if="{{role === 'member'}}">
+        <view class="biz-stats">
+          <view class="biz-stat"><text class="biz-stat-n">1280</text><text>积分</text></view>
+          <view class="biz-stat"><text class="biz-stat-n">3</text><text>优惠券</text></view>
+          <view class="biz-stat"><text class="biz-stat-n">2</text><text>套餐卡</text></view>
+        </view>
+        <text class="biz-h">我的优惠券</text>
+        <view class="biz-card" wx:for="{{coupons}}" wx:key="id" bindtap="demo">
+          <image class="biz-card-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="coupons" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="biz-card-body">
+            <text class="biz-card-name">{{item.title}}</text>
+            <text class="biz-card-meta">{{item.shop}} · {{item.expire}}</text>
+            <view class="biz-card-foot">
+              <text class="biz-card-price">¥{{item.off}} 券</text>
+              <view class="biz-card-btn">去使用</view>
+            </view>
+          </view>
+        </view>
+        <text class="biz-h">套餐卡</text>
+        <view class="biz-card" wx:for="{{packs}}" wx:key="id" bindtap="demo">
+          <image class="biz-card-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="packs" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="biz-card-body">
+            <text class="biz-card-name">{{item.name}}</text>
+            <text class="biz-card-meta">{{item.shops}}</text>
+            <view class="biz-card-foot">
+              <text class="biz-card-price">¥{{item.price}}</text>
+              <view class="biz-card-btn">到店核销</view>
+            </view>
+          </view>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="biz-dash">
+          <view class="biz-dash-item"><text class="biz-dash-n">3</text><text>待核销</text></view>
+          <view class="biz-dash-item"><text class="biz-dash-n">26</text><text>本周已核</text></view>
+          <view class="biz-dash-item"><text class="biz-dash-n">¥860</text><text>待兑积分</text></view>
+        </view>
+        <text class="biz-h">待核销队列</text>
+        <view class="biz-card" wx:for="{{verifyQueue}}" wx:key="id">
+          <image class="biz-card-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="verifyQueue" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+          <view class="biz-card-body">
+            <text class="biz-card-name">{{item.title}}</text>
+            <text class="biz-card-meta">{{item.user}} · 剩余 {{item.remain}}</text>
+            <view class="biz-card-foot">
+              <text class="biz-card-price">扫码或输券码</text>
+              <view class="biz-card-btn" bindtap="demo">确认核销</view>
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+  </scroll-view>
+</view>

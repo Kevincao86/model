@@ -1,0 +1,87 @@
+<view class="shell theme-{{theme}}">
+  <app-nav
+    theme="{{theme}}"
+    role="{{role}}"
+    title="{{navTitle}}"
+    loc="{{navLoc}}"
+    bind:rolechange="onRoleChange"
+    bind:themechange="onThemeChange"
+  />
+
+  <scroll-view scroll-y class="body">
+    <block wx:if="{{theme === 'ink'}}">
+      <view class="ink-map">
+        <text class="ink-map-t">昆阳</text>
+        <text class="ink-map-s">平阳夜色半径 · 演示定位</text>
+      </view>
+      <view class="ink-time" wx:for="{{list}}" wx:key="id" bindtap="demo">
+        <image class="ink-time-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="list" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+        <view class="ink-time-body">
+          <text class="ink-time-km">{{item.dist}}</text>
+          <text class="ink-time-n">{{item.name}}</text>
+          <text class="ink-time-s">{{item.hours}} · {{item.dish}}</text>
+        </view>
+        <text class="ink-link" bindtap="demo">{{role === 'merchant' ? '阅' : '往'}}</text>
+      </view>
+    </block>
+
+    <block wx:elif="{{theme === 'wechat'}}">
+      <scroll-view class="wx-filter" scroll-x>
+        <view
+          wx:for="{{filters}}"
+          wx:key="*this"
+          class="wx-fchip {{active === item ? 'on' : ''}}"
+          data-name="{{item}}"
+          bindtap="onFilter"
+        >{{item}}</view>
+      </scroll-view>
+      <view class="wx-cell" wx:for="{{list}}" wx:key="id">
+        <image class="wx-thumb" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="list" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+        <view class="wx-cell-body">
+          <text class="wx-cell-name">{{item.name}}</text>
+          <text class="wx-cell-meta">{{item.score}}分 · {{item.cat}} · {{item.dist}}</text>
+          <text class="wx-cell-dish">{{item.hours}} · {{item.price}}</text>
+        </view>
+        <view class="wx-pay" bindtap="demo">{{role === 'merchant' ? '查看' : '买单'}}</view>
+      </view>
+    </block>
+
+    <block wx:elif="{{theme === 'family'}}">
+      <view class="fam-near-hi">
+        <text>走路就能到</text>
+        <text class="fam-near-sub">按距离排好了，带娃少走冤枉路</text>
+      </view>
+      <view class="fam-near-card" wx:for="{{list}}" wx:key="id" bindtap="demo">
+        <text class="fam-km">{{item.dist}}</text>
+        <image class="fam-near-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="list" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+        <view class="fam-near-body">
+          <text class="fam-near-n">{{item.name}}</text>
+          <text class="fam-near-s">{{item.dish}}</text>
+        </view>
+      </view>
+    </block>
+
+    <block wx:else>
+      <scroll-view class="biz-pills" scroll-x>
+        <text
+          wx:for="{{filters}}"
+          wx:key="*this"
+          class="biz-pill {{active === item ? 'on' : ''}}"
+          data-name="{{item}}"
+          bindtap="onFilter"
+        >{{item}}</text>
+      </scroll-view>
+      <view class="biz-card" wx:for="{{list}}" wx:key="id">
+        <image class="biz-card-img" src="{{item.image}}" mode="aspectFill" binderror="onImgError" data-field="list" data-id="{{item.id}}" data-cover="{{item.cover}}" />
+        <view class="biz-card-body">
+          <text class="biz-card-name">{{item.name}}</text>
+          <text class="biz-card-meta">{{item.area}} · {{item.score}} 分 · {{item.dist}}</text>
+          <view class="biz-card-foot">
+            <text class="biz-card-price">{{item.price}}</text>
+            <view class="biz-card-btn" bindtap="demo">{{role === 'merchant' ? '查看' : '预订'}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+</view>

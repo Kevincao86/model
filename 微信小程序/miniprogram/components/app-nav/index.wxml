@@ -1,0 +1,16 @@
+<view
+  class="nav theme-{{theme}}"
+  style="padding-top: {{menuTop}}px; padding-right: {{capsulePad}}px;"
+>
+  <view class="nav-cap" style="height: {{menuHeight}}px;">
+    <view class="nav-left">
+      <text class="nav-title">{{title}}</text>
+    </view>
+    <view class="id-switch">
+      <view class="id-btn {{role === 'member' ? 'on' : ''}}" data-role="member" bindtap="pickRole">会员</view>
+      <view class="id-btn {{role === 'merchant' ? 'on' : ''}}" data-role="merchant" bindtap="pickRole">商家</view>
+    </view>
+  </view>
+  <text class="nav-loc">{{loc}}</text>
+  <style-switcher theme="{{theme}}" bind:change="onTheme" />
+</view>

@@ -1,0 +1,118 @@
+@import "../../styles/tokens.wxss";
+
+.nav {
+  padding-left: 24rpx;
+  padding-bottom: 8rpx;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+
+.nav-cap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 4rpx;
+}
+
+.nav-left {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+.nav-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.theme-ink .nav-title {
+  font-family: "Songti SC", "STSong", serif;
+  letter-spacing: 0.12em;
+  font-size: 28rpx;
+}
+
+.theme-family .nav-title {
+  font-size: 34rpx;
+  font-weight: 700;
+}
+
+.theme-biz .nav {
+  background: #12344F;
+  padding-bottom: 0;
+}
+
+.theme-biz .nav-title,
+.theme-biz .nav-loc {
+  color: #F4F7FA;
+}
+
+.theme-biz .nav-loc {
+  opacity: 0.7;
+}
+
+.nav-loc {
+  display: block;
+  margin: 8rpx 4rpx 4rpx;
+  font-size: 22rpx;
+  color: var(--muted);
+}
+
+.id-switch {
+  flex-shrink: 0;
+  display: flex;
+  height: 56rpx;
+  padding: 4rpx;
+  border-radius: 12rpx;
+  background: var(--surface);
+  border: 2rpx solid var(--line);
+  box-sizing: border-box;
+}
+
+.theme-family .id-switch {
+  border-radius: 999rpx;
+}
+
+.theme-biz .id-switch {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.id-btn {
+  min-width: 72rpx;
+  height: 48rpx;
+  padding: 0 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: var(--muted);
+  border-radius: 8rpx;
+}
+
+.theme-family .id-btn {
+  border-radius: 999rpx;
+}
+
+.theme-biz .id-btn {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.id-btn.on {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.theme-biz .id-btn.on {
+  background: #fff;
+  color: #12344F;
+}
+
+.id-btn:active {
+  opacity: 0.88;
+}
