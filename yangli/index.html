@@ -371,7 +371,26 @@
       flex-direction: column; gap: 1px; cursor: pointer;
       font: 700 10px/1 "PingFang SC", sans-serif; letter-spacing: .08em;
     }
-    .ai-fab.on { display: flex; }
+    .ai-pick {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 12px; margin-bottom: 12px; cursor: pointer;
+    }
+    .ai-pick-k {
+      font-size: 10px; letter-spacing: .14em; color: var(--accent);
+      font-weight: 700; margin-bottom: 4px;
+    }
+    .ai-acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .ai-acts button {
+      border: 1px solid var(--line); background: var(--bg); color: var(--accent);
+      height: 28px; padding: 0 10px; border-radius: 999px; cursor: pointer;
+      font-size: 11px; font-weight: 650;
+    }
+    .tag-ai {
+      display: inline-block; font-size: 10px; font-weight: 700; vertical-align: middle;
+      background: var(--accent); color: var(--on-accent); padding: 1px 6px;
+      border-radius: 999px; margin-left: 6px;
+    }
+    .ai-hd .sub { margin: 2px 0 0; font-size: 11px; }
     .ai-fab svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
     .ai-win {
       position: absolute; left: 12px; right: 12px; bottom: 84px; z-index: 7;
@@ -889,14 +908,12 @@
         </div>
         <button type="button" class="ai-fab" id="aiFab" onclick="toggleAskAi(event)"></button>
         <div class="ai-win" id="aiWin">
-          <div class="ai-hd"><b>问一问 · 平阳</b><button type="button" onclick="closeAskAi()">关闭</button></div>
-          <div class="ai-msgs" id="aiMsgs"></div>
-          <div class="ai-qs">
-            <button type="button" onclick="askAi('附近有什么好吃的')">附近吃什么</button>
-            <button type="button" onclick="askAi('带小孩去哪玩')">带娃去哪</button>
-            <button type="button" onclick="askAi('怎么去南麂')">去南麂</button>
-            <button type="button" onclick="askAi('帮我规划今天')">规划行程</button>
+          <div class="ai-hd">
+            <div><b>问一问 · 平阳</b><div class="sub" id="aiHabit">根据你的习惯作答</div></div>
+            <button type="button" onclick="closeAskAi()">关闭</button>
           </div>
+          <div class="ai-msgs" id="aiMsgs"></div>
+          <div class="ai-qs" id="aiQs"></div>
           <form class="ai-input" onsubmit="sendAskAi(event)">
             <input id="aiInput" type="text" placeholder="问附近吃喝玩乐…" autocomplete="off" />
             <button type="submit">发送</button>
@@ -1024,31 +1041,38 @@
       { id: "sea", name: "想看海", hint: "南麂列岛一日" },
       { id: "easy", name: "轻松少走", hint: "昆阳镇内三店" },
     ];
+    const HABIT_AI = {
+      kid:  { rec: ["5","1","3"], brief: "周末带娃：亲子谷优先，茶寮歇脚，少走路。", trace: "足迹里亲子谷周末出现 3 次，茶寮常作中转" },
+      tea:  { rec: ["1","3","2"], brief: "爱喝茶：先非遗馆，再茶寮坐下午。", trace: "近 30 天昆阳茶寮到店 3 次，黄汤复购高" },
+      night:{ rec: ["4","1","6"], brief: "爱夜市：滨江吹风，建新路灯火，茶寮收尾。", trace: "夜宵单多落在鳌江夜市，收尾常回茶寮" },
+      sea:  { rec: ["2","1","4"], brief: "想看海：早班船去南麂，回程喝茶，别排太满。", trace: "收藏了南麂船票，适合赶早不赶晚" },
+      easy: { rec: ["1","6","3"], brief: "轻松少走：茶寮、影城、非遗馆都在镇内。", trace: "定位常停昆阳，少出远门" },
+    };
     const TRIPS = {
       kid: [
-        ["sun","上午","南雁荡山","登高望远，孩子先跑一圈","park"],
-        ["fork","中午","昆阳茶寮","鱼丸黄汤，坐下歇脚","tea"],
-        ["cloud","下午","南雁亲子谷","小火车 + 溪谷，不赶路","park"],
+        ["sun","上午","南雁荡山","登高望远，孩子先跑一圈","park","周末足迹最多，先把体力花在山上"],
+        ["fork","中午","昆阳茶寮","鱼丸黄汤，坐下歇脚","tea","你常在这儿歇脚，孩子也吃得惯"],
+        ["cloud","下午","南雁亲子谷","小火车 + 溪谷，不赶路","park","三个点走路就到，不绕鳌江"],
       ],
       tea: [
-        ["sun","上午","南雁非遗馆","畲乡手作，慢慢看","book"],
-        ["fork","中午","昆阳茶寮","平阳黄汤，坐一下午","tea"],
-        ["cloud","傍晚","鳌江滨江","茶后续一杯，不赶场","lake"],
+        ["sun","上午","南雁非遗馆","畲乡手作，慢慢看","book","和喝茶同频，不赶场"],
+        ["fork","中午","昆阳茶寮","平阳黄汤，坐一下午","tea","你到店最勤的一家，排在正中"],
+        ["cloud","傍晚","鳌江滨江","茶后续一杯，不赶场","lake","收尾吹风，明天还能再坐"],
       ],
       night: [
-        ["sun","傍晚","鳌江滨江","先吹风，再进城","lake"],
-        ["fork","夜宵","鳌江夜市","灯盏糕、生蚝，烟火气","food"],
-        ["cloud","收尾","昆阳茶寮","夜市后一杯黄汤","tea"],
+        ["sun","傍晚","鳌江滨江","先吹风，再进城","lake","夜市前先把步子走完"],
+        ["fork","夜宵","鳌江夜市","灯盏糕、生蚝，烟火气","food","你夜宵单几乎都在这儿"],
+        ["cloud","收尾","昆阳茶寮","夜市后一杯黄汤","tea","解腻、好停车，符合你的收尾习惯"],
       ],
       sea: [
-        ["sun","上午","鳌江码头","赶早班船","lake"],
-        ["fork","午后","南麂列岛","岛际走走，别排太满","lake"],
-        ["cloud","回程","昆阳茶寮","下船后歇脚喝茶","tea"],
+        ["sun","上午","鳌江码头","赶早班船","lake","收藏过船票，早班最稳"],
+        ["fork","午后","南麂列岛","岛际走走，别排太满","lake","按你轻松少赶的习惯，只排一段岛"],
+        ["cloud","回程","昆阳茶寮","下船后歇脚喝茶","tea","回昆阳有落点，不空跑"],
       ],
       easy: [
-        ["sun","上午","昆阳茶寮","先坐下来，不赶路","tea"],
-        ["fork","中午","昆阳影城","巨幕厅，走路就到","movie"],
-        ["cloud","下午","南雁非遗馆","文创转转就回","book"],
+        ["sun","上午","昆阳茶寮","先坐下来，不赶路","tea","镇内最近，先坐稳"],
+        ["fork","中午","昆阳影城","巨幕厅，走路就到","movie","和茶寮同片区，少走路"],
+        ["cloud","下午","南雁非遗馆","文创转转就回","book","不出镇，傍晚还能回家"],
       ],
     };
     const demoBiz = {
@@ -1059,6 +1083,7 @@
       shared: 0,
       habit: "kid",
       planned: false,
+      lastIntent: "",
       queue: queue.map((q) => ({ ...q })),
       ledger: [
         { title: "到店核销 · 南雁亲子两日", sub: "陈女士 · 已入账", plus: "+¥80" },
@@ -1066,11 +1091,11 @@
       ],
     };
     const styles = [
-      { id: "jiangnan", name: "江南生活", blurb: "会员首页/我的可规划行程；附近右下角可问 AI。切到商家可演示扫码核销、分账入账、提现。" },
-      { id: "wechat", name: "微信本地", blurb: "会员「我的」可分享和规划行程；附近可问 AI。商家核销后提成记进分账。" },
-      { id: "family", name: "亲子周末", blurb: "会员「今天怎么玩」按带娃习惯规划。附近可问 AI。智能行程不出现在商家中心。" },
-      { id: "biz", name: "商务预订", blurb: "会员可规划行程；附近可问 AI。商家身份下核销与提现走同一套演示账本。" },
-      { id: "night", name: "鳌江夜色", blurb: "会员选「爱夜市」规划线路。附近可问 AI 找夜宵。商家侧只做核销分账。" },
+      { id: "jiangnan", name: "江南生活", blurb: "会员首页有 AI 今日建议；附近按习惯重排门店，右下角可追问。商家侧只做核销分账。" },
+      { id: "wechat", name: "微信本地", blurb: "对话会记住你刚问的是海、娃还是夜市。附近 AI 为你挑店。商家问待核销也能答。" },
+      { id: "family", name: "亲子周末", blurb: "行程每段带推荐理由。附近可追问「那晚上呢」。智能行程只在会员侧。" },
+      { id: "biz", name: "商务预订", blurb: "AI 会按少走路、宴请习惯给建议。商家身份下核销与提现仍走演示账本。" },
+      { id: "night", name: "鳌江夜色", blurb: "爱夜市时，AI 把鳌江夜市排到前面，并记得夜宵后回茶寮。" },
     ];
     const tabs = {
       jiangnan: ["首页", "附近", "会员", "我的"],
@@ -1091,44 +1116,161 @@
     }
     window.toast = toast;
     function ev(e) { if (e) e.stopPropagation(); }
+    function showAiFab() {
+      return state.tab === 0 || state.tab === 1;
+    }
     function openSheet(title, html) {
       $("aiWin").classList.remove("on");
       $("sheetTitle").textContent = title;
       $("sheetBody").innerHTML = html;
       $("sheet").classList.add("on");
-      if (state.tab === 1) $("aiFab").classList.add("on");
+      if (showAiFab()) $("aiFab").classList.add("on");
     }
     function closeSheet() { $("sheet").classList.remove("on"); }
     window.closeSheet = closeSheet;
-    const AI_HELLO = "我是垟里GO 的平阳助手。问附近吃什么、带娃去哪、怎么去南麂，或让我规划今天。样板演示，不调大模型。";
+    const AI_HELLO = "";
+    function habitMeta() { return HABITS.find(h => h.id === demoBiz.habit) || HABITS[0]; }
+    function habitAi() { return HABIT_AI[demoBiz.habit] || HABIT_AI.kid; }
+    function recShop() { return shops.find(s => s.id === habitAi().rec[0]) || shops[0]; }
+    function aiRank(list) {
+      const rec = habitAi().rec;
+      return [...list].sort((a, b) => {
+        const ia = rec.indexOf(a.id), ib = rec.indexOf(b.id);
+        if (ia < 0 && ib < 0) return 0;
+        if (ia < 0) return 1;
+        if (ib < 0) return -1;
+        return ia - ib;
+      });
+    }
+    function aiPickHtml() {
+      const s = recShop();
+      const h = habitMeta();
+      return `<div class="ai-pick" onclick="openAskFromSearch(event)">
+        <div class="ai-pick-k">AI 为你挑 · ${h.name}</div>
+        <b>${s.name}<span class="tag-ai">匹配</span></b>
+        <div class="sub">${habitAi().brief}</div>
+      </div>`;
+    }
+    function aiBriefCard() {
+      const s = recShop();
+      const h = habitMeta();
+      return `<div class="jn-promo" onclick="openTrip(event)">
+        <div><b>AI 今日建议</b><div class="sub">${habitAi().brief}首选 ${s.name}</div></div>
+        <button class="btn-round-gold" onclick="openTrip(event)">去<br>规划</button>
+      </div>`;
+    }
+    function fillAiChrome() {
+      const h = habitMeta();
+      const sub = $("aiHabit");
+      if (sub) sub.textContent = state.role === "merchant"
+        ? "店里助手 · 问待核销、分账、客流"
+        : `已记住习惯：${h.name} · ${h.hint}`;
+      const qs = $("aiQs");
+      if (!qs) return;
+      const chips = state.role === "merchant"
+        ? [["待核销还剩几笔","待核销几笔"],["可提现多少","能提多少"],["今天客流怎样","今天客流"]]
+        : [["附近吃什么","附近有什么好吃的"],["按我的习惯去哪","按我的习惯去哪"],["那晚上呢","那晚上呢"],["帮我规划今天","帮我规划今天"]];
+      qs.innerHTML = chips.map(c => `<button type="button" onclick="askAi('${c[1]}')">${c[0]}</button>`).join("");
+    }
     function aiReply(q) {
       const t = (q || "").trim();
-      if (/规划|行程|路线|怎么玩/.test(t)) return { text: "按你常去的店和带娃习惯，排一条当日线路。打开智能行程就能选。", trip: true };
-      if (/南麂|看海|船|岛/.test(t)) return { text: "去南麂从鳌江码头赶早班船。下午岛上别排太满，回程到昆阳茶寮歇脚喝茶。" };
-      if (/娃|亲子|小孩|遛娃|溜娃/.test(t)) return { text: "南雁亲子谷小火车最合适。上午荡山、中午茶寮、下午亲子谷，三个点走路就到。" };
-      if (/夜市|夜宵|晚上/.test(t)) return { text: "傍晚先去鳌江滨江，夜宵鳌江夜市灯盏糕和生蚝，收尾回昆阳茶寮一杯黄汤。" };
-      if (/吃|茶|饿|美食|好喝/.test(t)) return { text: "昆阳茶寮黄汤鱼丸，步行约 320 米。晚上可去鳌江夜市。" };
-      return { text: "平阳这会儿可以去昆阳茶寮坐坐，或去南雁、鳌江夜市。说得再具体一点，我帮你指一家。" };
+      const h = habitMeta();
+      const rec = recShop();
+      const follow = demoBiz.lastIntent;
+      if (state.role === "merchant") {
+        const left = demoBiz.queue.length;
+        if (/核销|待核|券|扫码/.test(t)) {
+          return { text: left ? `还剩 ${left} 笔待核销。优先核陈女士的亲子两日；南麂票是跨店，核完提成入账。` : "待核销已清空。点列表可重新放入演示单。", acts: [{ label: "去核销", fn: "closeAskAi();openScan();" }] };
+        }
+        if (/提现|分账|钱|提成/.test(t)) {
+          return { text: `可提现 ¥${demoBiz.cash}。跨店核销记提成，到店核销记本店。`, acts: [{ label: "看分账", fn: "closeAskAi();openLedger();" }] };
+        }
+        if (/客|今天|收款|生意/.test(t)) {
+          return { text: `今日收款 ¥${demoBiz.take}，已核 ${demoBiz.verified} 笔。建议把待核销清掉，提成才走得动。`, acts: [{ label: "去核销", fn: "closeAskAi();openScan();" }] };
+        }
+        return { text: "店里可以问待核销、分账、今天客流。核销后提成会入账。" };
+      }
+      if (/那晚上|晚上呢|夜宵呢|再玩|然后呢|还有呢/.test(t) || (follow === "kid" && /晚上/.test(t))) {
+        demoBiz.lastIntent = "night";
+        return { text: `按你「${h.name}」的习惯，白天别排太满。晚上走鳌江夜市灯盏糕，收尾回昆阳茶寮一杯黄汤，孩子也能坐得住。`, acts: [{ label: "规划夜市线", fn: "setHabitAndTrip('night')" }] };
+      }
+      if (/近一点|少走|不赶|轻松/.test(t)) {
+        demoBiz.lastIntent = "easy";
+        return { text: "那就改成镇内三条：茶寮、影城、非遗馆都在昆阳，少走路。", acts: [{ label: "用轻松线", fn: "setHabitAndTrip('easy')" }] };
+      }
+      if ((/茶|喝/.test(t) && /娃|亲子|小孩/.test(t)) || /带娃喝茶/.test(t)) {
+        demoBiz.lastIntent = "kid";
+        return { text: "带娃喝茶就放中午：上午南雁荡山撒欢，中午昆阳茶寮鱼丸黄汤，下午亲子谷小火车。茶寮有位，孩子不闹。", acts: [{ label: "生成这条", fn: "setHabitAndTrip('kid')" }] };
+      }
+      if (/规划|行程|路线|怎么玩|按我的习惯|去哪/.test(t)) {
+        demoBiz.lastIntent = demoBiz.habit;
+        return { text: `我读了你的习惯「${h.name}」。${habitAi().trace}。今日首选 ${rec.name}，三条都少绕路。`, acts: [{ label: "看行程", fn: "closeAskAi();openTrip();" }] };
+      }
+      if (/南麂|看海|船|岛/.test(t)) {
+        demoBiz.lastIntent = "sea";
+        return { text: "去南麂从鳌江码头赶早班船。按你少赶场的习惯，岛上只排一段，回程昆阳茶寮歇脚。收藏过船票，这条最稳。", acts: [{ label: "排看海线", fn: "setHabitAndTrip('sea')" }] };
+      }
+      if (/娃|亲子|小孩|遛娃|溜娃/.test(t)) {
+        demoBiz.lastIntent = "kid";
+        return { text: `南雁亲子谷小火车最合适。我按「${h.name}」把茶寮放中午歇脚，三个点走路就到。`, acts: [{ label: "规划带娃线", fn: "setHabitAndTrip('kid')" }] };
+      }
+      if (/夜市|夜宵|晚上/.test(t)) {
+        demoBiz.lastIntent = "night";
+        return { text: "傍晚鳌江滨江吹风，夜宵建新路灯盏糕和生蚝，收尾昆阳茶寮。你夜宵单几乎都落在这儿。", acts: [{ label: "排夜市线", fn: "setHabitAndTrip('night')" }] };
+      }
+      if (/吃|茶|饿|美食|好喝/.test(t)) {
+        demoBiz.lastIntent = "tea";
+        return { text: `${rec.name}最贴你现在的习惯「${h.name}」。${habitAi().brief}昆阳茶寮黄汤鱼丸约 320 米。`, acts: [{ label: "去附近", fn: "closeAskAi();goTab(null,1)" }, { label: "规划行程", fn: "closeAskAi();openTrip();" }] };
+      }
+      demoBiz.lastIntent = demoBiz.lastIntent || demoBiz.habit;
+      return { text: `先按「${h.name}」给你：${habitAi().brief}也可以说「那晚上呢」或「近一点」，我会接着改。`, acts: [{ label: "问细一点", fn: "askAi('按我的习惯去哪')" }] };
     }
     function seedAskAi() {
       const box = $("aiMsgs");
-      if (box && !box.childElementCount) {
-        box.innerHTML = `<div class="ai-bubble bot">${AI_HELLO}</div>`;
-      }
+      if (!box) return;
+      fillAiChrome();
+      if (box.childElementCount) return;
+      const h = habitMeta();
+      const hello = state.role === "merchant"
+        ? "我是店里助手。可以问待核销还剩几笔、能提多少、今天客流。"
+        : `我读过你的习惯「${h.name}」。${habitAi().trace}。直接问吃什么、带娃、看海，或让我排今天。`;
+      box.innerHTML = `<div class="ai-bubble bot">${hello}</div>`;
+    }
+    function typeBot(el, text, after) {
+      clearInterval(demoBiz._typeT);
+      el.textContent = "";
+      let i = 0;
+      demoBiz._typeT = setInterval(() => {
+        i += 2;
+        el.textContent = text.slice(0, i);
+        const box = $("aiMsgs");
+        if (box) box.scrollTop = box.scrollHeight;
+        if (i >= text.length) {
+          clearInterval(demoBiz._typeT);
+          if (after) after();
+        }
+      }, 16);
     }
     function closeAskAi() {
       $("aiWin").classList.remove("on");
-      if (state.tab === 1) $("aiFab").classList.add("on");
+      if (showAiFab()) $("aiFab").classList.add("on");
     }
     window.closeAskAi = closeAskAi;
+    window.openAskFromSearch = (e) => {
+      ev(e);
+      closeSheet();
+      seedAskAi();
+      $("aiWin").classList.add("on");
+      $("aiFab").classList.remove("on");
+      fillAiChrome();
+      const input = $("aiInput");
+      if (input) setTimeout(() => input.focus(), 50);
+    };
     window.toggleAskAi = (e) => {
       ev(e);
       const win = $("aiWin");
       if (win.classList.contains("on")) { closeAskAi(); return; }
-      closeSheet();
-      seedAskAi();
-      win.classList.add("on");
-      $("aiFab").classList.remove("on");
+      openAskFromSearch(e);
     };
     window.askAi = (q) => {
       if (!$("aiWin").classList.contains("on")) {
@@ -1137,19 +1279,24 @@
         $("aiFab").classList.remove("on");
       }
       seedAskAi();
+      fillAiChrome();
       const box = $("aiMsgs");
-      box.insertAdjacentHTML("beforeend", `<div class="ai-bubble me">${q}</div><div class="ai-bubble bot">正在想…</div>`);
+      box.insertAdjacentHTML("beforeend", `<div class="ai-bubble me">${q}</div><div class="ai-bubble bot">正在对照你的习惯与附近门店…</div>`);
       box.scrollTop = box.scrollHeight;
       const reply = aiReply(q);
       setTimeout(() => {
         const bots = box.querySelectorAll(".ai-bubble.bot");
         const last = bots[bots.length - 1];
-        if (last) last.textContent = reply.text;
-        box.scrollTop = box.scrollHeight;
-        if (reply.trip && state.role === "member") {
-          setTimeout(() => { closeAskAi(); openTrip(); }, 600);
-        }
-      }, 520);
+        if (!last) return;
+        typeBot(last, reply.text, () => {
+          if (reply.acts && reply.acts.length) {
+            last.insertAdjacentHTML("beforeend", `<div class="ai-acts">${reply.acts.map(a =>
+              `<button type="button" onclick="${a.fn}">${a.label}</button>`
+            ).join("")}</div>`);
+          }
+          box.scrollTop = box.scrollHeight;
+        });
+      }, 480);
     };
     window.sendAskAi = (e) => {
       if (e) e.preventDefault();
@@ -1181,8 +1328,11 @@
       return TRIPS[habit] || TRIPS.kid;
     }
     function tripHtml(habit) {
-      return `<div class="route" style="margin-top:8px"><b>今日线路 · ${HABITS.find(h => h.id === habit).name}</b>${
-        tripSteps(habit).map(s => `<div class="step"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}" alt=""></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div></div></div>`).join("")
+      const meta = HABITS.find(h => h.id === habit) || HABITS[0];
+      const ai = HABIT_AI[habit] || HABIT_AI.kid;
+      return `<div class="route" style="margin-top:8px"><b>今日线路 · ${meta.name}</b>
+        <div class="sub" style="margin:6px 0 10px">${ai.trace}</div>${
+        tripSteps(habit).map(s => `<div class="step"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}" alt=""></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div>${s[5] ? `<div class="sub">推荐理由 · ${s[5]}</div>` : ""}</div></div>`).join("")
       }</div>`;
     }
     window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); render(); };
@@ -1311,26 +1461,45 @@
       const chips = HABITS.map(h =>
         `<button type="button" class="${demoBiz.habit===h.id?"on":""}" onclick="setHabit('${h.id}')">${h.name}</button>`
       ).join("");
-      const hint = HABITS.find(h => h.id === demoBiz.habit).hint;
       openSheet("智能行程", `
-        <div class="sub">根据你常去的店和带娃习惯，规划当日平阳线路。样板演示，不调大模型。</div>
+        <div class="sub">对照足迹和你选的习惯，生成当日平阳三条。每段带推荐理由。</div>
         <div class="habit">${chips}</div>
-        <div class="sub">${hint}</div>
+        <div class="sub">${habitAi().trace}</div>
         ${sheetBtns([["fill","按这个习惯规划","planTrip()"]])}
         <div id="tripResult">${demoBiz.planned ? tripHtml(demoBiz.habit) : ""}</div>
       `);
     };
     window.setHabit = (id) => { demoBiz.habit = id; demoBiz.planned = false; openTrip(); };
+    window.setHabitAndTrip = (id) => {
+      demoBiz.habit = id;
+      demoBiz.planned = false;
+      closeAskAi();
+      openTrip();
+    };
     window.planTrip = () => {
       const el = document.getElementById("tripResult");
-      if (el) el.innerHTML = `<div class="think">正在根据你的习惯规划…</div>`;
-      setTimeout(() => {
-        demoBiz.planned = true;
-        const box = document.getElementById("tripResult");
-        if (box) {
-          box.innerHTML = tripHtml(demoBiz.habit) + sheetBtns([["fill","用到「今天怎么玩」","useTrip()"]]);
+      const traces = [
+        `读取足迹：${habitAi().trace}`,
+        `匹配习惯：${habitMeta().name} · ${habitMeta().hint}`,
+        "避开绕路，生成当日三条…",
+      ];
+      let n = 0;
+      const tick = () => {
+        if (!el) return;
+        el.innerHTML = `<div class="think">${traces[n]}</div>`;
+        n += 1;
+        if (n < traces.length) {
+          setTimeout(tick, 420);
+        } else {
+          setTimeout(() => {
+            demoBiz.planned = true;
+            if (document.getElementById("tripResult")) {
+              document.getElementById("tripResult").innerHTML = tripHtml(demoBiz.habit) + sheetBtns([["fill","用到「今天怎么玩」","useTrip()"]]);
+            }
+          }, 360);
         }
-      }, 720);
+      };
+      tick();
     };
     window.useTrip = () => {
       demoBiz.planned = true;
@@ -1486,7 +1655,7 @@
 
     function homeJiangnan() {
       return `
-        <div class="search" onclick="demo(event)">${ico("search")}搜索商家、商品或服务<button class="btn fill search-go" onclick="demo(event)">搜索</button></div>
+        <div class="search" onclick="openAskFromSearch(event)">${ico("search")}问 AI：今天去哪、吃什么<button class="btn fill search-go" onclick="openAskFromSearch(event)">问一下</button></div>
         <div class="hero" onclick="goTab(event,1)">
           <img src="${img("lake")}" alt="">
           <div class="hero-cap"><span>碧海蓝天 · 渔村风情</span><b>南麂列岛</b></div>
@@ -1505,10 +1674,7 @@
           <div><b>昆阳美食三店通</b><div class="sub">三店通用 · 立减 30%</div></div>
           <button class="btn-round-gold" onclick="claimPack(event)">立即<br>领取</button>
         </div>
-        <div class="jn-promo" onclick="openTrip(event)">
-          <div><b>智能行程</b><div class="sub">喝茶、溜娃、夜市、看海，按习惯排当日线路</div></div>
-          <button class="btn-round-gold" onclick="openTrip(event)">去<br>规划</button>
-        </div>
+        ${aiBriefCard()}
         ${peopleStrip("jiangnan", "最近茶客")}
         ${reviewList("jiangnan")}
       `;
@@ -1541,7 +1707,8 @@
           ])}
         </div>
         <div class="sec">附近商家 <span onclick="goTab(event,1)">更多 &gt;</span></div>
-        ${wcShop(shops[0])}
+        ${aiPickHtml()}
+        ${wcShop(recShop())}
         <div class="wc-pad" style="margin-top:10px">
           ${peopleStrip("wechat", "附近的人")}
           ${reviewList("wechat")}
@@ -1585,7 +1752,8 @@
             <b>今天怎么玩</b>
             <span class="sub" style="cursor:pointer;font-weight:700;color:var(--accent)" onclick="openTrip(event)">按习惯规划</span>
           </div>
-          ${tripSteps(demoBiz.habit).map(s => `<div class="step" onclick="openTrip(event)"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}"></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div></div></div>`).join("")}
+          <div class="sub" style="margin:0 0 10px">${habitAi().trace}</div>
+          ${tripSteps(demoBiz.habit).map(s => `<div class="step" onclick="openTrip(event)"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}"></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div>${s[5] ? `<div class="sub">推荐理由 · ${s[5]}</div>` : ""}</div></div>`).join("")}
         </div>
         <div class="fam-walk">
           <div class="fam-walk-h">${ico("pin")}走路就能到${ico("foot")}</div>
@@ -1600,8 +1768,8 @@
       return `
         <div class="hero" onclick="demo(event)"><img src="${img("tea")}" alt=""></div>
         <div class="biz-hello">
-          <div><b>您好，墨典会员</b><div class="sub">平阳 · 昆阳</div></div>
-          <button class="btn fill" onclick="demo(event)">会员中心</button>
+          <div><b>您好，墨典会员</b><div class="sub">AI · ${habitAi().brief}</div></div>
+          <button class="btn fill" onclick="openAskFromSearch(event)">问 AI</button>
         </div>
         <div class="stats">
           <div class="stat"><div class="stat-ico">${ico("clock")}</div><b>待确认 2笔</b></div>
@@ -1634,6 +1802,7 @@
           ["昆阳","pin","transparent"],["鳌江夜市","moon","transparent"],["昆阳茶寮","tea","transparent"],["南麂列岛","wave","transparent"],
           ["南雁荡山","spark","transparent"],["南雁亲子谷","balloon","transparent"],["昆阳影城","film","transparent"],["转盘","wheel","transparent"],
         ], "cols4")}
+        ${aiPickHtml()}
         <div class="sec">推荐商家 <span onclick="goTab(event,1)">更多 &gt;</span></div>
         <div class="nt-shop" onclick="demo(event)">
           <div class="thumb"><img src="${img("tea")}" alt=""></div>
@@ -1678,13 +1847,14 @@
         const list = state.filter === "全部" ? shops : shops.filter(s => s.tagJn === state.filter);
         return `
           ${jnMap()}
+          ${aiPickHtml()}
           <div class="filters">
             ${filters.map(f => `<button class="${state.filter===f?"on":""}" onclick="setFilter('${f}')">${f}</button>`).join("")}
           </div>
-          ${list.map(s => `<div class="row" onclick="demo(event)">
+          ${aiRank(list).map((s, i) => `<div class="row" onclick="demo(event)">
             <div class="thumb"><img src="${img(s.cover)}"></div>
             <div class="meta">
-              <b>${s.name}<span class="tag">${s.tagJn}</span></b>
+              <b>${s.name}<span class="tag">${s.tagJn}</span>${i===0 && state.filter==="全部" ? `<span class="tag-ai">AI</span>` : ""}</b>
               <div class="sub">${s.area}</div>
               <div class="sub">${s.hours}</div>
               <div class="offer">优惠 ${s.offer}</div>
@@ -1698,14 +1868,16 @@
         const base = byIds(["1", "4", "2", "6"]);
         const list = state.filter === "全部" ? base : base.filter(s => s.tagWc === state.filter || (state.filter === "美食" && ["茶馆","夜宵"].includes(s.tagWc)));
         return `
+          ${aiPickHtml()}
           <div class="filters">
             ${filters.map(f => `<button class="${state.filter===f?"on":""}" onclick="setFilter('${f}')">${f}</button>`).join("")}
           </div>
-          ${list.map(wcShop).join("")}
+          ${aiRank(list).map(wcShop).join("")}
         `;
       }
       if (state.theme === "family") {
         return `
+          ${aiPickHtml()}
           <div class="fam-walk-h" style="margin-bottom:10px">${ico("pin")}走路就能到</div>
           ${[
             ["南雁荡山","登高望远 亲近自然","park"],
@@ -1719,6 +1891,7 @@
         const filters = ["全部", "餐厅", "景点", "休闲", "影院"];
         const list = state.filter === "全部" ? byIds(["1","2","4"]) : shops.filter(s => s.tagBiz === state.filter);
         return `
+          ${aiPickHtml()}
           <div class="filters">
             ${filters.map(f => `<button class="${state.filter===f?"on":""}" onclick="setFilter('${f}')">${f}</button>`).join("")}
           </div>
@@ -1732,10 +1905,11 @@
         const filters = ["全部", "美食", "休闲", "娱乐", "购物"];
         const list = byIds(["4", "1", "6", "2"]);
         return `
+          ${aiPickHtml()}
           <div class="filters">
             ${filters.map(f => `<button class="${state.filter===f?"on":""}" onclick="setFilter('${f}')">${f}</button>`).join("")}
           </div>
-          ${list.map(s => `<div class="nt-near" onclick="demo(event)">
+          ${aiRank(list).map(s => `<div class="nt-near" onclick="demo(event)">
             <div class="thumb"><img src="${img(s.cover)}" alt=""></div>
             <div class="meta"><b>${s.name}</b><div class="sub">${s.tagNt}</div></div>
             <div class="dist">${s.distNt}${ico("chev")}</div>
@@ -2075,7 +2249,7 @@
           : `<button onclick="openSettings(event)">${ico("gear")}</button><button onclick="openShare(event)">${ico("share")}</button>`;
       }
       if (state.theme === "biz") tools = `<button onclick="demo(event)">${ico("bell")}</button>`;
-      if (state.theme === "night" && state.tab === 0) tools = `<div class="nt-search" onclick="demo(event)">${ico("search")}搜索</div>`;
+      if (state.theme === "night" && state.tab === 0) tools = `<div class="nt-search" onclick="openAskFromSearch(event)">${ico("search")}问AI</div>`;
       $("navTools").innerHTML = tools;
       $("screen").classList.toggle("edge", state.theme === "jiangnan" && state.tab === 3 && state.role === "member");
       $("tabbar").innerHTML = tabs[state.theme].map((l, i) =>
@@ -2087,9 +2261,9 @@
       if (state.tab === 2) html = state.role === "member" ? memberMember() : memberMerchant();
       if (state.tab === 3) html = mine();
       $("screen").innerHTML = html;
-      if (state.tab !== 1) $("aiWin").classList.remove("on");
+      if (!showAiFab()) $("aiWin").classList.remove("on");
       $("aiFab").innerHTML = `${ico("spark")}<span>问AI</span>`;
-      $("aiFab").classList.toggle("on", state.tab === 1 && !$("aiWin").classList.contains("on"));
+      $("aiFab").classList.toggle("on", showAiFab() && !$("aiWin").classList.contains("on"));
     }
 
     $("styleChips").innerHTML = styles.map(s =>
