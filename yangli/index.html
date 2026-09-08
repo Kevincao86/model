@@ -947,32 +947,9 @@
     </div>
 
     <aside class="features">
-      <div class="kicker">特色功能</div>
-      <p class="feat-tip">点一条，中间手机跟着走</p>
-      <button type="button" class="feat" onclick="showFeat(1)">
-        <div class="feat-n">01</div>
-        <div><b>问 AI · 平阳助手</b><span>首页、附近可问吃什么、带娃、看海。记住你的习惯，能接「那晚上呢」「近一点」。</span></div>
-      </button>
-      <button type="button" class="feat" onclick="showFeat(2)">
-        <div class="feat-n">02</div>
-        <div><b>智能行程</b><span>按喝茶、溜娃、夜市、看海排当日三条，每段写清为什么。只在会员侧。</span></div>
-      </button>
-      <button type="button" class="feat" onclick="showFeat(3)">
-        <div class="feat-n">03</div>
-        <div><b>附近按习惯推荐</b><span>对照足迹重排门店，匹配的店打 AI 标。点「AI 为你挑」可追问。</span></div>
-      </button>
-      <button type="button" class="feat" onclick="showFeat(4)">
-        <div class="feat-n">04</div>
-        <div><b>分享有礼</b><span>发给微信好友或朋友圈。对方打开注册进店后，会员得积分，店得客。</span></div>
-      </button>
-      <button type="button" class="feat" onclick="showFeat(5)">
-        <div class="feat-n">05</div>
-        <div><b>扫码核销 · 分账提现</b><span>商家确认核销即入账。跨店记提成，本店记收款，可申请提现。</span></div>
-      </button>
-      <button type="button" class="feat" onclick="showFeat(6)">
-        <div class="feat-n">06</div>
-        <div><b>会员 / 商家双身份</b><span>同一套界面切换。五套风格可换：江南、微信、亲子、商务、夜色。</span></div>
-      </button>
+      <div class="kicker" id="featKicker">特色功能</div>
+      <p class="feat-tip" id="featTip">会员侧 · 点一条，中间手机跟着走</p>
+      <div id="featList"></div>
     </aside>
   </div>
 
@@ -1281,7 +1258,8 @@
       const box = $("aiMsgs");
       if (!box) return;
       fillAiChrome();
-      if (box.childElementCount) return;
+      if (box.childElementCount && demoBiz.aiRole === state.role) return;
+      demoBiz.aiRole = state.role;
       const h = habitMeta();
       const hello = state.role === "merchant"
         ? "我是店里助手。可以问待核销还剩几笔、能提多少、今天客流。"
@@ -1388,35 +1366,53 @@
       }</div>`;
     }
     window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); closeAskAi(); render(); };
+    const FEATS = {
+      member: [
+        { title: "问 AI · 平阳助手", desc: "首页、附近可问吃什么、带娃、看海。记住你的习惯，能接「那晚上呢」「近一点」。", act: "ask" },
+        { title: "智能行程", desc: "按喝茶、溜娃、夜市、看海排当日三条，每段写清为什么。", act: "trip" },
+        { title: "附近按习惯推荐", desc: "对照足迹重排门店，匹配的店打 AI 标。点「AI 为你挑」可追问。", act: "nearby" },
+        { title: "分享有礼", desc: "发给微信好友或朋友圈。对方打开注册进店后，你得积分，店得客。", act: "share" },
+        { title: "AI 今日建议", desc: "首页按习惯给一句今天去哪，并可一键去规划。", act: "home" },
+        { title: "到店出示", desc: "会员码给商家扫。核销后锁客，积分入账。", act: "code" },
+      ],
+      merchant: [
+        { title: "店里问 AI", desc: "问待核销还剩几笔、能提多少、今天客流。答完可直接去核销或看账。", act: "ask" },
+        { title: "扫码核销", desc: "扫会员码或点确认。核完这一笔，分账马上入账。", act: "scan" },
+        { title: "分账明细", desc: "跨店核销记提成，到店核销记本店收款。一笔一笔记清。", act: "ledger" },
+        { title: "申请提现", desc: "可提现余额进演示账本。样板走收付通这一步。", act: "cash" },
+        { title: "转发本店", desc: "把本店发给微信好友或朋友圈，拉新进店。", act: "share" },
+        { title: "店务看板", desc: "首页看待核销、跨店提成、今日收款。点数字就能办事。", act: "home" },
+      ],
+    };
+    function renderFeats() {
+      const merchant = state.role === "merchant";
+      const list = FEATS[state.role] || FEATS.member;
+      $("featKicker").textContent = merchant ? "特色功能 · 商家" : "特色功能 · 会员";
+      $("featTip").textContent = merchant
+        ? "商家侧 · 点一条，中间手机跟着走"
+        : "会员侧 · 点一条，中间手机跟着走";
+      $("featList").innerHTML = list.map((f, i) =>
+        `<button type="button" class="feat" onclick="showFeat(${i + 1})">
+          <div class="feat-n">${String(i + 1).padStart(2, "0")}</div>
+          <div><b>${f.title}</b><span>${f.desc}</span></div>
+        </button>`
+      ).join("");
+    }
     window.showFeat = (n) => {
+      const f = (FEATS[state.role] || FEATS.member)[n - 1];
+      if (!f) return;
       closeSheet();
       closeAskAi();
-      if (n === 1) {
-        state.role = "member"; state.tab = 0; render();
-        setTimeout(() => openAskFromSearch(), 40);
-        return;
-      }
-      if (n === 2) {
-        state.role = "member"; state.tab = 0; render();
-        setTimeout(() => openTrip(), 40);
-        return;
-      }
-      if (n === 3) {
-        state.role = "member"; state.tab = 1; render();
-        return;
-      }
-      if (n === 4) {
-        state.role = "member"; state.tab = 3; render();
-        setTimeout(() => openShare(), 40);
-        return;
-      }
-      if (n === 5) {
-        state.role = "merchant"; state.tab = 3; render();
-        setTimeout(() => openScan(), 40);
-        return;
-      }
-      state.role = state.role === "merchant" ? "member" : "merchant";
-      state.tab = 3;
+      const later = (fn) => { render(); setTimeout(fn, 40); };
+      if (f.act === "ask") { state.tab = 0; later(() => openAskFromSearch()); return; }
+      if (f.act === "trip") { state.tab = 0; later(() => openTrip()); return; }
+      if (f.act === "nearby") { state.tab = 1; render(); return; }
+      if (f.act === "share") { state.tab = 3; later(() => openShare()); return; }
+      if (f.act === "code") { state.tab = 2; later(() => openMemberCode()); return; }
+      if (f.act === "scan") { state.tab = 3; later(() => openScan()); return; }
+      if (f.act === "ledger") { state.tab = 3; later(() => openLedger()); return; }
+      if (f.act === "cash") { state.tab = 3; later(() => openCash()); return; }
+      state.tab = 0;
       render();
     };
     window.goCat = (e, name) => {
@@ -2347,6 +2343,7 @@
       if (!showAiFab()) $("aiWin").classList.remove("on");
       $("aiFab").innerHTML = `${ico("spark")}<span>问AI</span>`;
       $("aiFab").classList.toggle("on", showAiFab() && !$("aiWin").classList.contains("on"));
+      renderFeats();
     }
 
     $("styleChips").innerHTML = styles.map(s =>
@@ -2357,11 +2354,11 @@
       const chip = e.target.closest(".chip");
       if (chip) { state.theme = chip.dataset.id; state.filter = "全部"; closeSheet(); render(); }
       const role = e.target.closest(".role-chip");
-      if (role) { state.role = role.dataset.role; closeSheet(); render(); }
+      if (role) { state.role = role.dataset.role; closeSheet(); closeAskAi(); render(); }
     });
     $("phone").addEventListener("click", (e) => {
       const roleBtn = e.target.closest(".id-switch button");
-      if (roleBtn) { state.role = roleBtn.dataset.role; closeSheet(); render(); return; }
+      if (roleBtn) { state.role = roleBtn.dataset.role; closeSheet(); closeAskAi(); render(); return; }
       const tab = e.target.closest(".tab");
       if (tab) { state.tab = Number(tab.dataset.tab); closeSheet(); render(); }
     });
