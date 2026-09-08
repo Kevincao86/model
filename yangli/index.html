@@ -318,6 +318,46 @@
       z-index: 5;
     }
     .toast.show { opacity: 1; }
+    .sheet { position: absolute; inset: 0; z-index: 8; display: none; }
+    .sheet.on { display: block; }
+    .sheet-mask { position: absolute; inset: 0; background: rgba(12,10,8,.4); }
+    .sheet-card {
+      position: absolute; left: 0; right: 0; bottom: 0; max-height: 78%;
+      background: var(--bg); color: var(--text);
+      border-radius: 20px 20px 0 0; padding: 14px 16px 28px; overflow: auto;
+      box-shadow: 0 -12px 40px rgba(0,0,0,.18);
+    }
+    .sheet-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .sheet-hd b { font-size: 16px; }
+    .sheet-hd button {
+      border: 0; background: var(--surface); color: var(--muted);
+      height: 28px; padding: 0 12px; border-radius: 999px; cursor: pointer; font-size: 12px;
+    }
+    .habit { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 14px; }
+    .habit button {
+      border: 1px solid var(--line); background: var(--surface); color: var(--text);
+      height: 32px; padding: 0 12px; border-radius: 999px; cursor: pointer; font-size: 12px; font-weight: 650;
+    }
+    .habit button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .wx-mini {
+      background: var(--surface); border-radius: 12px; overflow: hidden; margin: 8px 0 14px;
+    }
+    .wx-mini .cover { height: 92px; background: #1B4332; color: #F6F2E9; padding: 14px 14px 10px; }
+    .wx-mini .cover span { font-size: 11px; letter-spacing: .16em; color: #B89A6F; }
+    .wx-mini .cover b { display: block; margin-top: 6px; font-size: 20px; }
+    .wx-mini .meta { padding: 10px 14px; font-size: 12px; color: var(--muted); }
+    .code-demo { text-align: center; padding: 8px 0 4px; }
+    .code-demo .qr {
+      width: 128px; height: 128px; margin: 10px auto; background:
+        repeating-linear-gradient(0deg, currentColor 0 8px, transparent 8px 16px),
+        repeating-linear-gradient(90deg, currentColor 0 8px, transparent 8px 16px);
+      background-color: var(--surface); color: var(--text); opacity: .85;
+    }
+    .think { font-size: 13px; color: var(--muted); padding: 20px 0; text-align: center; }
+    .sheet-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+    .sheet-actions .btn { width: 100%; height: 42px; }
+    .sheet-card .ledger { padding: 10px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; }
+    .sheet-card .plus { font-weight: 700; color: var(--accent); white-space: nowrap; }
     .loc-pill {
       display: inline-flex; align-items: center; gap: 4px;
       background: var(--accent); color: var(--on-accent);
@@ -345,13 +385,13 @@
     .phone[data-theme="jiangnan"] .cats { font-size: 10px; gap: 10px 2px; margin: 2px 0 14px; }
     .phone[data-theme="jiangnan"] .cats .ico { border-radius: 50%; width: 48px; height: 48px; }
     .phone[data-theme="jiangnan"] .thumb { border-radius: 10px; }
-    .phone[data-theme="jiangnan"] .hero { border-radius: 12px; height: 158px; }
+    .phone[data-theme="jiangnan"] .hero { border-radius: 12px; height: 158px; box-shadow: 0 10px 24px rgba(27,67,50,.12); }
     .phone[data-theme="jiangnan"] .grid8 .mark { background: transparent; color: #1B4332; }
     .phone[data-theme="jiangnan"] .tag { background: #1B4332; color: #fff; font-weight: 650; }
     .phone[data-theme="jiangnan"] .tag.gold { background: #C4A574; color: #1A140C; }
     .phone[data-theme="jiangnan"] .search {
       background: #fff; border-radius: 999px; height: 40px; padding: 3px 3px 3px 14px;
-      box-shadow: 0 1px 0 rgba(27,67,50,.04);
+      box-shadow: 0 8px 20px rgba(27,67,50,.06);
     }
     .phone[data-theme="jiangnan"] .search-go { background: #1B4332; color: #fff; border-radius: 999px; height: 32px; padding: 0 14px; }
     .phone[data-theme="jiangnan"] .filters { gap: 0; border-bottom: 1px solid #E6DCCB; margin: 0 -14px 8px; padding: 0 8px; }
@@ -372,7 +412,9 @@
     .phone[data-theme="jiangnan"] .map-fab svg { width: 18px; height: 18px; }
     .phone[data-theme="jiangnan"] .jn-promo {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      background: #EDE3D0; border-radius: 12px; padding: 14px 14px; margin: 4px 0 8px;
+      background: linear-gradient(135deg, #F3E6C8 0%, #EDE3D0 55%, #E8D9BE 100%);
+      border-radius: 12px; padding: 14px 14px; margin: 4px 0 8px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.55);
     }
     .phone[data-theme="jiangnan"] .jn-promo b { color: #1B4332; }
     .phone[data-theme="jiangnan"] .btn-round-gold {
@@ -740,7 +782,7 @@
     <aside class="panel">
       <div class="kicker">CASE 01</div>
       <h1>垟里GO</h1>
-      <p>墨典联盟 · 温州平阳本地生活。本页为墨典网络案例库交互演示，可切换五套风格与会员/商家身份，点击按钮仅作演示。</p>
+      <p>墨典联盟 · 温州平阳本地生活。可切换五套风格与会员/商家身份。分享有礼、扫码核销、分账提现、按习惯规划行程，都可在手机里点开演示。</p>
       <div class="meta-grid">
         <div>客户<b>墨典联盟</b></div>
         <div>地区<b>温州 · 平阳</b></div>
@@ -781,6 +823,13 @@
         </div>
         <div class="screen" id="screen"></div>
         <div class="tabbar" id="tabbar"></div>
+        <div class="sheet" id="sheet">
+          <div class="sheet-mask" onclick="closeSheet()"></div>
+          <div class="sheet-card">
+            <div class="sheet-hd"><b id="sheetTitle">演示</b><button type="button" onclick="closeSheet()">关闭</button></div>
+            <div id="sheetBody"></div>
+          </div>
+        </div>
         <div class="toast" id="toast">演示占位，一期接通后可用</div>
       </div>
     </div>
@@ -892,16 +941,64 @@
       { title: "南雁周末亲子券", shop: "南雁亲子谷", off: "30", cover: "park" },
     ];
     const queue = [
-      { title: "南雁亲子两日", user: "陈女士", remain: "2 次", cover: "park" },
-      { title: "南麂列岛成人票", user: "王先生", remain: "1 张", cover: "lake" },
-      { title: "昆阳美食三店通", user: "林先生", remain: "1 次", cover: "food" },
+      { id: "q1", title: "南雁亲子两日", user: "陈女士", remain: "2 次", cover: "park", fee: 80 },
+      { id: "q2", title: "南麂列岛成人票", user: "王先生", remain: "1 张", cover: "lake", fee: 36 },
+      { id: "q3", title: "昆阳美食三店通", user: "林先生", remain: "1 次", cover: "food", fee: 18 },
     ];
+    const HABITS = [
+      { id: "kid", name: "带小孩", hint: "少走路、亲子谷优先" },
+      { id: "tea", name: "爱喝茶", hint: "茶寮与非遗馆" },
+      { id: "night", name: "爱夜市", hint: "鳌江灯火收尾" },
+      { id: "sea", name: "想看海", hint: "南麂列岛一日" },
+      { id: "easy", name: "轻松少走", hint: "昆阳镇内三店" },
+    ];
+    const TRIPS = {
+      kid: [
+        ["sun","上午","南雁荡山","登高望远，孩子先跑一圈","park"],
+        ["fork","中午","昆阳茶寮","鱼丸黄汤，坐下歇脚","tea"],
+        ["cloud","下午","南雁亲子谷","小火车 + 溪谷，不赶路","park"],
+      ],
+      tea: [
+        ["sun","上午","南雁非遗馆","畲乡手作，慢慢看","book"],
+        ["fork","中午","昆阳茶寮","平阳黄汤，坐一下午","tea"],
+        ["cloud","傍晚","鳌江滨江","茶后续一杯，不赶场","lake"],
+      ],
+      night: [
+        ["sun","傍晚","鳌江滨江","先吹风，再进城","lake"],
+        ["fork","夜宵","鳌江夜市","灯盏糕、生蚝，烟火气","food"],
+        ["cloud","收尾","昆阳茶寮","夜市后一杯黄汤","tea"],
+      ],
+      sea: [
+        ["sun","上午","鳌江码头","赶早班船","lake"],
+        ["fork","午后","南麂列岛","岛际走走，别排太满","lake"],
+        ["cloud","回程","昆阳茶寮","下船后歇脚喝茶","tea"],
+      ],
+      easy: [
+        ["sun","上午","昆阳茶寮","先坐下来，不赶路","tea"],
+        ["fork","中午","昆阳影城","巨幕厅，走路就到","movie"],
+        ["cloud","下午","南雁非遗馆","文创转转就回","book"],
+      ],
+    };
+    const demoBiz = {
+      points: 2680,
+      cash: 420,
+      take: 3280,
+      verified: 17,
+      shared: 0,
+      habit: "kid",
+      planned: false,
+      queue: queue.map((q) => ({ ...q })),
+      ledger: [
+        { title: "到店核销 · 南雁亲子两日", sub: "陈女士 · 已入账", plus: "+¥80" },
+        { title: "跨店核销 · 南麂船票", sub: "王先生 · 已入账", plus: "+¥36" },
+      ],
+    };
     const styles = [
-      { id: "jiangnan", name: "江南生活", blurb: "已按风格 A 原图对齐：宣纸底、森绿搜索/底栏、十宫格分类、附近地图+下划线筛选、金会员卡与票券。" },
-      { id: "wechat", name: "微信本地", blurb: "已按风格 B 原图对齐：微信绿顶栏、十宫格分类、列表买单、四色卡包、我的资料卡。" },
-      { id: "family", name: "亲子周末", blurb: "已按风格 C 原图对齐：手写问候、家庭插画、上午/中午/下午时间轴、走路地图、四色印章底栏。" },
-      { id: "biz", name: "商务预订", blurb: "已按风格 D 原图对齐：海军蓝金描边、总览预订、门店大图、资产余额、账户列表。" },
-      { id: "night", name: "鳌江夜色", blurb: "已按风格 E 原图对齐：夜色金描边、夜市大图、八宫格、金会员卡、距离列表。" },
+      { id: "jiangnan", name: "江南生活", blurb: "会员页可点「分享有礼」；首页有「智能行程」。切到商家可演示扫码核销、分账入账、提现。" },
+      { id: "wechat", name: "微信本地", blurb: "我的页可分享卡片；切商家后，核销列表会把跨店提成记进分账。" },
+      { id: "family", name: "亲子周末", blurb: "「今天怎么玩」可按带娃、喝茶、夜市、看海习惯重新规划当日线路。" },
+      { id: "biz", name: "商务预订", blurb: "资产页可看分账明细；商家身份下核销与提现走同一套演示账本。" },
+      { id: "night", name: "鳌江夜色", blurb: "选「爱夜市」规划线路，会排鳌江夜市收尾、茶寮歇脚。" },
     ];
     const tabs = {
       jiangnan: ["首页", "附近", "会员", "我的"],
@@ -918,23 +1015,251 @@
       el.textContent = msg || "演示占位，一期接通后可用";
       el.classList.add("show");
       clearTimeout(toast._t);
-      toast._t = setTimeout(() => el.classList.remove("show"), 1600);
+      toast._t = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+    window.toast = toast;
+    function ev(e) { if (e) e.stopPropagation(); }
+    function openSheet(title, html) {
+      $("sheetTitle").textContent = title;
+      $("sheetBody").innerHTML = html;
+      $("sheet").classList.add("on");
+    }
+    function closeSheet() { $("sheet").classList.remove("on"); }
+    window.closeSheet = closeSheet;
+    function sheetBtns(items) {
+      return `<div class="sheet-actions">${items.map(b =>
+        `<button type="button" class="btn ${b[0]}" onclick="${b[2]}">${b[1]}</button>`
+      ).join("")}</div>`;
     }
     function demo(e) {
-      if (e) e.stopPropagation();
-      toast((e && e.currentTarget && e.currentTarget.dataset.msg) || "演示占位，一期接通后可用");
+      ev(e);
+      toast((e && e.currentTarget && e.currentTarget.dataset.msg) || "样板页已记录这一步，正式环境再接通支付");
     }
     window.demo = demo;
-    window.demoVr = (e) => { if (e) e.stopPropagation(); toast("VR 预览 · 二期接入全景拖转"); };
-    window.demoAi = (e) => { if (e) e.stopPropagation(); toast("智能能力已预埋，二期开启"); };
-    window.setFilter = (name) => { state.filter = name; render(); };
+    window.demoVr = (e) => { ev(e); toast("VR 预览 · 二期接入全景拖转"); };
+    window.demoAi = (e) => { ev(e); openTrip(e); };
+    window.setFilter = (name) => { state.filter = name; closeSheet(); render(); };
+
+    function tripSteps(habit) {
+      return TRIPS[habit] || TRIPS.kid;
+    }
+    function tripHtml(habit) {
+      return `<div class="route" style="margin-top:8px"><b>今日线路 · ${HABITS.find(h => h.id === habit).name}</b>${
+        tripSteps(habit).map(s => `<div class="step"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}" alt=""></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div></div></div>`).join("")
+      }</div>`;
+    }
+    window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); render(); };
+    window.goCat = (e, name) => {
+      ev(e);
+      if (name === "转盘") { openTrip(e); return; }
+      const map = {
+        "美食": "美食", "茶饮": "茶饮", "茶馆": "茶馆", "夜宵": "夜宵",
+        "休闲娱乐": "休闲娱乐", "生活服务": "生活服务", "亲子乐园": "亲子",
+        "亲子": "亲子", "电影": "电影", "影院": "影院", "酒店民宿": "全部",
+        "全部分类": "全部", "昆阳": "全部", "鳌江夜市": "美食",
+      };
+      state.filter = map[name] || "全部";
+      state.tab = 1;
+      closeSheet();
+      render();
+    };
+    window.openShare = (e) => {
+      ev(e);
+      openSheet("分享有礼", `
+        <div class="sub">发给微信好友或朋友圈。对方打开并注册进店后，你得积分，店得客。</div>
+        <div class="wx-mini">
+          <div class="cover"><span>垟里GO · 墨典联盟</span><b>昆阳茶寮 买单 9 折</b></div>
+          <div class="meta">已分享 ${demoBiz.shared} 次 · 积分 ${demoBiz.points}</div>
+        </div>
+        ${sheetBtns([
+          ["fill","发给微信好友","doShare('friend')"],
+          ["ghost","发到朋友圈","doShare('moments')"],
+        ])}
+      `);
+    };
+    window.doShare = (ch) => {
+      demoBiz.shared += 1;
+      demoBiz.points += 20;
+      closeSheet();
+      toast(ch === "moments"
+        ? "已发到朋友圈。好友打开注册后，积分入账"
+        : "已发给好友。对方注册进店后，你得积分，店得客");
+    };
+    window.openLedger = (e) => {
+      ev(e);
+      const rows = demoBiz.ledger.map(l =>
+        `<div class="ledger"><div>${l.title}<div class="sub">${l.sub}</div></div><div class="plus">${l.plus}</div></div>`
+      ).join("") || `<div class="think">暂无入账</div>`;
+      openSheet("分账明细", `
+        <div class="sub">到店核销记本店，跨店核销记提成。样板演示，不走真实收付通。</div>
+        ${rows}
+        ${sheetBtns([["fill",`可提现 ¥${demoBiz.cash}，去提现`,"openCash(event)"]])}
+      `);
+    };
+    window.openCash = (e) => {
+      ev(e);
+      openSheet("提现", `
+        <div style="text-align:center;padding:12px 0 8px">
+          <div class="sub">可提现余额</div>
+          <b style="font-size:32px;letter-spacing:.04em">¥${demoBiz.cash}</b>
+        </div>
+        ${sheetBtns([
+          ["fill","申请提现","doCash()"],
+          ["ghost","看分账明细","openLedger(event)"],
+        ])}
+        <div class="sub" style="text-align:center;margin-top:8px">样板演示，不走真实支付。</div>
+      `);
+    };
+    window.doCash = () => {
+      if (demoBiz.cash <= 0) { toast("暂无可提现金额"); return; }
+      const n = demoBiz.cash;
+      demoBiz.cash = 0;
+      demoBiz.ledger.unshift({ title: "提现申请", sub: "审核中", plus: "-¥" + n });
+      closeSheet();
+      render();
+      toast("提现申请已提交 · ¥" + n);
+    };
+    window.openPayCode = (e) => {
+      ev(e);
+      openSheet("店内收款码", `
+        <div class="code-demo">
+          <div class="qr"></div>
+          <b>昆阳茶寮</b>
+          <div class="sub">顾客扫码买单 · 样板演示</div>
+        </div>
+      `);
+    };
+    window.openScan = (e) => {
+      ev(e);
+      if (!demoBiz.queue.length) {
+        openSheet("扫码核销", `
+          <div class="think">待核销已清空。</div>
+          ${sheetBtns([["fill","重新放入三笔演示单","resetQueue()"]])}
+        `);
+        return;
+      }
+      const list = demoBiz.queue.map(q =>
+        `<div class="row"><div class="thumb"><img src="${img(q.cover)}" alt=""></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · 剩余 ${q.remain}</div><div class="ops"><button class="btn fill" onclick="confirmVerify(event,'${q.id}')">确认核销</button></div></div></div>`
+      ).join("");
+      openSheet("扫码核销", `<div class="sub">扫会员码，或直接点确认。核销后分账入账。</div>${list}`);
+    };
+    window.resetQueue = () => {
+      demoBiz.queue = queue.map((q) => ({ ...q }));
+      openScan();
+      render();
+    };
+    window.confirmVerify = (e, id) => {
+      ev(e);
+      const idx = demoBiz.queue.findIndex(q => q.id === id);
+      if (idx < 0) { toast("这张券已经核过了"); return; }
+      const item = demoBiz.queue.splice(idx, 1)[0];
+      demoBiz.verified += 1;
+      demoBiz.cash += item.fee;
+      demoBiz.take += item.fee;
+      demoBiz.ledger.unshift({
+        title: (item.id === "q2" ? "跨店核销 · " : "到店核销 · ") + item.title,
+        sub: item.user + " · 已入账",
+        plus: "+¥" + item.fee,
+      });
+      closeSheet();
+      render();
+      toast("已核销，分账已入账 +¥" + item.fee);
+    };
+    window.openTrip = (e) => {
+      ev(e);
+      const chips = HABITS.map(h =>
+        `<button type="button" class="${demoBiz.habit===h.id?"on":""}" onclick="setHabit('${h.id}')">${h.name}</button>`
+      ).join("");
+      const hint = HABITS.find(h => h.id === demoBiz.habit).hint;
+      openSheet("智能行程", `
+        <div class="sub">根据你常去的店和带娃习惯，规划当日平阳线路。样板演示，不调大模型。</div>
+        <div class="habit">${chips}</div>
+        <div class="sub">${hint}</div>
+        ${sheetBtns([["fill","按这个习惯规划","planTrip()"]])}
+        <div id="tripResult">${demoBiz.planned ? tripHtml(demoBiz.habit) : ""}</div>
+      `);
+    };
+    window.setHabit = (id) => { demoBiz.habit = id; demoBiz.planned = false; openTrip(); };
+    window.planTrip = () => {
+      const el = document.getElementById("tripResult");
+      if (el) el.innerHTML = `<div class="think">正在根据你的习惯规划…</div>`;
+      setTimeout(() => {
+        demoBiz.planned = true;
+        const box = document.getElementById("tripResult");
+        if (box) {
+          box.innerHTML = tripHtml(demoBiz.habit) + sheetBtns([["fill","用到「今天怎么玩」","useTrip()"]]);
+        }
+      }, 720);
+    };
+    window.useTrip = () => {
+      demoBiz.planned = true;
+      closeSheet();
+      state.theme = "family";
+      state.role = "member";
+      state.tab = 0;
+      render();
+      toast("已按你的习惯排好今天的线路");
+    };
+    window.openPoints = (e) => {
+      ev(e);
+      openSheet("我的积分", `
+        <div style="text-align:center;padding:8px 0 12px"><b style="font-size:28px">${demoBiz.points}</b><div class="sub">可用积分</div></div>
+        <div class="ledger"><div>分享有礼<div class="sub">好友打开注册</div></div><div class="plus">+20 / 次</div></div>
+        <div class="ledger"><div>到店消费<div class="sub">昆阳茶寮</div></div><div class="plus">+80</div></div>
+      `);
+    };
+    window.openCoupons = (e) => {
+      ev(e);
+      openSheet("我的卡券", coupons.map(c =>
+        `<div class="row"><div class="thumb"><img src="${img(c.cover)}" alt=""></div><div class="meta"><b>${c.title}</b><div class="sub">${c.shop} · 满减 ${c.off}</div></div></div>`
+      ).join(""));
+    };
+    window.openFav = (e) => { ev(e); openSheet("我的收藏", byIds(["1","4","5"]).map(s => `<div class="row"><div class="thumb"><img src="${img(s.cover)}" alt=""></div><div class="meta"><b>${s.name}</b><div class="sub">${s.area}</div></div></div>`).join("")); };
+    window.openHelp = (e) => { ev(e); toast("已复制品牌联系方式"); };
+    window.openSettings = (e) => { ev(e); toast("通知已开启 · 样板演示"); };
+    window.openApply = (e) => { ev(e); toast("入驻资料已打开 · 样板演示"); };
+    window.claimPack = (e) => { ev(e); toast("三店通已放入卡包"); };
+    window.openMemberCode = (e) => {
+      ev(e);
+      openSheet("会员码", `
+        <div class="code-demo">
+          <div class="qr"></div>
+          <b>${state.role === "merchant" ? "昆阳茶寮收款" : "墨小典"}</b>
+          <div class="sub">${state.role === "merchant" ? "顾客扫码买单" : "到店出示，商家扫码核销"}</div>
+        </div>
+      `);
+    };
+    function orderAct(label) {
+      if (["待核", "已核"].includes(label)) return "openScan(event)";
+      if (label === "提现") return "openCash(event)";
+      if (["待用", "待使用"].includes(label)) return "openCoupons(event)";
+      if (label === "积分兑换") return "openPoints(event)";
+      return "demo(event)";
+    }
+    function cellAct(label) {
+      const map = {
+        "分享有礼": "openShare(event)", "分享": "openShare(event)",
+        "分账": "openLedger(event)", "提现": "openCash(event)", "核销": "openScan(event)",
+        "我的积分": "openPoints(event)", "积分": "openPoints(event)",
+        "我的卡券": "openCoupons(event)", "卡券": "openCoupons(event)",
+        "我的收藏": "openFav(event)", "收藏": "openFav(event)",
+        "我的足迹": "openTrip(event)", "足迹": "openTrip(event)",
+        "商家入驻": "openApply(event)", "入驻": "openApply(event)",
+        "分账与提现": "openLedger(event)", "跨店贡献": "openLedger(event)",
+        "入驻资料": "openApply(event)", "上架券 / 套餐": "demo(event)",
+        "优惠券": "openCoupons(event)", "我的订单": "demo(event)",
+        "帮助与客服": "openHelp(event)", "帮助": "openHelp(event)",
+        "设置": "openSettings(event)", "店照": "demo(event)", "上架": "demo(event)",
+      };
+      return map[label] || "demo(event)";
+    }
     function img(cover) { return IMG[cover] || IMG.tea; }
     function byIds(ids) { return ids.map(id => shops.find(s => s.id === id)).filter(Boolean); }
     function payLabel() { return state.role === "merchant" ? "查看" : (state.theme === "biz" ? "预订" : "买单"); }
 
     function cats(items, cls) {
       return `<div class="cats ${cls || ""}">${items.map(c =>
-        `<div onclick="demo(event)"><div class="ico" style="background:${c[2]}">${ico(c[1])}</div><div>${c[0]}</div></div>`
+        `<div onclick="goCat(event,'${c[0]}')"><div class="ico" style="background:${c[2]}">${ico(c[1])}</div><div>${c[0]}</div></div>`
       ).join("")}</div>`;
     }
 
@@ -997,7 +1322,7 @@
             <g transform="translate(300 48) scale(.42) translate(-12 -12)" fill="none" stroke="#fff" stroke-width="2">${P.pin}</g>
           </g>
         </svg>
-        <button class="map-fab" onclick="demo(event)">${ico("locate")}</button>
+        <button class="map-fab" onclick="toast('已定位 · 平阳昆阳')">${ico("locate")}</button>
       </div>`;
     }
     function famMap() {
@@ -1019,7 +1344,7 @@
     function homeJiangnan() {
       return `
         <div class="search" onclick="demo(event)">${ico("search")}搜索商家、商品或服务<button class="btn fill search-go" onclick="demo(event)">搜索</button></div>
-        <div class="hero" onclick="demo(event)">
+        <div class="hero" onclick="goTab(event,1)">
           <img src="${img("lake")}" alt="">
           <div class="hero-cap"><span>碧海蓝天 · 渔村风情</span><b>南麂列岛</b></div>
         </div>
@@ -1027,15 +1352,19 @@
           ["美食","food","#C45C3A"],["茶饮","tea","#2F5D4A"],["休闲娱乐","masks","#8B7355"],["丽人美发","scissors","#A65B4B"],["酒店民宿","hotel","#C4A574"],
           ["亲子乐园","horse","#C4A15A"],["生活服务","wrench","#C45C3A"],["超市便利","cart","#1B4332"],["学习培训","cap","#6B5344"],["全部分类","grid","#4A3C32"],
         ])}
-        <div class="sec">平阳优选 <span onclick="demo(event)">更多 &gt;</span></div>
+        <div class="sec">平阳优选 <span onclick="goTab(event,1)">更多 &gt;</span></div>
         <div class="vrow">
           ${[["昆阳茶寮","tea","茶香雅静"],["鳌江夜市","food","灯火人间"],["南麂列岛","lake","碧海蓝天"]].map(x =>
-            `<div class="vcard" onclick="demo(event)"><div class="pic"><img src="${img(x[1])}"></div><b>${x[0]}</b><div class="desc">${x[2]}</div><span class="tag">优惠</span></div>`
+            `<div class="vcard" onclick="goTab(event,1)"><div class="pic"><img src="${img(x[1])}"></div><b>${x[0]}</b><div class="desc">${x[2]}</div><span class="tag">优惠</span></div>`
           ).join("")}
         </div>
-        <div class="jn-promo" onclick="demo(event)">
+        <div class="jn-promo" onclick="claimPack(event)">
           <div><b>昆阳美食三店通</b><div class="sub">三店通用 · 立减 30%</div></div>
-          <button class="btn-round-gold" onclick="demo(event)">立即<br>领取</button>
+          <button class="btn-round-gold" onclick="claimPack(event)">立即<br>领取</button>
+        </div>
+        <div class="jn-promo" onclick="openTrip(event)">
+          <div><b>智能行程</b><div class="sub">喝茶、溜娃、夜市、看海，按习惯排当日线路</div></div>
+          <button class="btn-round-gold" onclick="openTrip(event)">去<br>规划</button>
         </div>
         ${peopleStrip("jiangnan", "最近茶客")}
         ${reviewList("jiangnan")}
@@ -1068,7 +1397,7 @@
             ["套餐","bowl","#8FCB7A"],["茶馆","tea","#1B7A4A"],["非遗","wheel","#E98B2C"],["南麂","boat","#3D8BDB"],["转盘","wheel","#D94C43"],
           ])}
         </div>
-        <div class="sec">附近商家 <span onclick="demo(event)">更多 &gt;</span></div>
+        <div class="sec">附近商家 <span onclick="goTab(event,1)">更多 &gt;</span></div>
         ${wcShop(shops[0])}
         <div class="wc-pad" style="margin-top:10px">
           ${peopleStrip("wechat", "附近的人")}
@@ -1102,19 +1431,18 @@
 
     function homeFamily() {
       return `
-        <div class="loc-pill" onclick="demo(event)">${ico("pin")}温州平阳</div>
+        <div class="loc-pill" onclick="toast('已定位 · 温州平阳')">${ico("pin")}温州平阳</div>
         ${famIllus()}
-        <div class="fam-user" onclick="demo(event)">
+        <div class="fam-user" onclick="openTrip(event)">
           <img src="${img("u-kid")}" alt="">
-          <div><b>平阳小朋友</b><div class="sub">记录平阳亲子周末的点滴时光</div></div>
+          <div><b>平阳小朋友</b><div class="sub">按带娃习惯规划今天怎么玩</div></div>
         </div>
         <div class="route">
-          <b>今天怎么玩</b>
-          ${[
-            ["sun","上午","南雁荡山","登高望远 亲近自然","park"],
-            ["fork","中午","昆阳茶寮","特色小吃 茶香四溢","tea"],
-            ["cloud","下午","南雁亲子谷","亲子乐园 快乐撒欢","park"],
-          ].map(s => `<div class="step" onclick="demo(event)"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}"></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div></div></div>`).join("")}
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+            <b>今天怎么玩</b>
+            <span class="sub" style="cursor:pointer;font-weight:700;color:var(--accent)" onclick="openTrip(event)">按习惯规划</span>
+          </div>
+          ${tripSteps(demoBiz.habit).map(s => `<div class="step" onclick="openTrip(event)"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}"></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div></div></div>`).join("")}
         </div>
         <div class="fam-walk">
           <div class="fam-walk-h">${ico("pin")}走路就能到${ico("foot")}</div>
@@ -1163,7 +1491,7 @@
           ["昆阳","pin","transparent"],["鳌江夜市","moon","transparent"],["昆阳茶寮","tea","transparent"],["南麂列岛","wave","transparent"],
           ["南雁荡山","spark","transparent"],["南雁亲子谷","balloon","transparent"],["昆阳影城","film","transparent"],["转盘","wheel","transparent"],
         ], "cols4")}
-        <div class="sec">推荐商家 <span onclick="demo(event)">更多 &gt;</span></div>
+        <div class="sec">推荐商家 <span onclick="goTab(event,1)">更多 &gt;</span></div>
         <div class="nt-shop" onclick="demo(event)">
           <div class="thumb"><img src="${img("tea")}" alt=""></div>
           <div class="meta">
@@ -1184,18 +1512,20 @@
     function homeMerchant() {
       return `
         <div class="stats">
-          <div class="stat"><b>¥3280</b><span>今日收款</span></div>
-          <div class="stat"><b>17</b><span>到店核销</span></div>
-          <div class="stat"><b>¥420</b><span>跨店提成</span></div>
+          <div class="stat"><b>¥${demoBiz.take}</b><span>今日收款</span></div>
+          <div class="stat" onclick="openScan(event)"><b>${demoBiz.verified}</b><span>到店核销</span></div>
+          <div class="stat" onclick="openLedger(event)"><b>¥${demoBiz.cash}</b><span>跨店提成</span></div>
         </div>
         <div class="quick">
-          <div onclick="demo(event)">${ico("scan")}扫码核销</div>
-          <div onclick="demo(event)">${ico("qr")}店内收款码</div>
+          <div onclick="openScan(event)">${ico("scan")}扫码核销</div>
+          <div onclick="openPayCode(event)">${ico("qr")}店内收款码</div>
           <div onclick="demo(event)">${ico("cam")}上架店照</div>
-          <div onclick="demo(event)">${ico("cash")}提现查询</div>
+          <div onclick="openCash(event)">${ico("cash")}提现查询</div>
         </div>
         <div class="sec">待核销</div>
-        ${queue.map(q => `<div class="row" onclick="demo(event)"><div class="thumb"><img src="${img(q.cover)}"></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · 剩余 ${q.remain}</div><div class="ops"><button class="btn fill" onclick="demo(event)">确认核销</button></div></div></div>`).join("")}
+        ${demoBiz.queue.length
+          ? demoBiz.queue.map(q => `<div class="row"><div class="thumb"><img src="${img(q.cover)}"></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · 剩余 ${q.remain}</div><div class="ops"><button class="btn fill" onclick="confirmVerify(event,'${q.id}')">确认核销</button></div></div></div>`).join("")
+          : `<div class="think" onclick="resetQueue()">待核销已清空 · 点这里重新演示</div>`}
       `;
     }
 
@@ -1238,7 +1568,7 @@
             ["南雁荡山","登高望远 亲近自然","park"],
             ["昆阳茶寮","特色小吃 茶香四溢","tea"],
             ["南雁亲子谷","亲子乐园 快乐撒欢","park"],
-          ].map(x => `<div class="row" onclick="demo(event)"><div class="thumb"><img src="${img(x[2])}"></div><div class="meta"><b>${x[0]}</b><div class="sub">${x[1]}</div></div></div>`).join("")}
+          ].map(x => `<div class="row" onclick="openTrip(event)"><div class="thumb"><img src="${img(x[2])}"></div><div class="meta"><b>${x[0]}</b><div class="sub">${x[1]}</div></div></div>`).join("")}
           <div class="fam-walk">${famMap()}<div class="fam-note"><span class="foot">${ico("foot")}</span><div>三个地方相距不远 走路就能到 溜娃轻松不累~</div></div></div>
         `;
       }
@@ -1289,7 +1619,7 @@
           ["#C4A574","tagico","通用优惠券","墨典联盟","5张","", "tan"],
         ];
         return `
-          ${cards.map(c => `<div class="wc-card ${c[6]}" style="background:${c[0]}" onclick="demo(event)">
+          ${cards.map(c => `<div class="wc-card ${c[6]}" style="background:${c[0]}" onclick="openCoupons(event)">
             <div class="ico">${ico(c[1])}</div>
             <div><b>${c[2]}</b><div class="sub">${c[3]}</div></div>
             <div class="val">${c[4]}${c[5] ? `<div>${c[5]}</div>` : ""}</div>
@@ -1305,7 +1635,7 @@
             <div class="n">12,890.00</div>
           </div>
           <div class="grid8">
-            ${[["我的订单","pay"],["优惠券","ticket"],["发票抬头","scroll"],["常用信息","user"]].map(x => `<div class="cell" onclick="demo(event)"><div class="mark">${ico(x[1])}</div><span>${x[0]}</span></div>`).join("")}
+            ${[["我的订单","pay"],["优惠券","ticket"],["发票抬头","scroll"],["常用信息","user"]].map(x => `<div class="cell" onclick="${x[0]==="优惠券"?"openCoupons(event)":"demo(event)"}"><div class="mark">${ico(x[1])}</div><span>${x[0]}</span></div>`).join("")}
           </div>
           <div class="sec">资产明细 <span onclick="demo(event)">更多明细 &gt;</span></div>
           <div class="ledger" onclick="demo(event)"><div>充值<div class="sub">2026-08-28 14:20</div></div><div class="plus">+2,000.00</div></div>
@@ -1322,9 +1652,9 @@
             <button class="btn fill" onclick="demo(event)">立即开通</button>
           </div>
           <div class="grid8">
-            ${[["会员权益","shield"],["专属折扣","star"],["积分兑换","gift"],["生日礼遇","cake"]].map(x => `<div class="cell" onclick="demo(event)"><div class="mark">${ico(x[1])}</div><span>${x[0]}</span></div>`).join("")}
+            ${[["会员权益","shield"],["专属折扣","star"],["积分兑换","gift"],["生日礼遇","cake"]].map(x => `<div class="cell" onclick="${x[0]==="积分兑换"?"openPoints(event)":"demo(event)"}"><div class="mark">${ico(x[1])}</div><span>${x[0]}</span></div>`).join("")}
           </div>
-          <div class="sec">会员专享商家 <span onclick="demo(event)">更多 &gt;</span></div>
+          <div class="sec">会员专享商家 <span onclick="goTab(event,1)">更多 &gt;</span></div>
           ${shops.filter(s => ["1","4"].includes(s.id)).map(s => `<div class="nt-near" onclick="demo(event)">
             <div class="thumb"><img src="${img(s.cover)}" alt=""></div>
             <div class="meta"><b>${s.name}</b><div class="sub">${s.tagNt}</div><div class="nt-off">会员折扣 9 折</div></div>
@@ -1340,7 +1670,7 @@
           ["#8FB7E7","gift","生日礼","待领取"],
         ];
         return `
-          ${cards.map(c => `<div class="fam-pass" style="background:${c[0]}" onclick="demo(event)"><div class="mark">${ico(c[1])}</div><div><b>${c[2]}</b><div class="sub">${c[3]}</div></div></div>`).join("")}
+          ${cards.map(c => `<div class="fam-pass" style="background:${c[0]}" onclick="${c[2]==="星星积分"?"openPoints(event)":"openCoupons(event)"}"><div class="mark">${ico(c[1])}</div><div><b>${c[2]}</b><div class="sub">${c[3]}</div></div></div>`).join("")}
         `;
       }
       return `
@@ -1353,19 +1683,19 @@
         </div>
         <div class="sec">会员权益</div>
         <div class="grid8" style="grid-template-columns:repeat(4,1fr)">
-          ${[["专属优惠","spark"],["积分兑换","coin"],["生日礼遇","cake"],["会员日活动","cal"]].map(x => `<div class="cell" onclick="demo(event)"><div class="mark">${ico(x[1])}</div><span>${x[0]}</span></div>`).join("")}
+          ${[["专属优惠","spark"],["积分兑换","coin"],["生日礼遇","cake"],["会员日活动","cal"]].map(x => `<div class="cell" onclick="${x[0]==="积分兑换"?"openPoints(event)":x[0]==="专属优惠"?"openCoupons(event)":"demo(event)"}"><div class="mark">${ico(x[1])}</div><span>${x[0]}</span></div>`).join("")}
         </div>
         <div class="sec">会员专享券</div>
-        <div class="jn-ticket" onclick="demo(event)">
+        <div class="jn-ticket" onclick="openCoupons(event)">
           <div class="jn-ticket-val"><b>¥30</b><span>满减券</span></div>
           <div class="jn-ticket-dash"></div>
           <div class="jn-ticket-body">
             <b>昆阳美食三店通</b>
             <div class="sub">有效期至 2026.12.31</div>
-            <button class="btn fill" onclick="demo(event)">立即使用</button>
+            <button class="btn fill" onclick="openMemberCode(event)">立即使用</button>
           </div>
         </div>
-        <div class="sec">推荐商家 <span onclick="demo(event)">更多 &gt;</span></div>
+        <div class="sec">推荐商家 <span onclick="goTab(event,1)">更多 &gt;</span></div>
         <div class="vrow vrow4">
           ${shops.slice(0,4).map(s => `<div class="vcard" onclick="demo(event)"><div class="pic"><img src="${img(s.cover)}"></div><b>${s.name}</b><div class="desc">${s.offer}</div></div>`).join("")}
         </div>
@@ -1375,11 +1705,13 @@
     function memberMerchant() {
       return `
         <div class="stats">
-          <div class="stat"><b>3</b><span>待核销</span></div>
-          <div class="stat"><b>26</b><span>本周已核</span></div>
-          <div class="stat"><b>¥860</b><span>待兑积分</span></div>
+          <div class="stat" onclick="openScan(event)"><b>${demoBiz.queue.length}</b><span>待核销</span></div>
+          <div class="stat"><b>${demoBiz.verified}</b><span>本周已核</span></div>
+          <div class="stat" onclick="openLedger(event)"><b>¥${demoBiz.cash}</b><span>待兑积分</span></div>
         </div>
-        ${queue.map(q => `<div class="row" onclick="demo(event)"><div class="thumb"><img src="${img(q.cover)}"></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · ${q.remain}</div><div class="ops"><button class="btn fill" onclick="demo(event)">核销</button></div></div></div>`).join("")}
+        ${demoBiz.queue.length
+          ? demoBiz.queue.map(q => `<div class="row"><div class="thumb"><img src="${img(q.cover)}"></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · ${q.remain}</div><div class="ops"><button class="btn fill" onclick="confirmVerify(event,'${q.id}')">核销</button></div></div></div>`).join("")
+          : `<div class="think" onclick="resetQueue()">待核销已清空 · 点这里重新演示</div>`}
       `;
     }
 
@@ -1423,10 +1755,10 @@
           <div class="wc-block">
             <div class="sec" style="padding:0;margin:0 0 8px">我的订单 <span onclick="demo(event)">全部订单 &gt;</span></div>
             <div class="orders">
-              ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="demo(event)">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
+              ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
             </div>
           </div>
-          ${[["star","我的收藏"],["chat","我的评价"],["pin","常用地址"],["headset","客服与帮助"],["gear","设置"]].map(m => menuRow(m[0], m[1], "")).join("")}
+          ${[["star","我的收藏","openFav(event)"],["chat","我的评价","demo(event)"],["pin","常用地址","demo(event)"],["headset","客服与帮助","openHelp(event)"],["share","分享有礼","openShare(event)"],["spark","智能行程","openTrip(event)"],["gear","设置","openSettings(event)"]].map(m => menuRow(m[0], m[1], "", m[2])).join("")}
           <div class="wc-block">${peopleStrip("wechat", "关注的人")}</div>
         `;
       }
@@ -1452,9 +1784,9 @@
           </div>
           <div class="sec">我的订单 <span onclick="demo(event)">全部 &gt;</span></div>
           <div class="orders">
-            ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="demo(event)">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
+            ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
           </div>
-          ${[["heart","我的收藏",""],["coin","我的积分","2560"],["card","会员卡包",""],["pin","地址管理",""],["gear","设置",""],["headset","联系客服",""]].map(m => menuRow(m[0], m[1], m[2])).join("")}
+          ${[["heart","我的收藏","","openFav(event)"],["coin","我的积分", String(demoBiz.points),"openPoints(event)"],["card","会员卡包","","openCoupons(event)"],["share","分享有礼","","openShare(event)"],["spark","智能行程","","openTrip(event)"],["pin","地址管理","","demo(event)"],["gear","设置","","openSettings(event)"],["headset","联系客服","","openHelp(event)"]].map(m => menuRow(m[0], m[1], m[2], m[3])).join("")}
           ${peopleStrip("night", "认识的茶客")}
         `;
       }
@@ -1466,9 +1798,9 @@
           </div>
           <div class="sec">我的足迹</div>
           <div class="orders">
-            ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款","refund"]].map(o => `<div onclick="demo(event)">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
+            ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
           </div>
-          ${[["star","我的收藏"],["pin","常用地址"],["headset","客服与帮助"],["gear","设置"]].map(m => menuRow(m[0], m[1], "")).join("")}
+          ${[["star","我的收藏","openFav(event)"],["pin","常用地址","demo(event)"],["share","分享有礼","openShare(event)"],["spark","智能行程","openTrip(event)"],["headset","客服与帮助","openHelp(event)"],["gear","设置","openSettings(event)"]].map(m => menuRow(m[0], m[1], "", m[2])).join("")}
           ${peopleStrip("family", "玩伴")}
         `;
       }
@@ -1476,8 +1808,8 @@
         return `
           ${profile}
           <div class="sec">${merchant ? "店铺事务" : "我的订单"}</div>
-          <div class="orders">${orders.map(o => `<div onclick="demo(event)">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}</div>
-          ${list.map(m => menuRow(m[0], m[1], m[2])).join("")}
+          <div class="orders">${orders.map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}</div>
+          ${list.map(m => menuRow(m[0], m[1], m[2], cellAct(m[1]))).join("")}
         `;
       }
 
@@ -1496,12 +1828,12 @@
           <div style="padding:0 14px">
             <div class="sec">我的订单 <span onclick="demo(event)">全部订单 &gt;</span></div>
             <div class="orders">
-              ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="demo(event)">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
+              ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
             </div>
             <div class="sec">我的服务</div>
             <div class="grid8">
               ${[["我的收藏","heart"],["我的足迹","foot"],["我的积分","coin"],["我的卡券","ticket"],["商家入驻","hotel"],["分享有礼","share"],["帮助与客服","help"],["设置","gear"]].map(g =>
-                `<div class="cell" onclick="demo(event)"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`
+                `<div class="cell" onclick="${cellAct(g[0])}"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`
               ).join("")}
             </div>
             <div class="banner" onclick="demo(event)">
@@ -1515,10 +1847,11 @@
       return `
         ${profile}
         <div class="sec">${merchant ? "店铺事务" : "我的订单"}</div>
-        <div class="orders">${orders.map(o => `<div onclick="demo(event)">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}</div>
+        <div class="orders">${orders.map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}</div>
         <div class="sec">${merchant ? "商家服务" : "常用功能"}</div>
-        <div class="grid8">${grid.map(g => `<div class="cell" onclick="demo(event)"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`).join("")}</div>
-        ${menuRow("spark", "AI 能力开关", "二期开启", "demoAi(event)")}
+        <div class="grid8">${grid.map(g => `<div class="cell" onclick="${cellAct(g[0])}"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`).join("")}</div>
+        ${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}
+        ${menuRow("share", merchant ? "转发本店" : "分享有礼", merchant ? "拉新" : "积分", "openShare(event)")}
         ${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}
       `;
     }
@@ -1587,9 +1920,14 @@
       }
       let tools = "";
       if (state.theme === "jiangnan") {
-        if (state.tab === 0) tools = `<button onclick="demo(event)">${ico("scan")}</button><button onclick="demo(event)">${ico("chat")}</button>`;
-        if (state.tab === 2 && state.role === "member") tools = `<button onclick="demo(event)">${ico("ticket")}</button><button onclick="demo(event)">${ico("pay")}</button>`;
-        if (state.tab === 3) tools = `<button onclick="demo(event)">${ico("gear")}</button><button onclick="demo(event)">${ico("chat")}</button>`;
+        if (state.tab === 0) tools = state.role === "merchant"
+          ? `<button onclick="openScan(event)">${ico("scan")}</button><button onclick="openPayCode(event)">${ico("qr")}</button>`
+          : `<button onclick="openTrip(event)">${ico("spark")}</button><button onclick="openShare(event)">${ico("share")}</button>`;
+        if (state.tab === 2 && state.role === "member") tools = `<button onclick="openCoupons(event)">${ico("ticket")}</button><button onclick="openMemberCode(event)">${ico("pay")}</button>`;
+        if (state.tab === 2 && state.role === "merchant") tools = `<button onclick="openScan(event)">${ico("scan")}</button><button onclick="openLedger(event)">${ico("coin")}</button>`;
+        if (state.tab === 3) tools = state.role === "merchant"
+          ? `<button onclick="openCash(event)">${ico("cash")}</button><button onclick="openLedger(event)">${ico("coin")}</button>`
+          : `<button onclick="openSettings(event)">${ico("gear")}</button><button onclick="openShare(event)">${ico("share")}</button>`;
       }
       if (state.theme === "biz") tools = `<button onclick="demo(event)">${ico("bell")}</button>`;
       if (state.theme === "night" && state.tab === 0) tools = `<div class="nt-search" onclick="demo(event)">${ico("search")}搜索</div>`;
@@ -1612,15 +1950,15 @@
 
     document.querySelector(".panel").addEventListener("click", (e) => {
       const chip = e.target.closest(".chip");
-      if (chip) { state.theme = chip.dataset.id; state.filter = "全部"; render(); }
+      if (chip) { state.theme = chip.dataset.id; state.filter = "全部"; closeSheet(); render(); }
       const role = e.target.closest(".role-chip");
-      if (role) { state.role = role.dataset.role; render(); }
+      if (role) { state.role = role.dataset.role; closeSheet(); render(); }
     });
     $("phone").addEventListener("click", (e) => {
       const roleBtn = e.target.closest(".id-switch button");
-      if (roleBtn) { state.role = roleBtn.dataset.role; render(); return; }
+      if (roleBtn) { state.role = roleBtn.dataset.role; closeSheet(); render(); return; }
       const tab = e.target.closest(".tab");
-      if (tab) { state.tab = Number(tab.dataset.tab); render(); }
+      if (tab) { state.tab = Number(tab.dataset.tab); closeSheet(); render(); }
     });
 
     const params = new URLSearchParams(location.search);
