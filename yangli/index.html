@@ -25,11 +25,12 @@
     .site-bar span { font-size: 11px; color: #C9BBA8; }
     .stage {
       display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 36px;
-      max-width: 1120px;
+      grid-template-columns: 280px minmax(var(--phone-w), 1fr) minmax(240px, 300px);
+      gap: 32px;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 28px 24px 56px;
+      align-items: start;
     }
     .kicker { font-size: 11px; letter-spacing: .22em; color: #E0C089; }
     .panel h1 { font-size: 28px; letter-spacing: .08em; font-weight: 600; margin-top: 8px; }
@@ -56,6 +57,24 @@
     }
 
     .phone-wrap { display: flex; justify-content: center; }
+    .features { padding-top: 4px; }
+    .features .kicker { margin-bottom: 8px; }
+    .feat-tip { font-size: 12px; color: #B0A494; margin: 0 0 10px; }
+    .feat {
+      display: grid; grid-template-columns: 32px 1fr; gap: 10px;
+      width: 100%; text-align: left;
+      padding: 14px 0; border: 0; border-bottom: 1px solid rgba(244,237,227,.1);
+      background: transparent; color: inherit; font: inherit;
+      cursor: pointer;
+    }
+    .feat:last-child { border-bottom: 0; }
+    .feat-n {
+      font-size: 12px; letter-spacing: .14em; color: #E0C089;
+      font-weight: 700; padding-top: 3px;
+    }
+    .feat b { display: block; font-size: 15px; font-weight: 600; color: #F4EDE3; letter-spacing: .04em; }
+    .feat span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.65; color: #C9BBA8; }
+    .feat:hover b { color: #E0C089; }
     .phone {
       width: var(--phone-w);
       height: var(--phone-h);
@@ -842,6 +861,10 @@
     .phone[data-theme="biz"] .tab.on { color: #C5A073; }
     .phone[data-theme="wechat"] .id-switch button { min-width: 40px; }
 
+    @media (max-width: 1100px) {
+      .stage { grid-template-columns: 280px 1fr; }
+      .features { grid-column: 1 / -1; max-width: 640px; }
+    }
     @media (max-width: 860px) {
       .stage { grid-template-columns: 1fr; }
       .phone-wrap { transform: scale(.92); transform-origin: top center; }
@@ -922,6 +945,35 @@
         <div class="toast" id="toast">演示占位，一期接通后可用</div>
       </div>
     </div>
+
+    <aside class="features">
+      <div class="kicker">特色功能</div>
+      <p class="feat-tip">点一条，中间手机跟着走</p>
+      <button type="button" class="feat" onclick="showFeat(1)">
+        <div class="feat-n">01</div>
+        <div><b>问 AI · 平阳助手</b><span>首页、附近可问吃什么、带娃、看海。记住你的习惯，能接「那晚上呢」「近一点」。</span></div>
+      </button>
+      <button type="button" class="feat" onclick="showFeat(2)">
+        <div class="feat-n">02</div>
+        <div><b>智能行程</b><span>按喝茶、溜娃、夜市、看海排当日三条，每段写清为什么。只在会员侧。</span></div>
+      </button>
+      <button type="button" class="feat" onclick="showFeat(3)">
+        <div class="feat-n">03</div>
+        <div><b>附近按习惯推荐</b><span>对照足迹重排门店，匹配的店打 AI 标。点「AI 为你挑」可追问。</span></div>
+      </button>
+      <button type="button" class="feat" onclick="showFeat(4)">
+        <div class="feat-n">04</div>
+        <div><b>分享有礼</b><span>发给微信好友或朋友圈。对方打开注册进店后，会员得积分，店得客。</span></div>
+      </button>
+      <button type="button" class="feat" onclick="showFeat(5)">
+        <div class="feat-n">05</div>
+        <div><b>扫码核销 · 分账提现</b><span>商家确认核销即入账。跨店记提成，本店记收款，可申请提现。</span></div>
+      </button>
+      <button type="button" class="feat" onclick="showFeat(6)">
+        <div class="feat-n">06</div>
+        <div><b>会员 / 商家双身份</b><span>同一套界面切换。五套风格可换：江南、微信、亲子、商务、夜色。</span></div>
+      </button>
+    </aside>
   </div>
 
   <script>
@@ -1335,7 +1387,38 @@
         tripSteps(habit).map(s => `<div class="step"><div class="time-ico">${ico(s[0])}</div><div class="step-pic"><img src="${img(s[4])}" alt=""></div><div><div class="sub">${s[1]}</div><b>${s[2]}</b><div class="sub">${s[3]}</div>${s[5] ? `<div class="sub">推荐理由 · ${s[5]}</div>` : ""}</div></div>`).join("")
       }</div>`;
     }
-    window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); render(); };
+    window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); closeAskAi(); render(); };
+    window.showFeat = (n) => {
+      closeSheet();
+      closeAskAi();
+      if (n === 1) {
+        state.role = "member"; state.tab = 0; render();
+        setTimeout(() => openAskFromSearch(), 40);
+        return;
+      }
+      if (n === 2) {
+        state.role = "member"; state.tab = 0; render();
+        setTimeout(() => openTrip(), 40);
+        return;
+      }
+      if (n === 3) {
+        state.role = "member"; state.tab = 1; render();
+        return;
+      }
+      if (n === 4) {
+        state.role = "member"; state.tab = 3; render();
+        setTimeout(() => openShare(), 40);
+        return;
+      }
+      if (n === 5) {
+        state.role = "merchant"; state.tab = 3; render();
+        setTimeout(() => openScan(), 40);
+        return;
+      }
+      state.role = state.role === "merchant" ? "member" : "merchant";
+      state.tab = 3;
+      render();
+    };
     window.goCat = (e, name) => {
       ev(e);
       if (name === "转盘") {
