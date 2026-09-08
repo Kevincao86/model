@@ -202,9 +202,17 @@
       display: flex; justify-content: space-between; align-items: center;
       padding: 13px 4px; font-size: 14px; font-weight: 600; cursor: pointer;
       color: var(--text); border-bottom: 1px solid var(--line);
+      gap: 12px;
     }
     .menu-item .sub { margin: 0; font-weight: 500; }
-    .mi { display: flex; align-items: center; gap: 10px; }
+    .mi { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .mi-right {
+      display: flex; align-items: center; gap: 6px;
+      flex-shrink: 0; color: var(--muted); font-size: 12px; font-weight: 500;
+      line-height: 1; white-space: nowrap;
+    }
+    .mi-right svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .mi-hint { color: var(--muted); font-size: 12px; font-weight: 500; white-space: nowrap; }
     .mi-ico {
       width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;
       color: var(--accent); flex-shrink: 0;
@@ -354,6 +362,55 @@
       background-color: var(--surface); color: var(--text); opacity: .85;
     }
     .think { font-size: 13px; color: var(--muted); padding: 20px 0; text-align: center; }
+    .ai-fab {
+      position: absolute; right: 16px; bottom: 88px; z-index: 6;
+      width: 52px; height: 52px; border: 0; border-radius: 50%;
+      background: var(--accent); color: var(--on-accent);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      display: none; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1px; cursor: pointer;
+      font: 700 10px/1 "PingFang SC", sans-serif; letter-spacing: .08em;
+    }
+    .ai-fab.on { display: flex; }
+    .ai-fab svg { width: 20px; height: 20px; stroke: currentColor; fill: none; }
+    .ai-win {
+      position: absolute; left: 12px; right: 12px; bottom: 84px; z-index: 7;
+      height: 58%; max-height: 420px; display: none;
+      flex-direction: column; overflow: hidden;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--line); border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.22);
+    }
+    .ai-win.on { display: flex; }
+    .ai-hd {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 14px; border-bottom: 1px solid var(--line); flex-shrink: 0;
+    }
+    .ai-hd b { font-size: 14px; }
+    .ai-hd button {
+      border: 0; background: var(--surface); color: var(--muted);
+      height: 26px; padding: 0 10px; border-radius: 999px; cursor: pointer; font-size: 12px;
+    }
+    .ai-msgs { flex: 1; min-height: 0; overflow: auto; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+    .ai-bubble { max-width: 88%; padding: 8px 10px; border-radius: 12px; font-size: 13px; line-height: 1.5; }
+    .ai-bubble.bot { background: var(--surface); color: var(--text); align-self: flex-start; }
+    .ai-bubble.me { background: var(--accent); color: var(--on-accent); align-self: flex-end; }
+    .ai-qs { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 8px; flex-shrink: 0; }
+    .ai-qs button {
+      border: 1px solid var(--line); background: var(--surface); color: var(--text);
+      height: 28px; padding: 0 10px; border-radius: 999px; cursor: pointer; font-size: 11px;
+    }
+    .ai-input {
+      display: flex; gap: 8px; padding: 10px 12px 12px; border-top: 1px solid var(--line); flex-shrink: 0;
+    }
+    .ai-input input {
+      flex: 1; min-width: 0; height: 36px; border: 1px solid var(--line); border-radius: 10px;
+      padding: 0 10px; background: var(--surface); color: var(--text); font: inherit; font-size: 13px;
+    }
+    .ai-input button {
+      border: 0; background: var(--accent); color: var(--on-accent);
+      height: 36px; padding: 0 14px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 700;
+    }
     .sheet-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
     .sheet-actions .btn { width: 100%; height: 42px; }
     .sheet-card .ledger { padding: 10px 0; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; }
@@ -782,7 +839,7 @@
     <aside class="panel">
       <div class="kicker">CASE 01</div>
       <h1>垟里GO</h1>
-      <p>墨典联盟 · 温州平阳本地生活。可切换五套风格与会员/商家身份。分享有礼、扫码核销、分账提现、按习惯规划行程，都可在手机里点开演示。</p>
+      <p>墨典联盟 · 温州平阳本地生活。会员侧可分享、规划行程；附近可问 AI。切到商家可演示扫码核销、分账和提现。</p>
       <div class="meta-grid">
         <div>客户<b>墨典联盟</b></div>
         <div>地区<b>温州 · 平阳</b></div>
@@ -829,6 +886,21 @@
             <div class="sheet-hd"><b id="sheetTitle">演示</b><button type="button" onclick="closeSheet()">关闭</button></div>
             <div id="sheetBody"></div>
           </div>
+        </div>
+        <button type="button" class="ai-fab" id="aiFab" onclick="toggleAskAi(event)"></button>
+        <div class="ai-win" id="aiWin">
+          <div class="ai-hd"><b>问一问 · 平阳</b><button type="button" onclick="closeAskAi()">关闭</button></div>
+          <div class="ai-msgs" id="aiMsgs"></div>
+          <div class="ai-qs">
+            <button type="button" onclick="askAi('附近有什么好吃的')">附近吃什么</button>
+            <button type="button" onclick="askAi('带小孩去哪玩')">带娃去哪</button>
+            <button type="button" onclick="askAi('怎么去南麂')">去南麂</button>
+            <button type="button" onclick="askAi('帮我规划今天')">规划行程</button>
+          </div>
+          <form class="ai-input" onsubmit="sendAskAi(event)">
+            <input id="aiInput" type="text" placeholder="问附近吃喝玩乐…" autocomplete="off" />
+            <button type="submit">发送</button>
+          </form>
         </div>
         <div class="toast" id="toast">演示占位，一期接通后可用</div>
       </div>
@@ -994,11 +1066,11 @@
       ],
     };
     const styles = [
-      { id: "jiangnan", name: "江南生活", blurb: "会员页可点「分享有礼」；首页有「智能行程」。切到商家可演示扫码核销、分账入账、提现。" },
-      { id: "wechat", name: "微信本地", blurb: "我的页可分享卡片；切商家后，核销列表会把跨店提成记进分账。" },
-      { id: "family", name: "亲子周末", blurb: "「今天怎么玩」可按带娃、喝茶、夜市、看海习惯重新规划当日线路。" },
-      { id: "biz", name: "商务预订", blurb: "资产页可看分账明细；商家身份下核销与提现走同一套演示账本。" },
-      { id: "night", name: "鳌江夜色", blurb: "选「爱夜市」规划线路，会排鳌江夜市收尾、茶寮歇脚。" },
+      { id: "jiangnan", name: "江南生活", blurb: "会员首页/我的可规划行程；附近右下角可问 AI。切到商家可演示扫码核销、分账入账、提现。" },
+      { id: "wechat", name: "微信本地", blurb: "会员「我的」可分享和规划行程；附近可问 AI。商家核销后提成记进分账。" },
+      { id: "family", name: "亲子周末", blurb: "会员「今天怎么玩」按带娃习惯规划。附近可问 AI。智能行程不出现在商家中心。" },
+      { id: "biz", name: "商务预订", blurb: "会员可规划行程；附近可问 AI。商家身份下核销与提现走同一套演示账本。" },
+      { id: "night", name: "鳌江夜色", blurb: "会员选「爱夜市」规划线路。附近可问 AI 找夜宵。商家侧只做核销分账。" },
     ];
     const tabs = {
       jiangnan: ["首页", "附近", "会员", "我的"],
@@ -1020,12 +1092,73 @@
     window.toast = toast;
     function ev(e) { if (e) e.stopPropagation(); }
     function openSheet(title, html) {
+      $("aiWin").classList.remove("on");
       $("sheetTitle").textContent = title;
       $("sheetBody").innerHTML = html;
       $("sheet").classList.add("on");
+      if (state.tab === 1) $("aiFab").classList.add("on");
     }
     function closeSheet() { $("sheet").classList.remove("on"); }
     window.closeSheet = closeSheet;
+    const AI_HELLO = "我是垟里GO 的平阳助手。问附近吃什么、带娃去哪、怎么去南麂，或让我规划今天。样板演示，不调大模型。";
+    function aiReply(q) {
+      const t = (q || "").trim();
+      if (/规划|行程|路线|怎么玩/.test(t)) return { text: "按你常去的店和带娃习惯，排一条当日线路。打开智能行程就能选。", trip: true };
+      if (/南麂|看海|船|岛/.test(t)) return { text: "去南麂从鳌江码头赶早班船。下午岛上别排太满，回程到昆阳茶寮歇脚喝茶。" };
+      if (/娃|亲子|小孩|遛娃|溜娃/.test(t)) return { text: "南雁亲子谷小火车最合适。上午荡山、中午茶寮、下午亲子谷，三个点走路就到。" };
+      if (/夜市|夜宵|晚上/.test(t)) return { text: "傍晚先去鳌江滨江，夜宵鳌江夜市灯盏糕和生蚝，收尾回昆阳茶寮一杯黄汤。" };
+      if (/吃|茶|饿|美食|好喝/.test(t)) return { text: "昆阳茶寮黄汤鱼丸，步行约 320 米。晚上可去鳌江夜市。" };
+      return { text: "平阳这会儿可以去昆阳茶寮坐坐，或去南雁、鳌江夜市。说得再具体一点，我帮你指一家。" };
+    }
+    function seedAskAi() {
+      const box = $("aiMsgs");
+      if (box && !box.childElementCount) {
+        box.innerHTML = `<div class="ai-bubble bot">${AI_HELLO}</div>`;
+      }
+    }
+    function closeAskAi() {
+      $("aiWin").classList.remove("on");
+      if (state.tab === 1) $("aiFab").classList.add("on");
+    }
+    window.closeAskAi = closeAskAi;
+    window.toggleAskAi = (e) => {
+      ev(e);
+      const win = $("aiWin");
+      if (win.classList.contains("on")) { closeAskAi(); return; }
+      closeSheet();
+      seedAskAi();
+      win.classList.add("on");
+      $("aiFab").classList.remove("on");
+    };
+    window.askAi = (q) => {
+      if (!$("aiWin").classList.contains("on")) {
+        closeSheet();
+        $("aiWin").classList.add("on");
+        $("aiFab").classList.remove("on");
+      }
+      seedAskAi();
+      const box = $("aiMsgs");
+      box.insertAdjacentHTML("beforeend", `<div class="ai-bubble me">${q}</div><div class="ai-bubble bot">正在想…</div>`);
+      box.scrollTop = box.scrollHeight;
+      const reply = aiReply(q);
+      setTimeout(() => {
+        const bots = box.querySelectorAll(".ai-bubble.bot");
+        const last = bots[bots.length - 1];
+        if (last) last.textContent = reply.text;
+        box.scrollTop = box.scrollHeight;
+        if (reply.trip && state.role === "member") {
+          setTimeout(() => { closeAskAi(); openTrip(); }, 600);
+        }
+      }, 520);
+    };
+    window.sendAskAi = (e) => {
+      if (e) e.preventDefault();
+      const input = $("aiInput");
+      const q = (input && input.value || "").trim();
+      if (!q) return;
+      input.value = "";
+      askAi(q);
+    };
     function sheetBtns(items) {
       return `<div class="sheet-actions">${items.map(b =>
         `<button type="button" class="btn ${b[0]}" onclick="${b[2]}">${b[1]}</button>`
@@ -1037,7 +1170,11 @@
     }
     window.demo = demo;
     window.demoVr = (e) => { ev(e); toast("VR 预览 · 二期接入全景拖转"); };
-    window.demoAi = (e) => { ev(e); openTrip(e); };
+    window.demoAi = (e) => {
+      ev(e);
+      if (state.role === "merchant") { toast("智能行程在会员侧，切回会员即可规划"); return; }
+      openTrip(e);
+    };
     window.setFilter = (name) => { state.filter = name; closeSheet(); render(); };
 
     function tripSteps(habit) {
@@ -1051,7 +1188,10 @@
     window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); render(); };
     window.goCat = (e, name) => {
       ev(e);
-      if (name === "转盘") { openTrip(e); return; }
+      if (name === "转盘") {
+        if (state.role === "merchant") { toast("智能行程在会员侧"); return; }
+        openTrip(e); return;
+      }
       const map = {
         "美食": "美食", "茶饮": "茶饮", "茶馆": "茶馆", "夜宵": "夜宵",
         "休闲娱乐": "休闲娱乐", "生活服务": "生活服务", "亲子乐园": "亲子",
@@ -1167,6 +1307,7 @@
     };
     window.openTrip = (e) => {
       ev(e);
+      if (state.role === "merchant") { toast("智能行程在会员侧，切回会员即可规划"); return; }
       const chips = HABITS.map(h =>
         `<button type="button" class="${demoBiz.habit===h.id?"on":""}" onclick="setHabit('${h.id}')">${h.name}</button>`
       ).join("");
@@ -1215,6 +1356,7 @@
       ).join(""));
     };
     window.openFav = (e) => { ev(e); openSheet("我的收藏", byIds(["1","4","5"]).map(s => `<div class="row"><div class="thumb"><img src="${img(s.cover)}" alt=""></div><div class="meta"><b>${s.name}</b><div class="sub">${s.area}</div></div></div>`).join("")); };
+    window.openFoot = (e) => { ev(e); openSheet("我的足迹", byIds(["1","5","4"]).map(s => `<div class="row"><div class="thumb"><img src="${img(s.cover)}" alt=""></div><div class="meta"><b>${s.name}</b><div class="sub">最近路过 · ${s.dist}</div></div></div>`).join("")); };
     window.openHelp = (e) => { ev(e); toast("已复制品牌联系方式"); };
     window.openSettings = (e) => { ev(e); toast("通知已开启 · 样板演示"); };
     window.openApply = (e) => { ev(e); toast("入驻资料已打开 · 样板演示"); };
@@ -1243,7 +1385,7 @@
         "我的积分": "openPoints(event)", "积分": "openPoints(event)",
         "我的卡券": "openCoupons(event)", "卡券": "openCoupons(event)",
         "我的收藏": "openFav(event)", "收藏": "openFav(event)",
-        "我的足迹": "openTrip(event)", "足迹": "openTrip(event)",
+        "我的足迹": "openFoot(event)", "足迹": "openFoot(event)",
         "商家入驻": "openApply(event)", "入驻": "openApply(event)",
         "分账与提现": "openLedger(event)", "跨店贡献": "openLedger(event)",
         "入驻资料": "openApply(event)", "上架券 / 套餐": "demo(event)",
@@ -1300,7 +1442,8 @@
     }
     function menuRow(icon, label, right, fn) {
       const click = fn || "demo(event)";
-      return `<div class="menu-item" onclick="${click}"><span class="mi"><span class="mi-ico">${ico(icon)}</span>${label}</span><span class="sub" style="display:flex;align-items:center;gap:4px">${right || ""}${ico("chev")}</span></div>`;
+      const hint = right ? `<span class="mi-hint">${right}</span>` : "";
+      return `<div class="menu-item" onclick="${click}"><span class="mi"><span class="mi-ico">${ico(icon)}</span>${label}</span><span class="mi-right">${hint}${ico("chev")}</span></div>`;
     }
 
     function jnMap() {
@@ -1568,7 +1711,7 @@
             ["南雁荡山","登高望远 亲近自然","park"],
             ["昆阳茶寮","特色小吃 茶香四溢","tea"],
             ["南雁亲子谷","亲子乐园 快乐撒欢","park"],
-          ].map(x => `<div class="row" onclick="openTrip(event)"><div class="thumb"><img src="${img(x[2])}"></div><div class="meta"><b>${x[0]}</b><div class="sub">${x[1]}</div></div></div>`).join("")}
+          ].map(x => `<div class="row" onclick="demo(event)"><div class="thumb"><img src="${img(x[2])}"></div><div class="meta"><b>${x[0]}</b><div class="sub">${x[1]}</div></div></div>`).join("")}
           <div class="fam-walk">${famMap()}<div class="fam-note"><span class="foot">${ico("foot")}</span><div>三个地方相距不远 走路就能到 溜娃轻松不累~</div></div></div>
         `;
       }
@@ -1758,7 +1901,7 @@
               ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
             </div>
           </div>
-          ${[["star","我的收藏","openFav(event)"],["chat","我的评价","demo(event)"],["pin","常用地址","demo(event)"],["headset","客服与帮助","openHelp(event)"],["share","分享有礼","openShare(event)"],["spark","智能行程","openTrip(event)"],["gear","设置","openSettings(event)"]].map(m => menuRow(m[0], m[1], "", m[2])).join("")}
+          ${[["star","我的收藏","openFav(event)"],["chat","我的评价","demo(event)"],["pin","常用地址","demo(event)"],["headset","客服与帮助","openHelp(event)"],["share","分享有礼","openShare(event)"],["spark","智能行程","openTrip(event)"],["gear","设置","openSettings(event)"]].map(m => menuRow(m[0], m[1], m[0]==="spark" ? "按习惯规划" : "", m[2])).join("")}
           <div class="wc-block">${peopleStrip("wechat", "关注的人")}</div>
         `;
       }
@@ -1769,7 +1912,7 @@
             <div><b>墨典会员 V3</b><div class="sub">188****8888</div></div>
           </div>
           ${peopleStrip("biz", "同行会员")}
-          ${[["user","个人信息"],["scroll","常用信息"],["heart","我的收藏"],["chat","我的评价"],["help","帮助与客服"],["gear","设置"]].map(m => menuRow(m[0], m[1], "")).join("")}
+          ${[["user","个人信息"],["scroll","常用信息"],["heart","我的收藏"],["spark","智能行程"],["chat","我的评价"],["help","帮助与客服"],["gear","设置"]].map(m => menuRow(m[0], m[1], m[1]==="智能行程" ? "按习惯规划" : "", m[1]==="智能行程" ? "openTrip(event)" : m[1]==="我的收藏" ? "openFav(event)" : "")).join("")}
         `;
       }
       if (state.theme === "night" && !merchant) {
@@ -1786,7 +1929,7 @@
           <div class="orders">
             ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款/售后","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
           </div>
-          ${[["heart","我的收藏","","openFav(event)"],["coin","我的积分", String(demoBiz.points),"openPoints(event)"],["card","会员卡包","","openCoupons(event)"],["share","分享有礼","","openShare(event)"],["spark","智能行程","","openTrip(event)"],["pin","地址管理","","demo(event)"],["gear","设置","","openSettings(event)"],["headset","联系客服","","openHelp(event)"]].map(m => menuRow(m[0], m[1], m[2], m[3])).join("")}
+          ${[["heart","我的收藏","","openFav(event)"],["coin","我的积分", String(demoBiz.points),"openPoints(event)"],["card","会员卡包","","openCoupons(event)"],["share","分享有礼","","openShare(event)"],["spark","智能行程","按习惯规划","openTrip(event)"],["pin","地址管理","","demo(event)"],["gear","设置","","openSettings(event)"],["headset","联系客服","","openHelp(event)"]].map(m => menuRow(m[0], m[1], m[2], m[3])).join("")}
           ${peopleStrip("night", "认识的茶客")}
         `;
       }
@@ -1800,7 +1943,7 @@
           <div class="orders">
             ${[["待付款","pay"],["待使用","ticket"],["待评价","chat"],["退款","refund"]].map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}
           </div>
-          ${[["star","我的收藏","openFav(event)"],["pin","常用地址","demo(event)"],["share","分享有礼","openShare(event)"],["spark","智能行程","openTrip(event)"],["headset","客服与帮助","openHelp(event)"],["gear","设置","openSettings(event)"]].map(m => menuRow(m[0], m[1], "", m[2])).join("")}
+          ${[["star","我的收藏","openFav(event)"],["pin","常用地址","demo(event)"],["share","分享有礼","openShare(event)"],["spark","智能行程","openTrip(event)"],["headset","客服与帮助","openHelp(event)"],["gear","设置","openSettings(event)"]].map(m => menuRow(m[0], m[1], m[0]==="spark" ? "按习惯规划" : "", m[2])).join("")}
           ${peopleStrip("family", "玩伴")}
         `;
       }
@@ -1836,6 +1979,8 @@
                 `<div class="cell" onclick="${cellAct(g[0])}"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`
               ).join("")}
             </div>
+            ${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}
+            ${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}
             <div class="banner" onclick="demo(event)">
               <img src="${img("park")}" alt="">
               <div class="hero-cap"><span>山水秘境 · 休闲度假</span><b>南雁亲子谷</b></div>
@@ -1850,9 +1995,9 @@
         <div class="orders">${orders.map(o => `<div onclick="${orderAct(o[0])}">${ico(o[1])}<b>${o[0]}</b></div>`).join("")}</div>
         <div class="sec">${merchant ? "商家服务" : "常用功能"}</div>
         <div class="grid8">${grid.map(g => `<div class="cell" onclick="${cellAct(g[0])}"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`).join("")}</div>
-        ${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}
-        ${menuRow("share", merchant ? "转发本店" : "分享有礼", merchant ? "拉新" : "积分", "openShare(event)")}
-        ${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}
+        ${merchant
+          ? `${menuRow("share", "转发本店", "拉新", "openShare(event)")}${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}`
+          : `${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}${menuRow("share", "分享有礼", "积分", "openShare(event)")}${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}`}
       `;
     }
 
@@ -1942,6 +2087,9 @@
       if (state.tab === 2) html = state.role === "member" ? memberMember() : memberMerchant();
       if (state.tab === 3) html = mine();
       $("screen").innerHTML = html;
+      if (state.tab !== 1) $("aiWin").classList.remove("on");
+      $("aiFab").innerHTML = `${ico("spark")}<span>问AI</span>`;
+      $("aiFab").classList.toggle("on", state.tab === 1 && !$("aiWin").classList.contains("on"));
     }
 
     $("styleChips").innerHTML = styles.map(s =>
