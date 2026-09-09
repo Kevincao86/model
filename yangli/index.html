@@ -881,7 +881,7 @@
     <aside class="panel">
       <div class="kicker">CASE 01</div>
       <h1>垟里GO</h1>
-      <p>墨典联盟 · 温州平阳本地生活。会员侧可分享、规划行程；附近可问 AI。切到商家可演示扫码核销、分账和提现。</p>
+      <p>墨典联盟 · 温州平阳本地生活。A 店买单后出示分销码，客户扫完绑定。之后去联盟其余店消费，A 店都有积分提成，可提现。</p>
       <div class="meta-grid">
         <div>客户<b>墨典联盟</b></div>
         <div>地区<b>温州 · 平阳</b></div>
@@ -1106,25 +1106,30 @@
     };
     const demoBiz = {
       points: 2680,
-      cash: 420,
+      cash: 0,
       take: 3280,
       verified: 17,
       shared: 0,
       habit: "kid",
       planned: false,
       lastIntent: "",
+      binder: "",
+      binderName: "昆阳茶寮",
+      spent: {},
       queue: queue.map((q) => ({ ...q })),
-      ledger: [
-        { title: "到店核销 · 南雁亲子两日", sub: "陈女士 · 已入账", plus: "+¥80" },
-        { title: "跨店核销 · 南麂船票", sub: "王先生 · 已入账", plus: "+¥36" },
-      ],
+      ledger: [],
+    };
+    const DIST = {
+      A: { id: "1", name: "昆阳茶寮" },
+      B: { id: "5", name: "南雁亲子谷", day: "今天", fee: 36 },
+      C: { id: "2", name: "南麂列岛", day: "明天", fee: 42 },
     };
     const styles = [
-      { id: "jiangnan", name: "江南生活", blurb: "会员首页有 AI 今日建议；附近按习惯重排门店，右下角可追问。商家侧只做核销分账。" },
-      { id: "wechat", name: "微信本地", blurb: "对话会记住你刚问的是海、娃还是夜市。附近 AI 为你挑店。商家问待核销也能答。" },
-      { id: "family", name: "亲子周末", blurb: "行程每段带推荐理由。附近可追问「那晚上呢」。智能行程只在会员侧。" },
-      { id: "biz", name: "商务预订", blurb: "AI 会按少走路、宴请习惯给建议。商家身份下核销与提现仍走演示账本。" },
-      { id: "night", name: "鳌江夜色", blurb: "爱夜市时，AI 把鳌江夜市排到前面，并记得夜宵后回茶寮。" },
+      { id: "jiangnan", name: "江南生活", blurb: "会员先扫 A 店分销码。今天去 B、明天去 C，A 店都拿积分提成，可提现。" },
+      { id: "wechat", name: "微信本地", blurb: "分销码一扫即绑定。联盟其余店每笔消费，推荐店都有积分提成。" },
+      { id: "family", name: "亲子周末", blurb: "茶寮扫码绑定后，去亲子谷、南麂，茶寮照样拿提成。" },
+      { id: "biz", name: "商务预订", blurb: "绑定关系一直有效。B 店今天、C 店明天，都记给 A 店。" },
+      { id: "night", name: "鳌江夜色", blurb: "夜市、船票同样算跨店。A 店积分提成可申请提现。" },
     ];
     const tabs = {
       jiangnan: ["首页", "附近", "会员", "我的"],
@@ -1192,12 +1197,12 @@
       const h = habitMeta();
       const sub = $("aiHabit");
       if (sub) sub.textContent = state.role === "merchant"
-        ? "店里助手 · 问待核销、分账、客流"
+        ? "店里助手 · 问分销绑定、积分提成、提现"
         : `已记住习惯：${h.name} · ${h.hint}`;
       const qs = $("aiQs");
       if (!qs) return;
       const chips = state.role === "merchant"
-        ? [["待核销还剩几笔","待核销几笔"],["可提现多少","能提多少"],["今天客流怎样","今天客流"]]
+        ? [["分销码怎么用","分销码"],["积分提成多少","提成多少"],["能提现吗","能提多少"]]
         : [["附近吃什么","附近有什么好吃的"],["按我的习惯去哪","按我的习惯去哪"],["那晚上呢","那晚上呢"],["帮我规划今天","帮我规划今天"]];
       qs.innerHTML = chips.map(c => `<button type="button" onclick="askAi('${c[1]}')">${c[0]}</button>`).join("");
     }
@@ -1208,16 +1213,20 @@
       const follow = demoBiz.lastIntent;
       if (state.role === "merchant") {
         const left = demoBiz.queue.length;
-        if (/核销|待核|券|扫码/.test(t)) {
-          return { text: left ? `还剩 ${left} 笔待核销。优先核陈女士的亲子两日；南麂票是跨店，核完提成入账。` : "待核销已清空。点列表可重新放入演示单。", acts: [{ label: "去核销", fn: "closeAskAi();openScan();" }] };
+        const bound = demoBiz.binder ? `客户已绑定${demoBiz.binderName}` : "还没有客户扫分销码";
+        if (/分销|绑定|扫码/.test(t)) {
+          return { text: `${bound}。买单后出示分销码，客户扫完就锁在本店。他再去联盟其余店，本店都有积分提成。`, acts: [{ label: "出示分销码", fn: "closeAskAi();openDistCode();" }] };
+        }
+        if (/核销|待核|券/.test(t)) {
+          return { text: left ? `还剩 ${left} 笔本店待核销。跨店积分提成不靠这张券，靠客户绑定后去别家消费。` : "本店待核销已清空。", acts: [{ label: "去核销", fn: "closeAskAi();openScan();" }] };
         }
         if (/提现|分账|钱|提成/.test(t)) {
-          return { text: `可提现 ¥${demoBiz.cash}。跨店核销记提成，到店核销记本店。`, acts: [{ label: "看分账", fn: "closeAskAi();openLedger();" }] };
+          return { text: `积分提成可提现 ¥${demoBiz.cash}。今天去南雁、明天去南麂，都记给绑定店。`, acts: [{ label: "看提成", fn: "closeAskAi();openLedger();" }] };
         }
         if (/客|今天|收款|生意/.test(t)) {
-          return { text: `今日收款 ¥${demoBiz.take}，已核 ${demoBiz.verified} 笔。建议把待核销清掉，提成才走得动。`, acts: [{ label: "去核销", fn: "closeAskAi();openScan();" }] };
+          return { text: `今日本店收款 ¥${demoBiz.take}。${bound}。积分提成 ¥${demoBiz.cash}。`, acts: [{ label: "看提成", fn: "closeAskAi();openLedger();" }] };
         }
-        return { text: "店里可以问待核销、分账、今天客流。核销后提成会入账。" };
+        return { text: "店里可以问分销码、积分提成、能提多少。客户绑定后去别家，本店都有账。" };
       }
       if (/那晚上|晚上呢|夜宵呢|再玩|然后呢|还有呢/.test(t) || (follow === "kid" && /晚上/.test(t))) {
         demoBiz.lastIntent = "night";
@@ -1262,7 +1271,7 @@
       demoBiz.aiRole = state.role;
       const h = habitMeta();
       const hello = state.role === "merchant"
-        ? "我是店里助手。可以问待核销还剩几笔、能提多少、今天客流。"
+        ? "我是店里助手。买单后出示分销码，客户扫完绑定。他去别家消费，本店拿积分提成，可提现。"
         : `我读过你的习惯「${h.name}」。${habitAi().trace}。直接问吃什么、带娃、看海，或让我排今天。`;
       box.innerHTML = `<div class="ai-bubble bot">${hello}</div>`;
     }
@@ -1368,20 +1377,20 @@
     window.goTab = (e, i) => { ev(e); state.tab = i; closeSheet(); closeAskAi(); render(); };
     const FEATS = {
       member: [
-        { title: "问 AI · 平阳助手", desc: "首页、附近可问吃什么、带娃、看海。记住你的习惯，能接「那晚上呢」「近一点」。", act: "ask" },
+        { title: "扫 A 店分销码", desc: "在昆阳茶寮买完，扫店家出示的分销码。扫完就绑在茶寮。", act: "bind" },
+        { title: "今天去 B 店消费", desc: "去南雁亲子谷买单。茶寮作为绑定店，拿到这一笔积分提成。", act: "spendB" },
+        { title: "明天去 C 店消费", desc: "再去南麂列岛。绑定还在，茶寮再拿一笔。联盟其余店都一样。", act: "spendC" },
+        { title: "问 AI · 平阳助手", desc: "首页、附近可问吃什么、带娃、看海。记住习惯，能接「那晚上呢」。", act: "ask" },
         { title: "智能行程", desc: "按喝茶、溜娃、夜市、看海排当日三条，每段写清为什么。", act: "trip" },
-        { title: "附近按习惯推荐", desc: "对照足迹重排门店，匹配的店打 AI 标。点「AI 为你挑」可追问。", act: "nearby" },
-        { title: "分享有礼", desc: "发给微信好友或朋友圈。对方打开注册进店后，你得积分，店得客。", act: "share" },
-        { title: "AI 今日建议", desc: "首页按习惯给一句今天去哪，并可一键去规划。", act: "home" },
-        { title: "到店出示", desc: "会员码给商家扫。核销后锁客，积分入账。", act: "code" },
+        { title: "附近按习惯推荐", desc: "对照足迹重排门店。点买单即可演示跨店给 A 店记提成。", act: "nearby" },
       ],
       merchant: [
-        { title: "店里问 AI", desc: "问待核销还剩几笔、能提多少、今天客流。答完可直接去核销或看账。", act: "ask" },
-        { title: "扫码核销", desc: "扫会员码或点确认。核完这一笔，分账马上入账。", act: "scan" },
-        { title: "分账明细", desc: "跨店核销记提成，到店核销记本店收款。一笔一笔记清。", act: "ledger" },
-        { title: "申请提现", desc: "可提现余额进演示账本。样板走收付通这一步。", act: "cash" },
-        { title: "转发本店", desc: "把本店发给微信好友或朋友圈，拉新进店。", act: "share" },
-        { title: "店务看板", desc: "首页看待核销、跨店提成、今日收款。点数字就能办事。", act: "home" },
+        { title: "出示分销码", desc: "客户在本店买完，出示分销码让他扫。扫完锁在本店。", act: "dist" },
+        { title: "跨店积分提成", desc: "客户今天去 B、明天去 C，每一笔都给本店积分提成。", act: "ledger" },
+        { title: "积分提成提现", desc: "提成进可提现余额。申请后走演示账本，通道接通再打款。", act: "cash" },
+        { title: "扫码核销", desc: "本店券、套餐仍扫会员码核销，记本店收款。", act: "scan" },
+        { title: "店里问 AI", desc: "问分销码怎么用、提成多少、能不能提现。", act: "ask" },
+        { title: "店务看板", desc: "首页看绑定、积分提成、本店收款。点数字就能办事。", act: "home" },
       ],
     };
     function renderFeats() {
@@ -1407,6 +1416,10 @@
       if (f.act === "ask") { state.tab = 0; later(() => openAskFromSearch()); return; }
       if (f.act === "trip") { state.tab = 0; later(() => openTrip()); return; }
       if (f.act === "nearby") { state.tab = 1; render(); return; }
+      if (f.act === "bind") { state.tab = 0; later(() => openBind()); return; }
+      if (f.act === "dist") { state.tab = 3; later(() => openDistCode()); return; }
+      if (f.act === "spendB") { state.tab = 1; later(() => payAt(null, DIST.B.id)); return; }
+      if (f.act === "spendC") { state.tab = 1; later(() => payAt(null, DIST.C.id)); return; }
       if (f.act === "share") { state.tab = 3; later(() => openShare()); return; }
       if (f.act === "code") { state.tab = 2; later(() => openMemberCode()); return; }
       if (f.act === "scan") { state.tab = 3; later(() => openScan()); return; }
@@ -1458,25 +1471,134 @@
       ev(e);
       const rows = demoBiz.ledger.map(l =>
         `<div class="ledger"><div>${l.title}<div class="sub">${l.sub}</div></div><div class="plus">${l.plus}</div></div>`
-      ).join("") || `<div class="think">暂无入账</div>`;
-      openSheet("分账明细", `
-        <div class="sub">到店核销记本店，跨店核销记提成。样板演示，不走真实收付通。</div>
+      ).join("") || `<div class="think">还没有跨店积分提成。客户绑定后去 B、C 店消费就会入账。</div>`;
+      openSheet("积分提成", `
+        <div class="sub">${demoBiz.binder
+          ? `客户已绑定${demoBiz.binderName}。去联盟其余店的每一笔，都记给本店。`
+          : "先让客户扫本店分销码。绑定后去别家，本店才有积分提成。"}</div>
         ${rows}
-        ${sheetBtns([["fill",`可提现 ¥${demoBiz.cash}，去提现`,"openCash(event)"]])}
+        ${sheetBtns([["fill",`积分提成可提现 ¥${demoBiz.cash}`,"openCash(event)"]])}
       `);
     };
     window.openCash = (e) => {
       ev(e);
-      openSheet("提现", `
+      openSheet("积分提成提现", `
         <div style="text-align:center;padding:12px 0 8px">
-          <div class="sub">可提现余额</div>
+          <div class="sub">可提现 · 跨店积分提成</div>
           <b style="font-size:32px;letter-spacing:.04em">¥${demoBiz.cash}</b>
         </div>
         ${sheetBtns([
           ["fill","申请提现","doCash()"],
-          ["ghost","看分账明细","openLedger(event)"],
+          ["ghost","看提成明细","openLedger(event)"],
         ])}
-        <div class="sub" style="text-align:center;margin-top:8px">样板演示，不走真实支付。</div>
+        <div class="sub" style="text-align:center;margin-top:8px">样板演示，通道接通后再打款。</div>
+      `);
+    };
+    function bindHint() {
+      return demoBiz.binder
+        ? `已绑定${demoBiz.binderName}`
+        : "尚未绑定";
+    }
+    window.openDistCode = (e) => {
+      ev(e);
+      openSheet("出示分销码", `
+        <div class="sub">客户在本店买完，出示这个码让他扫。扫完锁在${DIST.A.name}，之后去联盟其余店，本店都有积分提成。</div>
+        <div class="code-demo">
+          <div class="qr"></div>
+          <b>${DIST.A.name} · 分销码</b>
+          <div class="sub">${bindHint()} · 联盟约 60 家</div>
+        </div>
+        ${sheetBtns(demoBiz.binder
+          ? [["ghost","已绑定，重新演示","resetDist()"],["fill","看积分提成","openLedger(event)"]]
+          : [["fill","演示客户已扫","doBind()"]])}
+      `);
+    };
+    window.openBind = (e) => {
+      ev(e);
+      if (demoBiz.binder) {
+        openSheet("已绑定 " + demoBiz.binderName, `
+          <div class="sub">扫过分销码，关系还在。今天去南雁、明天去南麂，${demoBiz.binderName}都有积分提成。</div>
+          ${sheetBtns([
+            ["fill","今天去南雁亲子谷","payAt(event,'" + DIST.B.id + "')"],
+            ["ghost","重新扫码演示","resetDist()"],
+          ])}
+        `);
+        return;
+      }
+      openSheet("扫分销码", `
+        <div class="sub">刚在${DIST.A.name}买完。店家出示分销码，扫一下就绑在这家。</div>
+        <div class="code-demo">
+          <div class="qr"></div>
+          <b>${DIST.A.name} · 分销码</b>
+          <div class="sub">扫完去别家，茶寮拿积分提成</div>
+        </div>
+        ${sheetBtns([["fill","扫码绑定","doBind()"]])}
+      `);
+    };
+    window.doBind = () => {
+      demoBiz.binder = DIST.A.id;
+      demoBiz.binderName = DIST.A.name;
+      closeSheet();
+      render();
+      toast("已绑定昆阳茶寮。去南雁、南麂消费，茶寮都有积分提成");
+    };
+    window.resetDist = () => {
+      demoBiz.binder = "";
+      demoBiz.spent = {};
+      demoBiz.cash = 0;
+      demoBiz.ledger = [];
+      closeSheet();
+      render();
+      toast("已清空绑定，可重新扫分销码");
+    };
+    window.payAt = (e, shopId) => {
+      ev(e);
+      const shop = shops.find(s => s.id === shopId);
+      if (!shop) return;
+      if (state.role === "merchant") {
+        toast("切到会员侧，演示客户去别家消费");
+        return;
+      }
+      if (shop.id === DIST.A.id) {
+        openSheet("在" + DIST.A.name + "买单", `
+          <div class="sub">本店买单完成。店家出示分销码，扫完才绑定。绑定后去别家，茶寮才有积分提成。</div>
+          ${sheetBtns([["fill","扫分销码","openBind(event)"]])}
+        `);
+        return;
+      }
+      if (!demoBiz.binder) {
+        openSheet("还没绑定", `
+          <div class="sub">先扫${DIST.A.name}的分销码。扫完再来${shop.name}，茶寮才拿得到这一笔。</div>
+          ${sheetBtns([["fill","去扫分销码","openBind(event)"]])}
+        `);
+        return;
+      }
+      const pack = [DIST.B, DIST.C].find(x => x.id === shop.id);
+      const fee = pack ? pack.fee : 28;
+      const day = pack ? pack.day : "这次";
+      if (demoBiz.spent[shop.id]) {
+        openSheet("这笔已记过", `
+          <div class="sub">${day}在${shop.name}的消费，已经给${demoBiz.binderName}记过积分提成 +¥${fee}。</div>
+          ${sheetBtns([["fill","看提成明细","openLedger(event)"]])}
+        `);
+        return;
+      }
+      demoBiz.spent[shop.id] = true;
+      demoBiz.cash += fee;
+      demoBiz.ledger.unshift({
+        title: `跨店积分提成 · ${shop.name}`,
+        sub: `墨小典 · ${day} · 绑定店 ${demoBiz.binderName}`,
+        plus: "+¥" + fee,
+      });
+      render();
+      openSheet("已消费 · " + shop.name, `
+        <div class="sub">${day}在${shop.name}买单。绑定还在${demoBiz.binderName}，积分提成 +¥${fee} 已入账。再去别家，茶寮还有。</div>
+        ${sheetBtns([
+          ["fill","看茶寮提成","openLedger(event)"],
+          shop.id === DIST.B.id
+            ? ["ghost","明天去南麂","payAt(event,'" + DIST.C.id + "')"]
+            : ["ghost","申请提现","openCash(event)"],
+        ])}
       `);
     };
     window.doCash = () => {
@@ -1494,8 +1616,9 @@
         <div class="code-demo">
           <div class="qr"></div>
           <b>昆阳茶寮</b>
-          <div class="sub">顾客扫码买单 · 样板演示</div>
+          <div class="sub">顾客扫码买单。买完再出示分销码给他扫。</div>
         </div>
+        ${sheetBtns([["fill","出示分销码","openDistCode(event)"]])}
       `);
     };
     window.openScan = (e) => {
@@ -1510,7 +1633,7 @@
       const list = demoBiz.queue.map(q =>
         `<div class="row"><div class="thumb"><img src="${img(q.cover)}" alt=""></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · 剩余 ${q.remain}</div><div class="ops"><button class="btn fill" onclick="confirmVerify(event,'${q.id}')">确认核销</button></div></div></div>`
       ).join("");
-      openSheet("扫码核销", `<div class="sub">扫会员码，或直接点确认。核销后分账入账。</div>${list}`);
+      openSheet("扫码核销", `<div class="sub">本店券、套餐扫会员码核销，记本店收款。跨店积分提成走分销绑定。</div>${list}`);
     };
     window.resetQueue = () => {
       demoBiz.queue = queue.map((q) => ({ ...q }));
@@ -1523,16 +1646,10 @@
       if (idx < 0) { toast("这张券已经核过了"); return; }
       const item = demoBiz.queue.splice(idx, 1)[0];
       demoBiz.verified += 1;
-      demoBiz.cash += item.fee;
       demoBiz.take += item.fee;
-      demoBiz.ledger.unshift({
-        title: (item.id === "q2" ? "跨店核销 · " : "到店核销 · ") + item.title,
-        sub: item.user + " · 已入账",
-        plus: "+¥" + item.fee,
-      });
       closeSheet();
       render();
-      toast("已核销，分账已入账 +¥" + item.fee);
+      toast("本店已核销，收款 +¥" + item.fee);
     };
     window.openTrip = (e) => {
       ev(e);
@@ -1629,12 +1746,14 @@
     function cellAct(label) {
       const map = {
         "分享有礼": "openShare(event)", "分享": "openShare(event)",
+        "出示分销码": "openDistCode(event)", "分销码": "openDistCode(event)", "提成": "openLedger(event)",
         "分账": "openLedger(event)", "提现": "openCash(event)", "核销": "openScan(event)",
         "我的积分": "openPoints(event)", "积分": "openPoints(event)",
         "我的卡券": "openCoupons(event)", "卡券": "openCoupons(event)",
         "我的收藏": "openFav(event)", "收藏": "openFav(event)",
         "我的足迹": "openFoot(event)", "足迹": "openFoot(event)",
         "商家入驻": "openApply(event)", "入驻": "openApply(event)",
+        "积分提成": "openLedger(event)", "已绑定客户": "openDistCode(event)",
         "分账与提现": "openLedger(event)", "跨店贡献": "openLedger(event)",
         "入驻资料": "openApply(event)", "上架券 / 套餐": "demo(event)",
         "优惠券": "openCoupons(event)", "我的订单": "demo(event)",
@@ -1662,7 +1781,7 @@
           <div class="sub">${s.dish} · ${s.price}</div>
           <div class="ops">
             <button class="btn ghost" onclick="demoVr(event)">VR</button>
-            <button class="btn fill" onclick="demo(event)">${payLabel()}</button>
+            <button class="btn fill" onclick="payAt(event,'${s.id}')">${payLabel()}</button>
           </div>
         </div>
       </div>`;
@@ -1904,14 +2023,14 @@
       return `
         <div class="stats">
           <div class="stat"><b>¥${demoBiz.take}</b><span>今日收款</span></div>
-          <div class="stat" onclick="openScan(event)"><b>${demoBiz.verified}</b><span>到店核销</span></div>
-          <div class="stat" onclick="openLedger(event)"><b>¥${demoBiz.cash}</b><span>跨店提成</span></div>
+          <div class="stat" onclick="openDistCode(event)"><b>${demoBiz.binder ? "1" : "0"}</b><span>已绑定</span></div>
+          <div class="stat" onclick="openLedger(event)"><b>¥${demoBiz.cash}</b><span>积分提成</span></div>
         </div>
         <div class="quick">
+          <div onclick="openDistCode(event)">${ico("qr")}出示分销码</div>
           <div onclick="openScan(event)">${ico("scan")}扫码核销</div>
-          <div onclick="openPayCode(event)">${ico("qr")}店内收款码</div>
-          <div onclick="demo(event)">${ico("cam")}上架店照</div>
-          <div onclick="openCash(event)">${ico("cash")}提现查询</div>
+          <div onclick="openLedger(event)">${ico("coin")}积分提成</div>
+          <div onclick="openCash(event)">${ico("cash")}提成提现</div>
         </div>
         <div class="sec">待核销</div>
         ${demoBiz.queue.length
@@ -1930,7 +2049,7 @@
           <div class="filters">
             ${filters.map(f => `<button class="${state.filter===f?"on":""}" onclick="setFilter('${f}')">${f}</button>`).join("")}
           </div>
-          ${aiRank(list).map((s, i) => `<div class="row" onclick="demo(event)">
+          ${aiRank(list).map((s, i) => `<div class="row" onclick="payAt(event,'${s.id}')">
             <div class="thumb"><img src="${img(s.cover)}"></div>
             <div class="meta">
               <b>${s.name}<span class="tag">${s.tagJn}</span>${i===0 && state.filter==="全部" ? `<span class="tag-ai">AI</span>` : ""}</b>
@@ -2103,7 +2222,7 @@
         <div class="stats">
           <div class="stat" onclick="openScan(event)"><b>${demoBiz.queue.length}</b><span>待核销</span></div>
           <div class="stat"><b>${demoBiz.verified}</b><span>本周已核</span></div>
-          <div class="stat" onclick="openLedger(event)"><b>¥${demoBiz.cash}</b><span>待兑积分</span></div>
+          <div class="stat" onclick="openLedger(event)"><b>¥${demoBiz.cash}</b><span>积分提成</span></div>
         </div>
         ${demoBiz.queue.length
           ? demoBiz.queue.map(q => `<div class="row"><div class="thumb"><img src="${img(q.cover)}"></div><div class="meta"><b>${q.title}</b><div class="sub">${q.user} · ${q.remain}</div><div class="ops"><button class="btn fill" onclick="confirmVerify(event,'${q.id}')">核销</button></div></div></div>`).join("")
@@ -2114,15 +2233,17 @@
     function mine() {
       const merchant = state.role === "merchant";
       const name = merchant ? "昆阳茶寮" : (state.theme === "family" ? "平阳小朋友" : state.theme === "biz" ? "星级会员 V3" : "平阳会员");
-      const sub = merchant ? "执照审核通过 · 二级商户" : "首次消费已锁客 · 昆阳茶寮";
+      const sub = merchant
+        ? (demoBiz.binder ? "分销已绑定 · 跨店积分提成可提现" : "出示分销码 · 客户扫完即绑定")
+        : (demoBiz.binder ? `已绑定 · ${demoBiz.binderName}` : "扫茶寮分销码后绑定");
       const orders = merchant
         ? [["待核","scan"],["已核","check"],["提现","cash"],["售后","refund"]]
         : [["待付","pay"],["待用","ticket"],["待评","chat"],["退款","refund"]];
       const grid = merchant
-        ? [["入驻","hotel"],["上架","box"],["分账","coin"],["提现","cash"],["店照","cam"],["核销","scan"],["帮助","help"],["设置","gear"]]
+        ? [["分销码","qr"],["提成","coin"],["提现","cash"],["核销","scan"],["入驻","hotel"],["上架","box"],["帮助","help"],["设置","gear"]]
         : [["收藏","heart"],["足迹","foot"],["积分","coin"],["卡券","ticket"],["入驻","hotel"],["分享","share"],["帮助","help"],["设置","gear"]];
       const list = merchant
-        ? [["hotel","入驻资料","已提交"],["box","上架券 / 套餐","查看"],["coin","分账与提现","收付通"],["spark","跨店贡献","¥420"]]
+        ? [["qr","出示分销码", bindHint()],["coin","积分提成","¥" + demoBiz.cash],["cash","申请提现", demoBiz.cash ? "可提" : "待入账"],["spark","已绑定客户", demoBiz.binder ? "1 人" : "待扫码"]]
         : [["star","我的收藏",""],["chat","我的评价",""],["pin","常用地址",""],["help","客服",""],["gear","设置",""]];
 
       const profile = `<div class="profile">
@@ -2232,6 +2353,7 @@
                 `<div class="cell" onclick="${cellAct(g[0])}"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`
               ).join("")}
             </div>
+            ${menuRow("qr", "扫分销码", bindHint(), "openBind(event)")}
             ${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}
             ${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}
             <div class="banner" onclick="demo(event)">
@@ -2249,8 +2371,8 @@
         <div class="sec">${merchant ? "商家服务" : "常用功能"}</div>
         <div class="grid8">${grid.map(g => `<div class="cell" onclick="${cellAct(g[0])}"><div class="mark">${ico(g[1])}</div><span>${g[0]}</span></div>`).join("")}</div>
         ${merchant
-          ? `${menuRow("share", "转发本店", "拉新", "openShare(event)")}${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}`
-          : `${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}${menuRow("share", "分享有礼", "积分", "openShare(event)")}${menuRow("cam", "VR 全景预览", "已占位", "demoVr(event)")}`}
+          ? `${menuRow("qr", "出示分销码", bindHint(), "openDistCode(event)")}${menuRow("coin", "积分提成", "¥" + demoBiz.cash, "openLedger(event)")}`
+          : `${menuRow("qr", "扫分销码", bindHint(), "openBind(event)")}${menuRow("spark", "智能行程", demoBiz.planned ? "已规划" : "按习惯规划", "openTrip(event)")}${menuRow("share", "分享有礼", "积分", "openShare(event)")}`}
       `;
     }
 
