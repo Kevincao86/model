@@ -158,6 +158,33 @@
       stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
     }
     .tab.on { color: var(--tab-on); }
+    .tabbar { overflow: visible; }
+    .tab.ai-tab { top: -12px; color: var(--tab-on); }
+    .tab.ai-tab .ai-mid {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--accent); color: var(--on-accent);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,.18);
+    }
+    .tab.ai-tab .ai-mid svg { width: 22px; height: 22px; stroke: currentColor; }
+    .tab.ai-tab.on .ai-mid { outline: 2px solid var(--tab-on); outline-offset: 2px; }
+    .ai-hub-hero {
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 16px 14px; margin-bottom: 14px;
+    }
+    .ai-hub-hero .k { font-size: 11px; letter-spacing: .18em; color: var(--accent); font-weight: 700; }
+    .ai-hub-hero b { display: block; font-size: 20px; margin: 8px 0 6px; }
+    .ai-hub-qs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+    .ai-hub-qs button {
+      border: 1px solid var(--line); background: var(--surface); color: var(--text);
+      border-radius: 999px; padding: 8px 12px; font-size: 13px; cursor: pointer;
+    }
+    .ai-hub-card {
+      display: grid; grid-template-columns: 36px 1fr; gap: 10px; align-items: center;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: var(--radius); padding: 12px; margin-bottom: 8px; cursor: pointer;
+    }
+    .ai-hub-card .mark { color: var(--accent); }
     .stamp {
       width: 30px; height: 30px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center; color: #fff;
@@ -881,7 +908,7 @@
     <aside class="panel">
       <div class="kicker">CASE 01</div>
       <h1>垟里GO</h1>
-      <p>墨典联盟 · 温州平阳本地生活。A 店买单后出示分销码，客户扫完绑定。之后去联盟其余店消费，A 店都有积分提成，可提现。</p>
+      <p>墨典联盟 · 温州平阳本地生活。底部正中是 AI：会员问吃喝行程，商户问分销提成。A 店出示分销码，客户扫完绑定，去其余店消费本店都有积分提成。</p>
       <div class="meta-grid">
         <div>客户<b>墨典联盟</b></div>
         <div>地区<b>温州 · 平阳</b></div>
@@ -1132,11 +1159,11 @@
       { id: "night", name: "鳌江夜色", blurb: "夜市、船票同样算跨店。A 店积分提成可申请提现。" },
     ];
     const tabs = {
-      jiangnan: ["首页", "附近", "会员", "我的"],
-      wechat: ["首页", "附近", "卡包", "我的"],
-      family: ["去玩", "附近", "卡包", "我家"],
-      biz: ["总览", "门店", "资产", "账户"],
-      night: ["首页", "附近", "会员", "我的"],
+      jiangnan: ["首页", "附近", "AI", "会员", "我的"],
+      wechat: ["首页", "附近", "AI", "卡包", "我的"],
+      family: ["去玩", "附近", "AI", "卡包", "我家"],
+      biz: ["总览", "门店", "AI", "资产", "账户"],
+      night: ["首页", "附近", "AI", "会员", "我的"],
     };
 
     const state = { theme: "jiangnan", role: "member", tab: 0, filter: "全部" };
@@ -1380,7 +1407,7 @@
         { title: "扫 A 店分销码", desc: "在昆阳茶寮买完，扫店家出示的分销码。扫完就绑在茶寮。", act: "bind" },
         { title: "今天去 B 店消费", desc: "去南雁亲子谷买单。茶寮作为绑定店，拿到这一笔积分提成。", act: "spendB" },
         { title: "明天去 C 店消费", desc: "再去南麂列岛。绑定还在，茶寮再拿一笔。联盟其余店都一样。", act: "spendC" },
-        { title: "问 AI · 平阳助手", desc: "首页、附近可问吃什么、带娃、看海。记住习惯，能接「那晚上呢」。", act: "ask" },
+        { title: "中间 AI 助手", desc: "底部正中进入。问吃什么、规划行程、按习惯推店，能接「那晚上呢」。", act: "ask" },
         { title: "智能行程", desc: "按喝茶、溜娃、夜市、看海排当日三条，每段写清为什么。", act: "trip" },
         { title: "附近按习惯推荐", desc: "对照足迹重排门店。点买单即可演示跨店给 A 店记提成。", act: "nearby" },
       ],
@@ -1389,7 +1416,7 @@
         { title: "跨店积分提成", desc: "客户今天去 B、明天去 C，每一笔都给本店积分提成。", act: "ledger" },
         { title: "积分提成提现", desc: "提成进可提现余额。申请后走演示账本，通道接通再打款。", act: "cash" },
         { title: "扫码核销", desc: "本店券、套餐仍扫会员码核销，记本店收款。", act: "scan" },
-        { title: "店里问 AI", desc: "问分销码怎么用、提成多少、能不能提现。", act: "ask" },
+        { title: "中间 AI 助手", desc: "底部正中进入。问分销码怎么用、提成多少、能不能提现。", act: "ask" },
         { title: "店务看板", desc: "首页看绑定、积分提成、本店收款。点数字就能办事。", act: "home" },
       ],
     };
@@ -1413,18 +1440,18 @@
       closeSheet();
       closeAskAi();
       const later = (fn) => { render(); setTimeout(fn, 40); };
-      if (f.act === "ask") { state.tab = 0; later(() => openAskFromSearch()); return; }
-      if (f.act === "trip") { state.tab = 0; later(() => openTrip()); return; }
+      if (f.act === "ask") { state.tab = 2; later(() => openAskFromSearch()); return; }
+      if (f.act === "trip") { state.tab = 2; later(() => openTrip()); return; }
       if (f.act === "nearby") { state.tab = 1; render(); return; }
       if (f.act === "bind") { state.tab = 0; later(() => openBind()); return; }
-      if (f.act === "dist") { state.tab = 3; later(() => openDistCode()); return; }
+      if (f.act === "dist") { state.tab = 4; later(() => openDistCode()); return; }
       if (f.act === "spendB") { state.tab = 1; later(() => payAt(null, DIST.B.id)); return; }
       if (f.act === "spendC") { state.tab = 1; later(() => payAt(null, DIST.C.id)); return; }
-      if (f.act === "share") { state.tab = 3; later(() => openShare()); return; }
-      if (f.act === "code") { state.tab = 2; later(() => openMemberCode()); return; }
-      if (f.act === "scan") { state.tab = 3; later(() => openScan()); return; }
-      if (f.act === "ledger") { state.tab = 3; later(() => openLedger()); return; }
-      if (f.act === "cash") { state.tab = 3; later(() => openCash()); return; }
+      if (f.act === "share") { state.tab = 4; later(() => openShare()); return; }
+      if (f.act === "code") { state.tab = 3; later(() => openMemberCode()); return; }
+      if (f.act === "scan") { state.tab = 4; later(() => openScan()); return; }
+      if (f.act === "ledger") { state.tab = 4; later(() => openLedger()); return; }
+      if (f.act === "cash") { state.tab = 4; later(() => openCash()); return; }
       state.tab = 0;
       render();
     };
@@ -2039,6 +2066,45 @@
       `;
     }
 
+    window.hubAsk = (q) => {
+      openAskFromSearch();
+      if (q) setTimeout(() => askAi(q), 80);
+    };
+    function hubAi() {
+      const merchant = state.role === "merchant";
+      const h = habitMeta();
+      const s = recShop();
+      const chips = merchant
+        ? [["分销码怎么用","分销码"],["积分提成多少","提成多少"],["能提现吗","能提多少"]]
+        : [["今天吃什么","附近有什么好吃的"],["按习惯去哪","按我的习惯去哪"],["那晚上呢","那晚上呢"],["近一点","近一点"]];
+      const cards = merchant
+        ? [
+            ["qr","出示分销码","买单后给客户扫，扫完锁在本店","openDistCode(event)"],
+            ["coin","积分提成","今天 B、明天 C，都记给本店","openLedger(event)"],
+            ["cash","提成提现","可提现 ¥" + demoBiz.cash,"openCash(event)"],
+          ]
+        : [
+            ["spark","AI 今日建议", habitAi().brief + "首选 " + s.name, "openTrip(event)"],
+            ["pin","附近按习惯","对照足迹重排，匹配的店打 AI 标","goTab(event,1)"],
+            ["tea","智能行程","喝茶、溜娃、夜市、看海，三条写清为什么","openTrip(event)"],
+          ];
+      return `
+        <div class="ai-hub-hero">
+          <div class="k">${merchant ? "店里助手" : "问一问 · 平阳"}</div>
+          <b>${merchant ? "分销、提成、提现直接问" : "今天去哪、吃什么"}</b>
+          <div class="sub">${merchant
+            ? (demoBiz.binder ? "客户已绑定" + demoBiz.binderName : "还没有客户扫分销码")
+            : "已记住习惯：" + h.name + " · " + h.hint}</div>
+          <div class="ops" style="margin-top:12px">
+            <button class="btn fill" onclick="openAskFromSearch(event)">${merchant ? "问店里" : "开始问"}</button>
+          </div>
+        </div>
+        <div class="ai-hub-qs">${chips.map(c => `<button type="button" onclick="hubAsk('${c[1]}')">${c[0]}</button>`).join("")}</div>
+        <div class="sec">${merchant ? "店务 AI" : "AI 能帮你"}</div>
+        ${cards.map(c => `<div class="ai-hub-card" onclick="${c[3]}"><div class="mark">${ico(c[0])}</div><div><b>${c[1]}</b><div class="sub">${c[2]}</div></div></div>`).join("")}
+      `;
+    }
+
     function nearby() {
       if (state.theme === "jiangnan") {
         const filters = ["全部", "美食", "茶饮", "休闲娱乐", "生活服务"];
@@ -2382,9 +2448,12 @@
         0: { jiangnan: ["平阳 · 昆阳",""], wechat: ["墨典联盟","平阳 · 昆阳"], family: ["周末好呀","今天带娃去哪"], biz: ["墨典联盟",""], night: ["温州·平阳",""] },
         1: { jiangnan: ["附近",""], wechat: ["附近","平阳 · 昆阳"], family: ["附近好玩","走路就能到"], biz: ["墨典联盟",""], night: ["附近",""] },
         2: r === "merchant"
+          ? { jiangnan: ["AI 助手","店里问分销和提成"], wechat: ["AI 助手","平阳 · 昆阳"], family: ["问一问","店里的事"], biz: ["墨典联盟",""], night: ["AI 助手",""] }
+          : { jiangnan: ["AI 助手","问一问 · 平阳"], wechat: ["AI 助手","平阳 · 昆阳"], family: ["问一问","今天带娃去哪"], biz: ["墨典联盟",""], night: ["AI 助手",""] },
+        3: r === "merchant"
           ? { jiangnan: ["到店核销",""], wechat: ["核销","平阳 · 昆阳"], family: ["给小朋友核销","到店点一下"], biz: ["墨典联盟",""], night: ["核销",""] }
           : { jiangnan: ["会员中心",""], wechat: ["卡包","平阳 · 昆阳"], family: ["卡包","星星和门票"], biz: ["墨典联盟",""], night: ["会员中心",""] },
-        3: r === "merchant"
+        4: r === "merchant"
           ? { jiangnan: ["商家中心","昆阳茶寮"], wechat: ["商家中心","昆阳茶寮"], family: ["我们店","昆阳茶寮"], biz: ["墨典联盟",""], night: ["店",""] }
           : { jiangnan: ["",""], wechat: ["我的","平阳 · 昆阳"], family: ["我家","平阳小朋友"], biz: ["墨典联盟",""], night: ["我的",""] },
       };
@@ -2396,12 +2465,15 @@
         const stamps = [
           { c: "#E85A28", k: "backpack" },
           { c: "#3D9A6A", k: "pin" },
-          { c: "#E8A020", k: "card" },
-          { c: "#4A8FD8", k: "house" },
+          { c: "#E8A020", k: "spark" },
+          { c: "#4A8FD8", k: "card" },
+          { c: "#7B6BB0", k: "house" },
         ];
+        if (i === 2) return `<span class="ai-mid">${ico("spark")}</span>`;
         return `<span class="stamp" style="background:${stamps[i].c}">${ico(stamps[i].k)}</span>`;
       }
-      const keys = ["home", "pin", "card", "user"];
+      if (i === 2) return `<span class="ai-mid">${ico("spark")}</span>`;
+      const keys = ["home", "pin", "spark", "card", "user"];
       return ico(keys[i]);
     }
 
@@ -2420,7 +2492,7 @@
         $("navTitle").innerHTML = `<span class="biz-m">M</span>墨典联盟`;
       } else if (state.theme === "night" && state.tab === 0) {
         $("navTitle").innerHTML = `温州·平阳<span class="caret">${ico("down")}</span>`;
-      } else if (state.theme === "night" && state.tab === 2 && state.role === "member") {
+      } else if (state.theme === "night" && state.tab === 3 && state.role === "member") {
         $("navTitle").innerHTML = `<span class="caret">${ico("back")}</span>会员中心`;
       } else {
         $("navTitle").textContent = title;
@@ -2443,26 +2515,27 @@
         if (state.tab === 0) tools = state.role === "merchant"
           ? `<button onclick="openScan(event)">${ico("scan")}</button><button onclick="openPayCode(event)">${ico("qr")}</button>`
           : `<button onclick="openTrip(event)">${ico("spark")}</button><button onclick="openShare(event)">${ico("share")}</button>`;
-        if (state.tab === 2 && state.role === "member") tools = `<button onclick="openCoupons(event)">${ico("ticket")}</button><button onclick="openMemberCode(event)">${ico("pay")}</button>`;
-        if (state.tab === 2 && state.role === "merchant") tools = `<button onclick="openScan(event)">${ico("scan")}</button><button onclick="openLedger(event)">${ico("coin")}</button>`;
-        if (state.tab === 3) tools = state.role === "merchant"
+        if (state.tab === 3 && state.role === "member") tools = `<button onclick="openCoupons(event)">${ico("ticket")}</button><button onclick="openMemberCode(event)">${ico("pay")}</button>`;
+        if (state.tab === 3 && state.role === "merchant") tools = `<button onclick="openScan(event)">${ico("scan")}</button><button onclick="openLedger(event)">${ico("coin")}</button>`;
+        if (state.tab === 4) tools = state.role === "merchant"
           ? `<button onclick="openCash(event)">${ico("cash")}</button><button onclick="openLedger(event)">${ico("coin")}</button>`
           : `<button onclick="openSettings(event)">${ico("gear")}</button><button onclick="openShare(event)">${ico("share")}</button>`;
       }
       if (state.theme === "biz") tools = `<button onclick="demo(event)">${ico("bell")}</button>`;
       if (state.theme === "night" && state.tab === 0) tools = `<div class="nt-search" onclick="openAskFromSearch(event)">${ico("search")}问AI</div>`;
       $("navTools").innerHTML = tools;
-      $("screen").classList.toggle("edge", state.theme === "jiangnan" && state.tab === 3 && state.role === "member");
+      $("screen").classList.toggle("edge", state.theme === "jiangnan" && state.tab === 4 && state.role === "member");
       $("tabbar").innerHTML = tabs[state.theme].map((l, i) =>
-        `<button class="tab ${state.tab===i?"on":""}" data-tab="${i}">${tabIcon(i)}${l}</button>`
+        `<button class="tab ${state.tab===i?"on":""}${i===2?" ai-tab":""}" data-tab="${i}">${tabIcon(i)}${l}</button>`
       ).join("");
       let html = "";
       if (state.tab === 0) html = state.role === "member" ? homeMember() : homeMerchant();
       if (state.tab === 1) html = nearby();
-      if (state.tab === 2) html = state.role === "member" ? memberMember() : memberMerchant();
-      if (state.tab === 3) html = mine();
+      if (state.tab === 2) html = hubAi();
+      if (state.tab === 3) html = state.role === "member" ? memberMember() : memberMerchant();
+      if (state.tab === 4) html = mine();
       $("screen").innerHTML = html;
-      if (!showAiFab()) $("aiWin").classList.remove("on");
+      if (state.tab !== 0 && state.tab !== 1 && state.tab !== 2) $("aiWin").classList.remove("on");
       $("aiFab").innerHTML = `${ico("spark")}<span>问AI</span>`;
       $("aiFab").classList.toggle("on", showAiFab() && !$("aiWin").classList.contains("on"));
       renderFeats();
@@ -2482,7 +2555,7 @@
       const roleBtn = e.target.closest(".id-switch button");
       if (roleBtn) { state.role = roleBtn.dataset.role; closeSheet(); closeAskAi(); render(); return; }
       const tab = e.target.closest(".tab");
-      if (tab) { state.tab = Number(tab.dataset.tab); closeSheet(); render(); }
+      if (tab) { state.tab = Number(tab.dataset.tab); closeSheet(); closeAskAi(); render(); }
     });
 
     const params = new URLSearchParams(location.search);
