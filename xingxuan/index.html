@@ -89,7 +89,9 @@
       width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
       display: flex; flex-direction: column; background: var(--bg); color: var(--text);
       box-shadow: 0 40px 80px rgba(0,0,0,.45); border: 10px solid #2A2622; font-size: 15px;
+      position: relative;
     }
+    .desk { position: relative; }
     .chrome { background: var(--chrome); color: var(--chrome-text); padding: 10px 10px 10px 16px; flex-shrink: 0; border-bottom: 1px solid var(--line); }
     .status { height: 30px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 650; color: var(--chrome-muted); }
     .status-right { display: flex; align-items: center; gap: 8px; }
@@ -118,16 +120,16 @@
     .search, .field, .card, .list-row, .stat, .menu, .msg, .event {
       background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
     }
-    .search { height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .search { height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; color: var(--muted); margin-bottom: 10px; cursor: pointer; width: 100%; text-align: left; font: inherit; }
     .filters { display: flex; gap: 6px; overflow: auto; margin-bottom: 10px; }
     .filters::-webkit-scrollbar { height: 0; }
-    .filters span {
+    .filters button {
       height: 30px; padding: 0 12px; font-size: 12px; font-weight: 650; white-space: nowrap;
       display: inline-flex; align-items: center; border-radius: 8px; background: var(--surface);
-      border: 1px solid var(--line); color: var(--muted);
+      border: 1px solid var(--line); color: var(--muted); cursor: pointer; font: inherit;
     }
-    .filters span.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
-    .card { padding: 12px; margin-bottom: 10px; }
+    .filters button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .card { padding: 12px; margin-bottom: 10px; cursor: pointer; }
     .card h3 { font-size: 15px; font-weight: 700; }
     .sub { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
     .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 8px; }
@@ -144,7 +146,7 @@
     .hero b { display: block; font-size: 18px; }
     .hero span { font-size: 12px; opacity: .9; }
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
-    .stat { padding: 10px 4px; text-align: center; }
+    .stat { padding: 10px 4px; text-align: center; cursor: pointer; }
     .stat b { display: block; font-size: 16px; }
     .stat span { font-size: 11px; color: var(--muted); }
     .menu { overflow: hidden; }
@@ -158,22 +160,46 @@
     .field { padding: 10px 12px; margin-bottom: 8px; font-size: 13px; color: var(--muted); }
     .field b { display: block; color: var(--text); font-weight: 600; margin-top: 2px; }
     .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 10px; }
-    .week div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 2px; text-align: center; font-size: 11px; color: var(--muted); }
-    .week div.on { border-color: var(--accent); color: var(--accent); }
+    .week button { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 2px; text-align: center; font-size: 11px; color: var(--muted); cursor: pointer; font: inherit; }
+    .week button.on { border-color: var(--accent); color: var(--accent); }
     .week b { display: block; font-size: 14px; color: var(--text); }
-    .event { padding: 12px; margin-bottom: 8px; }
-    .msg { padding: 12px; margin-bottom: 8px; }
+    .event { padding: 12px; margin-bottom: 8px; cursor: pointer; }
+    .msg { padding: 12px; margin-bottom: 8px; cursor: pointer; width: 100%; text-align: left; font: inherit; color: inherit; display: block; }
+    .chat-in { display: flex; gap: 8px; margin-top: 12px; }
+    .chat-in input {
+      flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+      font: inherit; background: var(--surface); color: var(--text);
+    }
+    .toast {
+      position: absolute; left: 50%; bottom: 88px; transform: translateX(-50%);
+      background: rgba(20,16,12,.92); color: #fff; padding: 9px 16px; border-radius: 8px;
+      font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; white-space: nowrap; z-index: 6;
+    }
+    .desk .toast { bottom: 24px; }
+    .toast.show { opacity: 1; }
+    .sheet { position: absolute; inset: 0; z-index: 8; display: none; }
+    .sheet.on { display: block; }
+    .sheet-mask { position: absolute; inset: 0; background: rgba(12,10,8,.4); }
+    .sheet-card {
+      position: absolute; left: 0; right: 0; bottom: 0; max-height: 72%;
+      background: var(--surface); color: var(--text); border-radius: 16px 16px 0 0;
+      padding: 16px; overflow: auto;
+    }
+    .sheet-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .sheet-hd button { border: 0; background: 0; color: var(--accent); cursor: pointer; font: inherit; }
     .bubble { max-width: 80%; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; font-size: 13px; margin: 8px 0; }
     .bubble.me { margin-left: auto; background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
     .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     .funnel { display: flex; gap: 6px; margin-bottom: 12px; }
-    .funnel span { flex: 1; text-align: center; font-size: 11px; padding: 8px 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
-    .funnel span b { display: block; font-size: 14px; color: var(--text); }
+    .funnel button { flex: 1; text-align: center; font-size: 11px; padding: 8px 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--muted); cursor: pointer; font: inherit; }
+    .funnel button b { display: block; font-size: 14px; color: var(--text); }
+    button.stat, button.card, button.field { font: inherit; color: inherit; width: 100%; text-align: left; }
 
     .desk {
       width: min(980px, 100%); min-height: 640px; background: var(--surface);
       border: 1px solid #2A2622; border-radius: 12px; overflow: hidden;
       display: grid; grid-template-columns: 188px 1fr; box-shadow: 0 40px 80px rgba(0,0,0,.45);
+      position: relative;
     }
     .side { background: var(--chrome); border-right: 1px solid var(--line); padding: 18px 10px; }
     .side .logo { font-size: 15px; font-weight: 700; color: var(--text); padding: 0 8px; }
@@ -232,7 +258,7 @@
       <div class="label">五套风格</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
-      <p class="hint">墨典网络案例库 · 非正式上线产品。风格只换皮肤，页面目录不变。</p>
+      <p class="hint">手机里的筛选、卡片、按钮都可以点，和垟里GO一样会跳页或弹出演示提示。非正式上线产品。</p>
     </aside>
     <div class="preview" id="preview"></div>
     <aside class="features">
@@ -250,10 +276,16 @@
       { id: "wuqing", name: "雾青", acc: "#5B7C8A", blurb: "彩度最低，接近微信默认灰蓝，最克制。" }
     ];
     const JOBS = [
-      { t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店" },
-      { t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单" },
-      { t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪" }
+      { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州" },
+      { id: "cafe", t: "茶馆周末探店", c: "温州 · 瓯海", p: "¥700", tag: "探店", hall: "normal", plat: "小红书", city: "温州" },
+      { id: "urgent", t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单", hall: "urgent", plat: "抖音", city: "温州" },
+      { id: "shoot", t: "女装店跟拍一天", c: "杭州 · 西湖", p: "¥1,500", tag: "拍剪", hall: "paichian", plat: "小红书", city: "杭州" },
+      { id: "ice", t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪", hall: "ice", plat: "抖音", city: "杭州" }
     ];
+    const HALLS = [["normal", "普通单"], ["urgent", "急单"], ["paichian", "拍剪"], ["ice", "云剪"]];
+    const PLATS = ["全部平台", "抖音", "小红书"];
+    const CITIES = ["全部", "温州", "杭州"];
+    const DAYS = [14, 15, 16, 17, 18, 19, 20];
     const FEATS = {
       talent: [
         { page: "home", title: "首页", desc: "普通单 / 急单 / 拍剪分栏，定位城市后刷商单。" },
@@ -293,7 +325,12 @@
       ]
     };
 
-    const state = { theme: "jilan", role: "talent", device: "mp", page: "home" };
+    const state = {
+      theme: "jilan", role: "talent", device: "mp", page: "home",
+      hall: "normal", plat: "全部平台", city: "全部", jobId: "hotpot",
+      weekDay: 15, chat: "pr", applied: { hotpot: true }, fav: { cafe: true },
+      picked: {}, kw: ""
+    };
 
     function $(id) { return document.getElementById(id); }
     function style() { return STYLES.find((s) => s.id === state.theme) || STYLES[0]; }
@@ -303,57 +340,120 @@
       const f = feats().find((x) => x.page === state.page);
       return f ? f.title : "灵祺星选";
     }
+    function job() { return JOBS.find((j) => j.id === state.jobId) || JOBS[0]; }
+    function visibleJobs() {
+      return JOBS.filter((j) => {
+        if (j.hall !== state.hall) return false;
+        if (state.plat !== "全部平台" && j.plat !== state.plat) return false;
+        if (state.city !== "全部" && j.city !== state.city) return false;
+        if (state.kw && !(j.t + j.c + j.tag).includes(state.kw)) return false;
+        return true;
+      });
+    }
+    function toast(msg) {
+      const host = document.querySelector(".phone") || document.querySelector(".desk");
+      if (!host) return;
+      let el = host.querySelector(".toast");
+      if (!el) { el = document.createElement("div"); el.className = "toast"; host.appendChild(el); }
+      el.textContent = msg;
+      el.classList.add("show");
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.classList.remove("show"), 1800);
+    }
+    function openSheet(title, html) {
+      const host = document.querySelector(".phone") || document.querySelector(".desk");
+      if (!host) return;
+      let sheet = host.querySelector(".sheet");
+      if (!sheet) {
+        sheet = document.createElement("div");
+        sheet.className = "sheet";
+        sheet.innerHTML = `<div class="sheet-mask" data-act="close-sheet"></div>
+          <div class="sheet-card"><div class="sheet-hd"><b id="sheetTitle"></b><button type="button" data-act="close-sheet">关闭</button></div><div id="sheetBody"></div></div>`;
+        host.appendChild(sheet);
+      }
+      sheet.querySelector("#sheetTitle").textContent = title;
+      sheet.querySelector("#sheetBody").innerHTML = html;
+      sheet.classList.add("on");
+    }
+    function closeSheet() {
+      document.querySelectorAll(".sheet").forEach((s) => s.classList.remove("on"));
+    }
 
     function jobCards() {
-      return JOBS.map((j) =>
-        `<article class="card"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag}</div><div class="row"><span class="price">${j.p}</span><button class="btn" data-page="detail" type="button">查看</button></div></article>`
+      const rows = visibleJobs();
+      if (!rows.length) return `<div class="card">这个筛选下没有商单，点上面筛选项换一换。</div>`;
+      return rows.map((j) =>
+        `<article class="card" data-act="open-job" data-job="${j.id}">
+          <h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag} · ${j.plat}</div>
+          <div class="row"><span class="price">${j.p}</span>
+            <button class="btn" data-act="open-job" data-job="${j.id}" type="button">查看</button>
+          </div>
+        </article>`
       ).join("");
     }
     function hallFilters() {
-      return `<div class="search">搜商单 / 城市</div>
-        <div class="filters"><span class="on">普通单</span><span>急单</span><span>拍剪</span><span>云剪</span></div>
-        <div class="filters"><span class="on">全部平台</span><span>抖音</span><span>小红书</span><span>温州</span></div>`;
+      return `<button class="search" data-act="search" type="button">${state.kw ? "搜索：" + state.kw : "搜商单 / 城市"}</button>
+        <div class="filters">${HALLS.map(([id, name]) => `<button class="${state.hall === id ? "on" : ""}" data-act="hall" data-v="${id}" type="button">${name}</button>`).join("")}</div>
+        <div class="filters">${PLATS.map((p) => `<button class="${state.plat === p ? "on" : ""}" data-act="plat" data-v="${p}" type="button">${p}</button>`).join("")}
+          ${CITIES.map((c) => `<button class="${state.city === c ? "on" : ""}" data-act="city" data-v="${c}" type="button">${c}</button>`).join("")}</div>`;
     }
 
     const screens = {
       home() {
-        return `<div class="hero"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"}</span></div>
+        return `<div class="hero"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"} · 点卡片可进详情</span></div>
           ${hallFilters()}${jobCards()}`;
       },
       recommend() { return hallFilters() + jobCards(); },
       detail() {
-        return `<div class="card"><h3>温州火锅探店 · 3条成片</h3><div class="sub">温州 · 鹿城 · 抖音</div><div class="price" style="margin-top:8px">¥800</div></div>
+        const j = job();
+        const go = isPr() ? "applicants" : "apply";
+        return `<div class="card"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.plat}</div><div class="price" style="margin-top:8px">${j.p}</div></div>
           <div class="field">Brief<b>3 条成片，露出门头与招牌菜，周五前交片。</b></div>
-          <div class="field">到店<b>鹿城人民路 · 约 90 分钟</b></div>
-          <button class="btn" data-page="${isPr() ? "applicants" : "apply"}" type="button">${isPr() ? "看报名者" : "去报名"}</button>`;
+          <div class="field">到店<b>约 90 分钟 · 需露出门头</b></div>
+          <div class="row">
+            <button class="btn ghost" data-act="fav" data-job="${j.id}" type="button">${state.fav[j.id] ? "已收藏" : "收藏"}</button>
+            <button class="btn" data-page="${go}" type="button">${isPr() ? "看报名者" : (state.applied[j.id] ? "已报名" : "去报名")}</button>
+          </div>`;
       },
       apply() {
-        return `<div class="field">档期<b>本周六 15:00 可到店</b></div>
-          <div class="field">报价<b>¥800（按招募预算）</b></div>
+        const j = job();
+        return `<div class="field">商单<b>${j.t}</b></div>
+          <div class="field">档期<b>本周六 15:00 可到店</b></div>
+          <div class="field">报价<b>${j.p}（按招募预算）</b></div>
           <div class="field">备注<b>可出竖屏 + 门头全景</b></div>
-          <button class="btn" type="button">提交报名</button>`;
+          <button class="btn" data-act="apply" data-job="${j.id}" type="button">${state.applied[j.id] ? "已提交，查看报名" : "提交报名"}</button>`;
       },
       publish() {
         return `<div class="field">标题<b>周末探店 · 火锅品牌</b></div>
           <div class="field">城市<b>温州 · 鹿城</b></div>
           <div class="field">预算<b>¥800</b></div>
           <div class="field">Brief<b>3 条成片，露出门头与招牌菜。</b></div>
-          <button class="btn" type="button">发布到大厅</button>`;
+          <button class="btn" data-act="publish" type="button">发布到大厅</button>`;
       },
       messages() {
-        return `<div class="msg"><b>系统</b><div class="sub">你已入选「温州火锅探店」，待排期。</div></div>
-          <div class="msg"><b>PR · 小王</b><div class="sub">门头要拍全，招牌菜特写多给两条。</div></div>
-          <div class="msg"><b>达人 · 阿宁</b><div class="sub">成片已传，请验收。</div></div>`;
+        return `<button class="msg" data-act="chat" data-v="sys" type="button"><b>系统</b><div class="sub">你已入选「温州火锅探店」，待排期。</div></button>
+          <button class="msg" data-act="chat" data-v="pr" type="button"><b>PR · 小王</b><div class="sub">门头要拍全，招牌菜特写多给两条。</div></button>
+          <button class="msg" data-act="chat" data-v="talent" type="button"><b>达人 · 阿宁</b><div class="sub">成片已传，请验收。</div></button>`;
       },
       chat() {
-        return `<div class="sub" style="margin-bottom:8px">PR · 小王</div>
+        const who = state.chat === "sys" ? "系统" : state.chat === "talent" ? "达人 · 阿宁" : "PR · 小王";
+        return `<div class="sub" style="margin-bottom:8px">${who}</div>
           <div class="bubble">门头要拍全，招牌菜特写多给两条。</div>
           <div class="bubble me">收到，周五前交 3 条。</div>
-          <div class="bubble">日历已标 15 日探店、18 日交片。</div>`;
+          <div class="bubble">日历已标 15 日探店、18 日交片。</div>
+          <form class="chat-in" data-act="send-chat">
+            <input name="q" placeholder="发一条演示消息" />
+            <button class="btn" type="submit">发送</button>
+          </form>`;
       },
       mine() {
         if (isPr()) {
-          return `<div class="stats"><div class="stat"><b>8</b><span>已发单</span></div><div class="stat"><b>3</b><span>招募中</span></div><div class="stat"><b>5</b><span>已完结</span></div><div class="stat"><b>—</b><span>漏斗</span></div></div>
+          return `<div class="stats">
+              <button class="stat" data-page="orders" type="button"><b>8</b><span>已发单</span></button>
+              <button class="stat" data-page="applicants" type="button"><b>3</b><span>招募中</span></button>
+              <button class="stat" data-page="orders" type="button"><b>5</b><span>已完结</span></button>
+              <button class="stat" data-page="funnel" type="button"><b>漏斗</b><span>转化</span></button>
+            </div>
             <div class="menu">
               <button data-page="orders" type="button">我的发单<i>›</i></button>
               <button data-page="calendar" type="button">商单日历<i>›</i></button>
@@ -361,11 +461,18 @@
               <button data-page="watch" type="button">黑灰名单<i>›</i></button>
               <button data-page="funnel" type="button">招募漏斗<i>›</i></button>
               <button data-page="templates" type="button">我的模版<i>›</i></button>
+              <button data-page="brief" type="button">Brief 模版<i>›</i></button>
+              <button data-page="relay" type="button">转发工具<i>›</i></button>
               <button data-page="points" type="button">积分与会员<i>›</i></button>
               <button data-page="support" type="button">小灵同学<i>›</i></button>
             </div>`;
         }
-        return `<div class="stats"><div class="stat"><b>12</b><span>已报名</span></div><div class="stat"><b>3</b><span>进行中</span></div><div class="stat"><b>5</b><span>已完成</span></div><div class="stat"><b>96%</b><span>完单</span></div></div>
+        return `<div class="stats">
+            <button class="stat" data-page="applications" type="button"><b>${Object.keys(state.applied).length}</b><span>已报名</span></button>
+            <button class="stat" data-page="calendar" type="button"><b>3</b><span>进行中</span></button>
+            <button class="stat" data-page="credit" type="button"><b>5</b><span>已完成</span></button>
+            <button class="stat" data-page="credit" type="button"><b>96%</b><span>完单</span></button>
+          </div>
           <div class="menu">
             <button data-page="applications" type="button">我的报名<i>›</i></button>
             <button data-page="calendar" type="button">商单日历<i>›</i></button>
@@ -377,49 +484,67 @@
           </div>`;
       },
       applications() {
-        return `<div class="card"><b>温州火锅探店</b><div class="sub">已入选 · 待排期</div></div>
-          <div class="card"><b>电竞网吧急单</b><div class="sub">已报名 · 待查看</div></div>
-          <div class="card"><b>云剪口播</b><div class="sub">未入选</div></div>`;
+        const ids = Object.keys(state.applied);
+        if (!ids.length) return `<div class="card">还没有报名。去大厅点「查看」再提交。</div>`;
+        return ids.map((id) => {
+          const j = JOBS.find((x) => x.id === id);
+          if (!j) return "";
+          return `<article class="card" data-act="open-job" data-job="${id}"><b>${j.t}</b><div class="sub">${state.picked[id] ? "已入选 · 待排期" : "已报名 · 待查看"}</div></article>`;
+        }).join("");
       },
       orders() {
-        return `<div class="card"><b>周末探店 · 火锅品牌</b><div class="sub">招募中 · 12 人报名</div><div class="row"><button class="btn ghost" data-page="applicants" type="button">报名者</button></div></div>
-          <div class="card"><b>云剪口播</b><div class="sub">已完结 · 3 条成片</div></div>`;
+        return `<div class="card" data-act="open-job" data-job="hotpot"><b>周末探店 · 火锅品牌</b><div class="sub">招募中 · 12 人报名</div><div class="row"><button class="btn ghost" data-page="applicants" type="button">报名者</button></div></div>
+          <div class="card" data-page="calendar"><b>云剪口播</b><div class="sub">已完结 · 点开看日历交片</div></div>`;
       },
       applicants() {
-        return `<div class="card"><b>阿宁 · 抖音 12w</b><div class="sub">档期周六 · 报价 ¥800</div><div class="row"><button class="btn" type="button">入选排期</button></div></div>
-          <div class="card"><b>小周 · 小红书 8w</b><div class="sub">档期周日 · 报价 ¥900</div><div class="row"><button class="btn ghost" type="button">待定</button></div></div>`;
+        return `<div class="card"><b>阿宁 · 抖音 12w</b><div class="sub">档期周六 · 报价 ¥800</div><div class="row">
+            <button class="btn" data-act="pick" data-v="ning" type="button">${state.picked.ning ? "已入选" : "入选排期"}</button>
+            <button class="btn ghost" data-page="chat" type="button">私信</button>
+          </div></div>
+          <div class="card"><b>小周 · 小红书 8w</b><div class="sub">档期周日 · 报价 ¥900</div><div class="row">
+            <button class="btn ghost" data-act="hold" type="button">待定</button>
+          </div></div>`;
       },
       calendar() {
-        return `<div class="week"><div>一<b>14</b></div><div class="on">二<b>15</b></div><div>三<b>16</b></div><div>四<b>17</b></div><div>五<b>18</b></div><div>六<b>19</b></div><div>日<b>20</b></div></div>
-          <div class="event"><b>15 日 15:00 · 探店</b><div class="sub">鹿城火锅 · 到店拍摄</div></div>
-          <div class="event"><b>18 日 · 交片</b><div class="sub">3 条成片 · 门头+招牌菜</div></div>`;
+        const ev = state.weekDay === 15
+          ? `<div class="event" data-page="detail"><b>15 日 15:00 · 探店</b><div class="sub">鹿城火锅 · 点开商单</div></div>`
+          : state.weekDay === 18
+            ? `<div class="event" data-act="deliver"><b>18 日 · 交片</b><div class="sub">点这里演示上传成片</div></div>`
+            : `<div class="card">这天暂无排期，可接急单。</div>`;
+        return `<div class="week">${DAYS.map((d, i) => `<button class="${state.weekDay === d ? "on" : ""}" data-act="day" data-v="${d}" type="button">${"一二三四五六日"[i]}<b>${d}</b></button>`).join("")}</div>${ev}`;
       },
       favorites() {
-        return jobCards();
+        const ids = Object.keys(state.fav).filter((id) => state.fav[id]);
+        if (!ids.length) return `<div class="card">还没有收藏。详情页点「收藏」。</div>`;
+        return ids.map((id) => {
+          const j = JOBS.find((x) => x.id === id);
+          if (!j) return "";
+          return `<article class="card" data-act="open-job" data-job="${id}"><h3>${j.t}</h3><div class="sub">${j.c}</div><div class="row"><span class="price">${j.p}</span><button class="btn ghost" data-act="fav" data-job="${id}" type="button">取消收藏</button></div></article>`;
+        }).join("");
       },
       quotes() {
-        return `<div class="field">探店<b>¥600–1200 / 条</b></div>
-          <div class="field">云剪<b>¥400–800 / 条</b></div>
-          <div class="field">口播<b>¥800 起</b></div>`;
+        return `<button class="field" data-act="quote" type="button">探店<b>¥600–1200 / 条 · 点此修改</b></button>
+          <button class="field" data-act="quote" type="button">云剪<b>¥400–800 / 条 · 点此修改</b></button>
+          <button class="field" data-act="quote" type="button">口播<b>¥800 起 · 点此修改</b></button>`;
       },
       credit() {
         return `<div class="stats"><div class="stat"><b>96</b><span>信用分</span></div><div class="stat"><b>5</b><span>完单</span></div><div class="stat"><b>0</b><span>违约</span></div><div class="stat"><b>A</b><span>档位</span></div></div>
-          <div class="card"><b>按时交片</b><div class="sub">近 30 天无逾期</div></div>
-          <div class="card"><b>建议</b><div class="sub">补充小红书主页，提高入选率</div></div>`;
+          <button class="card" data-page="applications" type="button"><b>按时交片</b><div class="sub">近 30 天无逾期 · 看报名记录</div></button>
+          <button class="card" data-act="tip" data-msg="演示：去资料页补小红书主页" type="button"><b>建议</b><div class="sub">补充小红书主页，提高入选率</div></button>`;
       },
       points() {
         return `<div class="hero"><b>860 积分</b><span>会员有效期至 2026-12</span></div>
-          <div class="card"><b>积分充值</b><div class="sub">视频检核 / Brief 生成</div></div>
-          <div class="card"><b>我的订单</b><div class="sub">开通与充值记录</div></div>`;
+          <button class="card" data-act="recharge" type="button"><b>积分充值</b><div class="sub">点此演示充值 200 积分</div></button>
+          <button class="card" data-act="tip" data-msg="开通记录：星选会员年卡" type="button"><b>我的订单</b><div class="sub">开通与充值记录</div></button>`;
       },
       support() {
-        return `<div class="card"><b>小灵同学</b><div class="sub">报名后多久能知道结果？</div></div>
-          <div class="card"><b>使用手册</b><div class="sub">探店、交片、排期图文说明</div></div>`;
+        return `<button class="card" data-act="faq" type="button"><b>小灵同学</b><div class="sub">报名后多久能知道结果？点开看答复</div></button>
+          <button class="card" data-act="manual" type="button"><b>使用手册</b><div class="sub">探店、交片、排期图文说明</div></button>`;
       },
       templates() {
-        return `<div class="card"><b>达人报名表</b><div class="sub">粉丝、城市、档期、报价</div></div>
-          <div class="card"><b>拍摄团队表</b><div class="sub">设备、人数、档期</div></div>
-          <div class="card"><b>剪辑团队表</b><div class="sub">风格、周期、报价</div></div>`;
+        return `<button class="card" data-page="publish" type="button"><b>达人报名表</b><div class="sub">点此套用并发单</div></button>
+          <button class="card" data-page="publish" type="button"><b>拍摄团队表</b><div class="sub">设备、人数、档期</div></button>
+          <button class="card" data-page="publish" type="button"><b>剪辑团队表</b><div class="sub">风格、周期、报价</div></button>`;
       },
       brief() {
         return `<div class="field">模版<b>餐饮探店 · 3 条成片</b></div>
@@ -428,21 +553,26 @@
           <button class="btn" data-page="publish" type="button">套用并发单</button>`;
       },
       coop() {
-        return `<div class="card"><b>阿宁</b><div class="sub">完单 3 次 · 火锅/夜宵</div></div>
-          <div class="card"><b>小周</b><div class="sub">完单 1 次 · 亲子</div></div>`;
+        return `<button class="card" data-page="chat" type="button"><b>阿宁</b><div class="sub">完单 3 次 · 点开私信复用</div></button>
+          <button class="card" data-page="chat" type="button"><b>小周</b><div class="sub">完单 1 次 · 亲子</div></button>`;
       },
       watch() {
-        return `<div class="card"><b>灰名单 · 某达人</b><div class="sub">交片逾期 · 团队共享</div></div>
-          <div class="card"><b>黑名单</b><div class="sub">空</div></div>`;
+        return `<button class="card" data-act="watch-add" type="button"><b>灰名单 · 某达人</b><div class="sub">交片逾期 · 点此移出</div></button>
+          <button class="card" data-act="tip" data-msg="黑名单为空" type="button"><b>黑名单</b><div class="sub">空</div></button>`;
       },
       funnel() {
-        return `<div class="funnel"><span><b>320</b>曝光</span><span><b>48</b>报名</span><span><b>6</b>入选</span><span><b>3</b>发布</span></div>
-          <div class="card"><b>本周转化</b><div class="sub">报名率 15% · 入选率 12.5%</div></div>`;
+        return `<div class="funnel">
+            <button type="button" data-page="home"><b>320</b>曝光</button>
+            <button type="button" data-page="applicants"><b>48</b>报名</button>
+            <button type="button" data-page="calendar"><b>6</b>入选</button>
+            <button type="button" data-act="tip" data-msg="3 条已发布到平台"><b>3</b>发布</button>
+          </div>
+          <div class="card"><b>本周转化</b><div class="sub">报名率 15% · 入选率 12.5% · 数字可点</div></div>`;
       },
       relay() {
         return `<div class="field">外部表单<b>金数据 · 探店报名</b></div>
           <div class="field">回填<b>导出 12 条待入选</b></div>
-          <button class="btn" type="button">同步到发单</button>`;
+          <button class="btn" data-act="relay" type="button">同步到发单</button>`;
       }
     };
 
@@ -480,6 +610,7 @@
         <div class="tabbar">
           ${tabs.map(([label, page]) => `<button class="tab ${state.page === page ? "on" : ""}" data-page="${page}" type="button">${label}</button>`).join("")}
         </div>
+        <div class="toast"></div>
       </div>`;
     }
 
@@ -487,15 +618,15 @@
       if (state.page === "home" || state.page === "recommend") {
         return `<h2>${pageTitle()}</h2><p class="sub" style="margin-bottom:12px">与小程序同源商单</p>
           <table><thead><tr><th>商单</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
-          ${JOBS.map((j) => `<tr><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" data-page="detail" type="button">查看</button></td></tr>`).join("")}
+          ${visibleJobs().map((j) => `<tr data-act="open-job" data-job="${j.id}" style="cursor:pointer"><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" data-act="open-job" data-job="${j.id}" type="button">查看</button></td></tr>`).join("")}
           </tbody></table>`;
       }
       if (state.page === "messages" || state.page === "chat") {
         return `<h2>消息</h2><p class="sub" style="margin-bottom:12px">系统通知与私聊</p>
           <div class="split"><div class="split-list">
-            <button class="on" type="button">系统 · 入选待排期</button>
-            <button type="button">PR 小王 · Brief</button>
-            <button type="button">达人 阿宁 · 成片</button>
+            <button class="${state.chat === "sys" ? "on" : ""}" data-act="chat" data-v="sys" type="button">系统 · 入选待排期</button>
+            <button class="${state.chat === "pr" ? "on" : ""}" data-act="chat" data-v="pr" type="button">PR 小王 · Brief</button>
+            <button class="${state.chat === "talent" ? "on" : ""}" data-act="chat" data-v="talent" type="button">达人 阿宁 · 成片</button>
           </div><div class="split-thread">${screens.chat()}</div></div>`;
       }
       if (state.page === "funnel" || state.page === "orders") {
@@ -543,6 +674,7 @@
           ${nav.map(([label, page]) => `<button class="${on(page) ? "on" : ""}" data-page="${page}" type="button">${label}</button>`).join("")}
         </aside>
         <div class="main">${webBody()}</div>
+        <div class="toast"></div>
       </div>`;
     }
 
@@ -574,6 +706,7 @@
     }
 
     document.querySelector(".stage").addEventListener("click", (e) => {
+      if (e.target.closest("[data-act='close-sheet']")) { closeSheet(); return; }
       const theme = e.target.closest("[data-theme]");
       if (theme && theme.dataset.theme && STYLES.some((s) => s.id === theme.dataset.theme)) {
         state.theme = theme.dataset.theme;
@@ -584,8 +717,110 @@
       if (device) { state.device = device.dataset.device; render(); return; }
       const role = e.target.closest("[data-role]");
       if (role) { state.role = role.dataset.role; render(); return; }
+
+      const actEl = e.target.closest("[data-act]");
+      const act = actEl && actEl.dataset.act;
+      if (act === "hall") { state.hall = actEl.dataset.v; render(); return; }
+      if (act === "plat") { state.plat = actEl.dataset.v; render(); return; }
+      if (act === "city") { state.city = actEl.dataset.v; render(); return; }
+      if (act === "search") {
+        openSheet("搜索商单", `<form data-act="do-search"><input name="q" value="${state.kw}" placeholder="城市 / 探店 / 云剪" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit" /><div style="margin-top:12px"><button class="btn" type="submit">搜索</button></div></form>`);
+        return;
+      }
+      if (act === "open-job") {
+        state.jobId = actEl.dataset.job;
+        state.page = "detail";
+        render();
+        return;
+      }
+      if (act === "fav") {
+        const id = actEl.dataset.job;
+        state.fav[id] = !state.fav[id];
+        toast(state.fav[id] ? "已收藏，可在「我的收藏」查看" : "已取消收藏");
+        render();
+        return;
+      }
+      if (act === "apply") {
+        state.applied[actEl.dataset.job] = true;
+        toast("报名已提交，可在「我的报名」查看");
+        state.page = "applications";
+        render();
+        return;
+      }
+      if (act === "publish") {
+        if (!isPr()) { state.role = "pr"; toast("已切到 PR，发布到大厅"); }
+        else toast("已发布，达人端大厅可刷到");
+        state.page = "home";
+        state.hall = "normal";
+        render();
+        return;
+      }
+      if (act === "chat") {
+        state.chat = actEl.dataset.v || "pr";
+        state.page = "chat";
+        render();
+        return;
+      }
+      if (act === "pick") {
+        state.picked[actEl.dataset.v] = true;
+        state.picked.hotpot = true;
+        toast("已入选阿宁，日历标了探店日");
+        state.page = "calendar";
+        state.weekDay = 15;
+        render();
+        return;
+      }
+      if (act === "hold") { toast("已标记待定"); return; }
+      if (act === "day") { state.weekDay = Number(actEl.dataset.v); render(); return; }
+      if (act === "deliver") { toast("演示：成片已上传，待 PR 验收"); return; }
+      if (act === "quote") {
+        openSheet("修改报价", `<p class="sub">演示占位，正式环境写入你的报价表。</p><button class="btn" data-act="close-sheet" type="button" style="margin-top:12px">知道了</button>`);
+        return;
+      }
+      if (act === "recharge") { toast("演示充值 200 积分成功"); return; }
+      if (act === "faq") {
+        openSheet("小灵同学", `<p>报名后一般 24 小时内 PR 会看。入选后系统会发消息，并出现在商单日历。</p><button class="btn" data-page="messages" type="button" style="margin-top:12px">去消息</button>`);
+        return;
+      }
+      if (act === "manual") {
+        openSheet("使用手册", `<p>1. 大厅筛选并报名<br>2. 入选后看日历探店日<br>3. 交片日上传成片<br>4. PR 在报名者里验收</p>`);
+        return;
+      }
+      if (act === "watch-add") { toast("已从灰名单移出（演示）"); return; }
+      if (act === "relay") { toast("已同步 12 条到发单报名者"); state.page = "applicants"; render(); return; }
+      if (act === "tip") { toast(actEl.dataset.msg || "演示占位"); return; }
+
       const page = e.target.closest("[data-page]");
-      if (page) { state.page = page.dataset.page; render(); }
+      if (page) {
+        const next = page.dataset.page;
+        if (next === "publish" && !isPr()) {
+          state.role = "pr";
+          toast("发招募是 PR 功能，已切到 PR");
+        }
+        if (next === "apply" && isPr()) {
+          toast("报名是达人功能，已切到达人");
+          state.role = "talent";
+        }
+        state.page = next;
+        render();
+      }
+    });
+    document.querySelector(".stage").addEventListener("submit", (e) => {
+      const form = e.target.closest("form");
+      if (!form) return;
+      e.preventDefault();
+      if (form.dataset.act === "do-search") {
+        state.kw = (form.q && form.q.value || "").trim();
+        closeSheet();
+        state.page = state.page === "home" ? "home" : "recommend";
+        toast(state.kw ? "已按「" + state.kw + "」筛选" : "已清空搜索");
+        render();
+        return;
+      }
+      if (form.dataset.act === "send-chat") {
+        toast("演示已发出，正式环境会送到对方消息里");
+        form.reset();
+      }
     });
     render();
   </script>
