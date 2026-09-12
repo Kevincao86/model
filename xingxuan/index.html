@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>墨典网络案例库演示 · 灵祺星选</title>
-  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，八套风格含实拍图。" />
+  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，十套风格含实拍图。" />
   <link rel="icon" href="/assets/brand/logo-mark.png" />
   <style>
     :root { --phone-w: 390px; --phone-h: 844px; }
@@ -109,6 +109,18 @@
       --line: #24364F; --accent: #F5C518; --on-accent: #0E1A2B; --chrome: #0E1A2B;
       --bar: #0A1422; --tab: #6E8298; --tab-on: #F5C518; --price: #F5C518;
       --radius: 0; --chrome-text: #F4F0E6; --chrome-muted: #8FA3B8;
+    }
+    .phone[data-skin="qing"], .desk[data-skin="qing"] {
+      --bg: #EEF3F8; --surface: #F7FAFD; --text: #163A66; --muted: #6A86A6;
+      --line: #C5D4E6; --accent: #1E4D8C; --on-accent: #F7FAFD; --chrome: #F7FAFD;
+      --bar: #F7FAFD; --tab: #8AA0B8; --tab-on: #1E4D8C; --price: #1E4D8C;
+      --radius: 0; --chrome-text: #163A66; --chrome-muted: #6A86A6;
+    }
+    .phone[data-skin="tide"], .desk[data-skin="tide"] {
+      --bg: #D7EEF6; --surface: #0B6E99; --text: #fff; --muted: rgba(255,255,255,.78);
+      --line: #7EC4DC; --accent: #063E5C; --on-accent: #fff; --chrome: #E8F6FB;
+      --bar: #E8F6FB; --tab: #5A9BB4; --tab-on: #063E5C; --price: #fff;
+      --radius: 0; --chrome-text: #063E5C; --chrome-muted: #3E7A94;
     }
     .cover { overflow: hidden; background: #DDD; flex-shrink: 0; }
     .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -218,6 +230,37 @@
     .phone[data-skin="sign"] .price { font-size: 20px; letter-spacing: .04em; }
     .phone[data-skin="sign"] .btn { border-radius: 0; background: #F5C518; color: #0E1A2B; }
     .phone[data-skin="sign"] .tabbar { border-top: 6px solid #F5C518; }
+
+    /* 青花卷轴：竖图在左，双钩边 */
+    .phone[data-skin="qing"] .nav-title { font-family: "Songti SC", "STSong", "Noto Serif SC", serif; letter-spacing: .2em; font-weight: 600; }
+    .phone[data-skin="qing"] .chrome { border-bottom: 1px solid #1E4D8C; box-shadow: inset 0 -3px 0 #1E4D8C; }
+    .phone[data-skin="qing"] .hero { height: 124px; border-radius: 0; margin-bottom: 14px; border: 1px solid #1E4D8C; }
+    .phone[data-skin="qing"] .filters button { border-radius: 0; border-color: #1E4D8C; }
+    .phone[data-skin="qing"] .card {
+      display: grid; grid-template-columns: 112px 1fr; gap: 12px; align-items: stretch;
+      padding: 8px; margin-bottom: 12px; background: #F7FAFD;
+      border: 1px solid #1E4D8C; outline: 1px solid #1E4D8C; outline-offset: 3px;
+    }
+    .phone[data-skin="qing"] .cover { width: 112px; height: 148px; border-radius: 0; }
+    .phone[data-skin="qing"] .body { padding: 6px 8px 6px 0; }
+    .phone[data-skin="qing"] .btn { border-radius: 0; letter-spacing: .1em; }
+
+    /* 潮汐条：上图下实心蓝条 */
+    .phone[data-skin="tide"] .nav-title { font-weight: 700; letter-spacing: .12em; }
+    .phone[data-skin="tide"] .chrome { border-bottom: 0; background: #E8F6FB; }
+    .phone[data-skin="tide"] .hero { height: 150px; border-radius: 0; margin: 0 -14px 12px; }
+    .phone[data-skin="tide"] .search { background: #fff; border-color: #7EC4DC; color: #3E7A94; }
+    .phone[data-skin="tide"] .filters button { background: #fff; color: #3E7A94; border-radius: 0; }
+    .phone[data-skin="tide"] .filters button.on { background: #063E5C; color: #fff; border-color: #063E5C; }
+    .phone[data-skin="tide"] .card {
+      display: flex; flex-direction: column; padding: 0; margin-bottom: 12px;
+      border: 0; overflow: hidden; background: #0B6E99;
+    }
+    .phone[data-skin="tide"] .cover { width: 100%; height: 128px; border-radius: 0; }
+    .phone[data-skin="tide"] .body { padding: 12px 14px 14px; color: #fff; }
+    .phone[data-skin="tide"] .sub { color: rgba(255,255,255,.8); }
+    .phone[data-skin="tide"] .btn { background: #fff; color: #063E5C; border-radius: 0; }
+    .phone[data-skin="tide"] .tabbar { background: #E8F6FB; }
     .avatar-pic { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; display: block; }
     .phone[data-skin="biz"] .avatar-pic { border-radius: 2px; }
     .phone[data-skin="min"] .avatar-pic { border-radius: 0; width: 72px; height: 72px; }
@@ -225,16 +268,21 @@
     .phone[data-skin="feed"] .avatar-pic { border-radius: 20px; }
     .phone[data-skin="stub"] .avatar-pic { border-radius: 50%; border: 2px solid #8B1E1E; }
     .phone[data-skin="sign"] .avatar-pic { border-radius: 0; }
+    .phone[data-skin="qing"] .avatar-pic { border-radius: 0; outline: 1px solid #1E4D8C; outline-offset: 2px; }
+    .phone[data-skin="tide"] .avatar-pic { border-radius: 0; }
     .phone[data-skin="min"] .card { display: flex; flex-direction: column; }
     .phone[data-skin="tanshop"] .card { display: flex; flex-direction: column; }
     .desk[data-skin="biz"] .hero, .desk[data-skin="min"] .hero, .desk[data-skin="tanshop"] .hero,
     .desk[data-skin="night"] .hero, .desk[data-skin="feed"] .hero,
-    .desk[data-skin="stub"] .hero, .desk[data-skin="sign"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
+    .desk[data-skin="stub"] .hero, .desk[data-skin="sign"] .hero,
+    .desk[data-skin="qing"] .hero, .desk[data-skin="tide"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
     .desk[data-skin="min"] .hero { height: 200px; border-radius: 0; }
     .desk[data-skin="night"] .hero { border-radius: 0; height: 180px; }
     .desk[data-skin="feed"] .hero { border-radius: 16px; }
     .desk[data-skin="stub"] .hero { border-radius: 2px; }
     .desk[data-skin="sign"] .hero { border-radius: 0; }
+    .desk[data-skin="qing"] .hero { border-radius: 0; }
+    .desk[data-skin="tide"] .hero { border-radius: 0; }
 
     .phone {
       width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
@@ -401,7 +449,7 @@
       <div class="chips" id="deviceChips"></div>
       <div class="label">身份</div>
       <div class="chips" id="roleChips"></div>
-      <div class="label">八套风格 · 含实拍</div>
+      <div class="label">十套风格 · 含实拍</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
       <p class="hint">手机里的筛选、卡片、按钮都可以点，和垟里GO一样会跳页或弹出演示提示。非正式上线产品。</p>
@@ -422,7 +470,9 @@
       { id: "night", name: "暗夜杂志", acc: "#E8C36A", blurb: "黑底、字叠在大图上。像夜场画报，刷单时先看场面。" },
       { id: "feed", name: "笔记瀑布", acc: "#FF2442", blurb: "双列封面墙。像小红书笔记流，适合刷探店和跟拍。" },
       { id: "stub", name: "票根工牌", acc: "#8B1E1E", blurb: "圆章照片、虚线撕口、暗红票根。像入场券，适合档期和到店。" },
-      { id: "sign", name: "导视看板", acc: "#F5C518", blurb: "海军底、黄条路牌、照片在右侧。适合 PR 看大厅像看站台指示。" }
+      { id: "sign", name: "导视看板", acc: "#F5C518", blurb: "海军底、黄条路牌、照片在右侧。适合 PR 看大厅像看站台指示。" },
+      { id: "qing", name: "青花卷轴", acc: "#1E4D8C", blurb: "瓷青双钩边、竖图在左。和商务横图不是一套骨架。" },
+      { id: "tide", name: "潮汐条", acc: "#0B6E99", blurb: "上图下实心蓝条，像潮汐时刻表。适合沿海探店。" }
     ];
     const JOBS = [
       { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州", img: "/xingxuan/img/xx-hotpot.jpg" },
@@ -549,6 +599,8 @@
         : state.theme === "feed" ? "/xingxuan/img/xx-hero-feed.jpg"
         : state.theme === "stub" ? "/xingxuan/img/xx-hero-stub.jpg"
         : state.theme === "sign" ? "/xingxuan/img/xx-hero-sign.jpg"
+        : state.theme === "qing" ? "/xingxuan/img/xx-hero-qing.jpg"
+        : state.theme === "tide" ? "/xingxuan/img/xx-hero-tide.jpg"
         : "/xingxuan/img/xx-hero-biz.jpg";
       return `<div class="hero"><img src="${src}" alt=""><div class="cap"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"}</span></div></div>`;
     }
