@@ -356,11 +356,21 @@
           body: JSON.stringify({ id: current.id, password })
         });
         const j = await r.json();
-        if (!r.ok) {
-          document.getElementById('mErr').textContent = j.error || '密码不正确';
+        if (r.ok) {
+          try { sessionStorage.setItem('md-unlock-' + current.id, '1'); } catch (_) {}
+          location.href = j.demoUrl;
           return;
         }
-        location.href = j.demoUrl;
+        if ((r.status === 404 || r.status === 403) && current.passwordHash) {
+          const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('modian-case-v1:' + password));
+          const hex = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+          if (hex === current.passwordHash) {
+            try { sessionStorage.setItem('md-unlock-' + current.id, '1'); } catch (_) {}
+            location.href = current.demoUrl;
+            return;
+          }
+        }
+        document.getElementById('mErr').textContent = j.error || '密码不正确';
       } catch {
         document.getElementById('mErr').textContent = '网络异常，请重试';
       } finally {
@@ -373,7 +383,7 @@
       { id: 'lingqi', title: '灵祺商家ERP', tag: '商家中台 · 演示', blurb: '面向餐饮与零售门店的经营中台演示：订单、营收、库存预警与待发货一目了然。', cover: '/assets/covers/cover-lingqi.jpg', demoUrl: '/demo/lingqi.html' },
       { id: 'guangming', title: '光明牛奶小程序', tag: '品牌零售 · 小程序', blurb: '乳品品牌会员小程序演示：鲜奶订阅、门店自提、积分兑换。', cover: '/assets/covers/cover-guangming.jpg', demoUrl: '/demo/guangming.html' },
       { id: 'zebra', title: '魔楽斑马小程序', tag: '亲子娱乐 · 小程序', blurb: '亲子场馆预约小程序演示：课程卡、周末场次、亲子套票。', cover: '/assets/covers/cover-zebra.jpg', demoUrl: '/demo/zebra.html' },
-      { id: 'xingxuan', title: '灵祺星选', tag: '达人履约 · 小程序 / Web', blurb: '六套浅色商务简约可切换，网页版与小程序版对照。', cover: '/assets/covers/cover-xingxuan.jpg', demoUrl: '/xingxuan/' }
+      { id: 'xingxuan', title: '灵祺星选', tag: '达人履约 · 小程序 / Web', blurb: '六套浅色商务简约可切换，网页版与小程序版对照。', cover: '/assets/covers/cover-xingxuan.jpg', demoUrl: '/xingxuan/', passwordHash: '3db32b11936a82c4ff03365d1864dba8ff511bacfe6965a36e2e0629e025f81f' }
     ];
 
     async function boot() {
@@ -381,7 +391,10 @@
       try {
         const r = await fetch('/api/cases', { credentials: 'include' });
         const j = await r.json();
-        if (j.cases && j.cases.length) cases = j.cases;
+        if (j.cases && j.cases.length) {
+          const have = new Set(j.cases.map((c) => c.id));
+          cases = j.cases.concat(FALLBACK.filter((f) => !have.has(f.id)));
+        }
       } catch (_) {}
       cases = cases.filter((c) => c.visible !== false);
       grid.innerHTML = cases.map(cardHTML).join('');
