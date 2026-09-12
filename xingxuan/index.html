@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>墨典网络案例库演示 · 灵祺星选</title>
-  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，五套风格可切换。" />
+  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，四套风格含实拍图。" />
   <link rel="icon" href="/assets/brand/logo-mark.png" />
   <style>
     :root { --phone-w: 390px; --phone-h: 844px; }
@@ -63,58 +63,79 @@
     .feat.on b, .feat:hover b { color: #E0C089; }
 
     .phone, .desk {
-      --bg: #F4F8FC; --surface: #fff; --text: #0F2744; --muted: #5B7390;
-      --line: #D7E4F0; --accent: #0284C7; --on-accent: #fff; --chrome: #fff;
-      --bar: #fff; --tab: #8AA0B5; --tab-on: #0284C7; --price: #E11D48;
-      --radius: 12px; --chrome-text: #0F2744; --chrome-muted: #5B7390;
+      --bg: #F6F7F9; --surface: #fff; --text: #1C2430; --muted: #6B7785;
+      --line: #E2E6EB; --accent: #1F4E79; --on-accent: #fff; --chrome: #FBFBFC;
+      --bar: #FBFBFC; --tab: #8B98A6; --tab-on: #1F4E79; --price: #B42318;
+      --radius: 4px; --chrome-text: #1C2430; --chrome-muted: #6B7785;
     }
-    /* 微信绿：达人每天打开接单 */
+    .phone[data-skin="min"], .desk[data-skin="min"] {
+      --bg: #FAFAF8; --surface: #FAFAF8; --text: #222; --muted: #8A8A86;
+      --line: #ECECE8; --accent: #222; --on-accent: #FAFAF8; --chrome: #FAFAF8;
+      --bar: #FAFAF8; --tab: #B0B0AA; --tab-on: #111; --price: #111;
+      --radius: 0; --chrome-text: #111; --chrome-muted: #8A8A86;
+    }
+    .phone[data-skin="tanshop"], .desk[data-skin="tanshop"] {
+      --bg: #F3EDE3; --surface: #FFFCFA; --text: #3A2A1C; --muted: #8A6F58;
+      --line: #E6D5C3; --accent: #C45C3A; --on-accent: #fff; --chrome: #F6F0E6;
+      --bar: #F6F0E6; --tab: #A08068; --tab-on: #C45C3A; --price: #B42318;
+      --radius: 16px; --chrome-text: #3A2A1C; --chrome-muted: #8A6F58;
+    }
     .phone[data-skin="wechat"], .desk[data-skin="wechat"] {
       --bg: #EDEDED; --surface: #fff; --text: #191919; --muted: #888;
       --line: #E5E5E5; --accent: #07C160; --on-accent: #fff; --chrome: #07C160;
       --bar: #F7F7F7; --tab: #999; --tab-on: #07C160; --price: #FA5151;
       --radius: 8px; --chrome-text: #fff; --chrome-muted: rgba(255,255,255,.88);
     }
-    /* 探店纸：到店拍摄 / 成片 */
-    .phone[data-skin="tanshop"], .desk[data-skin="tanshop"] {
-      --bg: #F3EDE3; --surface: #FFFCFA; --text: #3A2A1C; --muted: #8A6F58;
-      --line: #E6D5C3; --accent: #C45C3A; --on-accent: #fff; --chrome: #F6F0E6;
-      --bar: #F6F0E6; --tab: #A08068; --tab-on: #C45C3A; --price: #B42318;
-      --radius: 18px; --chrome-text: #3A2A1C; --chrome-muted: #8A6F58;
-    }
-    /* 发单台：PR 表单 / 漏斗 / 台账 */
-    .phone[data-skin="gongtai"], .desk[data-skin="gongtai"] {
-      --bg: #EEF1F4; --surface: #fff; --text: #1F2933; --muted: #6B7C8A;
-      --line: #D5DCE3; --accent: #1F4E79; --on-accent: #fff; --chrome: #F7F8FA;
-      --bar: #F7F8FA; --tab: #8A97A3; --tab-on: #1F4E79; --price: #C2410C;
-      --radius: 6px; --chrome-text: #1F4E79; --chrome-muted: #6B7C8A;
-    }
-    /* 档期金：日历履约，浅底不用黑 */
-    .phone[data-skin="schedule"], .desk[data-skin="schedule"] {
-      --bg: #FAF6EE; --surface: #FFFEFB; --text: #3F3424; --muted: #8A7A5C;
-      --line: #E8DCC4; --accent: #B8860B; --on-accent: #1A140C; --chrome: #F7F1E4;
-      --bar: #F7F1E4; --tab: #A09070; --tab-on: #8A6914; --price: #9A3412;
-      --radius: 10px; --chrome-text: #6B5420; --chrome-muted: #8A7A5C;
-    }
+    .cover { overflow: hidden; background: #DDD; flex-shrink: 0; }
+    .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero { position: relative; overflow: hidden; padding: 0 !important; }
+    .hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero .cap { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px; color: #fff;
+      background: linear-gradient(transparent, rgba(0,0,0,.55)); }
+    .hero .cap b { display: block; font-size: 16px; }
+    .hero .cap span { font-size: 12px; opacity: .92; }
+
+    /* 商务风：横排照片 + 宋体标题 + 细线 */
+    .phone[data-skin="biz"] .nav-title { font-family: "Songti SC", "STSong", "Noto Serif SC", serif; letter-spacing: .14em; font-weight: 600; }
+    .phone[data-skin="biz"] .chrome { border-bottom: 2px solid #C5A073; }
+    .phone[data-skin="biz"] .hero { height: 128px; border-radius: 4px; margin-bottom: 14px; }
+    .phone[data-skin="biz"] .card { display: grid; grid-template-columns: 108px 1fr; gap: 12px; align-items: center;
+      border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding: 10px 0; }
+    .phone[data-skin="biz"] .cover { width: 108px; height: 80px; border-radius: 2px; }
+    .phone[data-skin="biz"] .btn { border-radius: 2px; letter-spacing: .08em; }
+
+    /* 简约风：大图叠字，几乎无边框 */
+    .phone[data-skin="min"] .chrome { border-bottom: 0; }
+    .phone[data-skin="min"] .nav-title { font-weight: 400; font-size: 22px; letter-spacing: .2em; }
+    .phone[data-skin="min"] .hero { height: 210px; border-radius: 0; margin: 0 -14px 18px; }
+    .phone[data-skin="min"] .filters { display: none; }
+    .phone[data-skin="min"] .search { border: 0; border-bottom: 1px solid #DDD; border-radius: 0; background: transparent; }
+    .phone[data-skin="min"] .card { background: transparent; border: 0; padding: 0 0 28px; }
+    .phone[data-skin="min"] .cover { width: 100%; height: 188px; border-radius: 0; margin-bottom: 10px; }
+    .phone[data-skin="min"] .btn { background: transparent; color: #111; border-radius: 0; border-bottom: 1px solid #111; height: auto; padding: 2px 0; }
+    .phone[data-skin="min"] .tabbar { border-top: 0; }
+    .phone[data-skin="min"] .price { font-weight: 400; letter-spacing: .06em; }
+
+    /* 探店画报：满幅封面 */
+    .phone[data-skin="tanshop"] .hero { height: 156px; border-radius: 16px; }
+    .phone[data-skin="tanshop"] .card { padding: 0; overflow: hidden; }
+    .phone[data-skin="tanshop"] .cover { width: 100%; height: 150px; }
+    .phone[data-skin="tanshop"] .body { padding: 12px 12px 14px; }
+
+    /* 微信列表：小方图 */
     .phone[data-skin="wechat"] .id-switch { background: rgba(255,255,255,.18); }
     .phone[data-skin="wechat"] .id-switch button { color: rgba(255,255,255,.9); }
     .phone[data-skin="wechat"] .id-switch .on { background: #fff; color: #07C160; }
-    .phone[data-skin="tanshop"] .hero { background: #C45C3A; }
-    .phone[data-skin="gongtai"] .hero { display: none; }
-    .phone[data-skin="gongtai"] .card { display: flex; gap: 10px; align-items: center; padding: 10px; }
-    .phone[data-skin="gongtai"] .card h3 { font-size: 14px; }
-    .phone[data-skin="tanshop"] .cover { height: 88px; border-radius: 14px; margin-bottom: 8px; }
-    .phone[data-skin="xinglan"] .cover { width: 64px; height: 64px; border-radius: 10px; flex-shrink: 0; }
-    .phone[data-skin="xinglan"] .card { display: flex; gap: 12px; align-items: stretch; }
-    .phone[data-skin="xinglan"] .card .body { flex: 1; min-width: 0; }
-    .phone[data-skin="wechat"] .cover { display: none; }
-    .phone[data-skin="gongtai"] .cover { width: 6px; height: 40px; border-radius: 3px; margin: 0; }
-    .phone[data-skin="schedule"] .cover { display: none; }
-    .cover { background: #94A3B8; }
-    .cover.t-探店 { background: linear-gradient(135deg, #FB923C, #EA580C); }
-    .cover.t-急单 { background: linear-gradient(135deg, #FB7185, #E11D48); }
-    .cover.t-拍剪 { background: linear-gradient(135deg, #60A5FA, #2563EB); }
-    .cover.t-云剪 { background: linear-gradient(135deg, #2DD4BF, #0F766E); }
+    .phone[data-skin="wechat"] .hero { display: none; }
+    .phone[data-skin="wechat"] .card { display: flex; gap: 12px; align-items: center; border: 0; border-bottom: 1px solid #E5E5E5; border-radius: 0; padding: 12px 0; background: transparent; }
+    .phone[data-skin="wechat"] .cover { width: 52px; height: 52px; border-radius: 6px; }
+    .avatar-pic { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; display: block; }
+    .phone[data-skin="biz"] .avatar-pic { border-radius: 2px; }
+    .phone[data-skin="min"] .avatar-pic { border-radius: 0; width: 72px; height: 72px; }
+    .phone[data-skin="min"] .card { display: flex; flex-direction: column; }
+    .phone[data-skin="tanshop"] .card { display: flex; flex-direction: column; }
+    .desk[data-skin="biz"] .hero, .desk[data-skin="min"] .hero, .desk[data-skin="tanshop"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
+    .desk[data-skin="min"] .hero { height: 200px; border-radius: 0; }
 
     .phone {
       width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
@@ -171,12 +192,6 @@
       border-radius: 8px; background: var(--accent); color: var(--on-accent);
     }
     .btn.ghost { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
-    .hero {
-      height: 120px; border-radius: var(--radius); margin-bottom: 12px; padding: 16px;
-      background: var(--accent); color: var(--on-accent);
-    }
-    .hero b { display: block; font-size: 18px; }
-    .hero span { font-size: 12px; opacity: .9; }
     .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
     .stat { padding: 10px 4px; text-align: center; cursor: pointer; }
     .stat b { display: block; font-size: 16px; }
@@ -287,7 +302,7 @@
       <div class="chips" id="deviceChips"></div>
       <div class="label">身份</div>
       <div class="chips" id="roleChips"></div>
-      <div class="label">五套风格</div>
+      <div class="label">四套风格 · 含实拍</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
       <p class="hint">手机里的筛选、卡片、按钮都可以点，和垟里GO一样会跳页或弹出演示提示。非正式上线产品。</p>
@@ -301,18 +316,17 @@
   </div>
   <script>
     const STYLES = [
-      { id: "xinglan", name: "星选蓝", acc: "#0284C7", blurb: "现网产品味。大厅卡片带品类色条，适合达人刷单报名。" },
-      { id: "wechat", name: "微信绿", acc: "#07C160", blurb: "顶栏微信绿。达人每天打开小程序接单、看消息的习惯。" },
-      { id: "tanshop", name: "探店纸", acc: "#C45C3A", blurb: "米纸和大封面。给到店拍摄、成片、门头特写这一路。" },
-      { id: "gongtai", name: "发单台", acc: "#1F4E79", blurb: "紧凑办公。PR 发招募、漏斗、台账长时间盯着不累。" },
-      { id: "schedule", name: "档期金", acc: "#B8860B", blurb: "浅金日历。探店日、交片日是履约主线，不用黑底。" }
+      { id: "biz", name: "商务风", acc: "#1F4E79", blurb: "宋体标题、横排实拍、细金线。给 PR 和商家看履约台。" },
+      { id: "min", name: "简约风", acc: "#222222", blurb: "大图、留白、几乎没有框。给达人慢慢刷探店封面。" },
+      { id: "tanshop", name: "探店画报", acc: "#C45C3A", blurb: "满幅现场照片。到店拍摄、门头和成片是主线。" },
+      { id: "wechat", name: "微信接单", acc: "#07C160", blurb: "绿顶栏 + 小方图列表。达人每天打开接单、点消息。" }
     ];
     const JOBS = [
-      { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州" },
-      { id: "cafe", t: "茶馆周末探店", c: "温州 · 瓯海", p: "¥700", tag: "探店", hall: "normal", plat: "小红书", city: "温州" },
-      { id: "urgent", t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单", hall: "urgent", plat: "抖音", city: "温州" },
-      { id: "shoot", t: "女装店跟拍一天", c: "杭州 · 西湖", p: "¥1,500", tag: "拍剪", hall: "paichian", plat: "小红书", city: "杭州" },
-      { id: "ice", t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪", hall: "ice", plat: "抖音", city: "杭州" }
+      { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州", img: "/xingxuan/img/xx-hotpot.jpg" },
+      { id: "cafe", t: "茶馆周末探店", c: "温州 · 瓯海", p: "¥700", tag: "探店", hall: "normal", plat: "小红书", city: "温州", img: "/xingxuan/img/xx-tea.jpg" },
+      { id: "urgent", t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单", hall: "urgent", plat: "抖音", city: "温州", img: "/xingxuan/img/xx-esports.jpg" },
+      { id: "shoot", t: "女装店跟拍一天", c: "杭州 · 西湖", p: "¥1,500", tag: "拍剪", hall: "paichian", plat: "小红书", city: "杭州", img: "/xingxuan/img/xx-fashion.jpg" },
+      { id: "ice", t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪", hall: "ice", plat: "抖音", city: "杭州", img: "/xingxuan/img/xx-edit.jpg" }
     ];
     const HALLS = [["normal", "普通单"], ["urgent", "急单"], ["paichian", "拍剪"], ["ice", "云剪"]];
     const PLATS = ["全部平台", "抖音", "小红书"];
@@ -358,7 +372,7 @@
     };
 
     const state = {
-      theme: "xinglan", role: "talent", device: "mp", page: "home",
+      theme: "biz", role: "talent", device: "mp", page: "home",
       hall: "normal", plat: "全部平台", city: "全部", jobId: "hotpot",
       weekDay: 15, chat: "pr", applied: { hotpot: true }, fav: { cafe: true },
       picked: {}, kw: ""
@@ -416,13 +430,19 @@
       if (!rows.length) return `<div class="card">这个筛选下没有商单，点上面筛选项换一换。</div>`;
       return rows.map((j) =>
         `<article class="card" data-act="open-job" data-job="${j.id}">
-          <div class="cover t-${j.tag}"></div>
+          <div class="cover"><img src="${j.img}" alt=""></div>
           <div class="body"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag} · ${j.plat}</div>
           <div class="row"><span class="price">${j.p}</span>
             <button class="btn" data-act="open-job" data-job="${j.id}" type="button">查看</button>
           </div></div>
         </article>`
       ).join("");
+    }
+    function heroBanner() {
+      const src = state.theme === "min" ? "/xingxuan/img/xx-hero-min.jpg"
+        : state.theme === "tanshop" ? "/xingxuan/img/xx-tea.jpg"
+        : "/xingxuan/img/xx-hero-biz.jpg";
+      return `<div class="hero"><img src="${src}" alt=""><div class="cap"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"}</span></div></div>`;
     }
     function hallFilters() {
       return `<button class="search" data-act="search" type="button">${state.kw ? "搜索：" + state.kw : "搜商单 / 城市"}</button>
@@ -433,14 +453,14 @@
 
     const screens = {
       home() {
-        return `<div class="hero"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"} · 点卡片可进详情</span></div>
-          ${hallFilters()}${jobCards()}`;
+        return `${heroBanner()}${hallFilters()}${jobCards()}`;
       },
       recommend() { return hallFilters() + jobCards(); },
       detail() {
         const j = job();
         const go = isPr() ? "applicants" : "apply";
-        return `<div class="card"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.plat}</div><div class="price" style="margin-top:8px">${j.p}</div></div>
+        return `<div class="cover" style="width:100%;height:180px;border-radius:var(--radius);margin-bottom:10px"><img src="${j.img}" alt=""></div>
+          <div class="card"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.plat}</div><div class="price" style="margin-top:8px">${j.p}</div></div>
           <div class="field">Brief<b>3 条成片，露出门头与招牌菜，周五前交片。</b></div>
           <div class="field">到店<b>约 90 分钟 · 需露出门头</b></div>
           <div class="row">
@@ -450,7 +470,8 @@
       },
       apply() {
         const j = job();
-        return `<div class="field">商单<b>${j.t}</b></div>
+        return `<div class="cover" style="width:100%;height:140px;border-radius:var(--radius);margin-bottom:10px"><img src="${j.img}" alt=""></div>
+          <div class="field">商单<b>${j.t}</b></div>
           <div class="field">档期<b>本周六 15:00 可到店</b></div>
           <div class="field">报价<b>${j.p}（按招募预算）</b></div>
           <div class="field">备注<b>可出竖屏 + 门头全景</b></div>
@@ -481,7 +502,11 @@
       },
       mine() {
         if (isPr()) {
-          return `<div class="stats">
+          return `<div class="profile" style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+            <img class="avatar-pic" src="/xingxuan/img/xx-avatar.jpg" alt="">
+            <div><b>PR · 小王</b><div class="sub">温州 · 点数字可跳转</div></div>
+          </div>
+          <div class="stats">
               <button class="stat" data-page="orders" type="button"><b>8</b><span>已发单</span></button>
               <button class="stat" data-page="applicants" type="button"><b>3</b><span>招募中</span></button>
               <button class="stat" data-page="orders" type="button"><b>5</b><span>已完结</span></button>
@@ -500,7 +525,11 @@
               <button data-page="support" type="button">小灵同学<i>›</i></button>
             </div>`;
         }
-        return `<div class="stats">
+        return `<div class="profile" style="display:flex;gap:12px;align-items:center;margin-bottom:14px">
+            <img class="avatar-pic" src="/xingxuan/img/xx-avatar.jpg" alt="">
+            <div><b>达人 · 阿宁</b><div class="sub">温州 · 点数字可跳转</div></div>
+          </div>
+          <div class="stats">
             <button class="stat" data-page="applications" type="button"><b>${Object.keys(state.applied).length}</b><span>已报名</span></button>
             <button class="stat" data-page="calendar" type="button"><b>3</b><span>进行中</span></button>
             <button class="stat" data-page="credit" type="button"><b>5</b><span>已完成</span></button>
@@ -522,21 +551,21 @@
         return ids.map((id) => {
           const j = JOBS.find((x) => x.id === id);
           if (!j) return "";
-          return `<article class="card" data-act="open-job" data-job="${id}"><b>${j.t}</b><div class="sub">${state.picked[id] ? "已入选 · 待排期" : "已报名 · 待查看"}</div></article>`;
+          return `<article class="card" data-act="open-job" data-job="${id}"><div class="cover"><img src="${j.img}" alt=""></div><div class="body"><b>${j.t}</b><div class="sub">${state.picked[id] ? "已入选 · 待排期" : "已报名 · 待查看"}</div></div></article>`;
         }).join("");
       },
       orders() {
-        return `<div class="card" data-act="open-job" data-job="hotpot"><b>周末探店 · 火锅品牌</b><div class="sub">招募中 · 12 人报名</div><div class="row"><button class="btn ghost" data-page="applicants" type="button">报名者</button></div></div>
-          <div class="card" data-page="calendar"><b>云剪口播</b><div class="sub">已完结 · 点开看日历交片</div></div>`;
+        return `<article class="card" data-act="open-job" data-job="hotpot"><div class="cover"><img src="/xingxuan/img/xx-hotpot.jpg" alt=""></div><div class="body"><b>周末探店 · 火锅品牌</b><div class="sub">招募中 · 12 人报名</div><div class="row"><button class="btn ghost" data-page="applicants" type="button">报名者</button></div></div></article>
+          <article class="card" data-page="calendar"><div class="cover"><img src="/xingxuan/img/xx-edit.jpg" alt=""></div><div class="body"><b>云剪口播</b><div class="sub">已完结 · 点开看日历交片</div></div></article>`;
       },
       applicants() {
-        return `<div class="card"><b>阿宁 · 抖音 12w</b><div class="sub">档期周六 · 报价 ¥800</div><div class="row">
+        return `<article class="card"><div class="cover"><img src="/xingxuan/img/xx-avatar.jpg" alt=""></div><div class="body"><b>阿宁 · 抖音 12w</b><div class="sub">档期周六 · 报价 ¥800</div><div class="row">
             <button class="btn" data-act="pick" data-v="ning" type="button">${state.picked.ning ? "已入选" : "入选排期"}</button>
             <button class="btn ghost" data-page="chat" type="button">私信</button>
-          </div></div>
-          <div class="card"><b>小周 · 小红书 8w</b><div class="sub">档期周日 · 报价 ¥900</div><div class="row">
+          </div></div></article>
+          <article class="card"><div class="cover"><img src="/xingxuan/img/xx-fashion.jpg" alt=""></div><div class="body"><b>小周 · 小红书 8w</b><div class="sub">档期周日 · 报价 ¥900</div><div class="row">
             <button class="btn ghost" data-act="hold" type="button">待定</button>
-          </div></div>`;
+          </div></div></article>`;
       },
       calendar() {
         const ev = state.weekDay === 15
@@ -552,7 +581,7 @@
         return ids.map((id) => {
           const j = JOBS.find((x) => x.id === id);
           if (!j) return "";
-          return `<article class="card" data-act="open-job" data-job="${id}"><h3>${j.t}</h3><div class="sub">${j.c}</div><div class="row"><span class="price">${j.p}</span><button class="btn ghost" data-act="fav" data-job="${id}" type="button">取消收藏</button></div></article>`;
+          return `<article class="card" data-act="open-job" data-job="${id}"><div class="cover"><img src="${j.img}" alt=""></div><div class="body"><h3>${j.t}</h3><div class="sub">${j.c}</div><div class="row"><span class="price">${j.p}</span><button class="btn ghost" data-act="fav" data-job="${id}" type="button">取消收藏</button></div></div></article>`;
         }).join("");
       },
       quotes() {
@@ -566,7 +595,8 @@
           <button class="card" data-act="tip" data-msg="演示：去资料页补小红书主页" type="button"><b>建议</b><div class="sub">补充小红书主页，提高入选率</div></button>`;
       },
       points() {
-        return `<div class="hero"><b>860 积分</b><span>会员有效期至 2026-12</span></div>
+        return `<div class="cover" style="width:100%;height:140px;border-radius:var(--radius);margin-bottom:10px"><img src="/xingxuan/img/xx-hero-biz.jpg" alt=""></div>
+          <div class="card"><b>860 积分</b><div class="sub">会员有效期至 2026-12</div></div>
           <button class="card" data-act="recharge" type="button"><b>积分充值</b><div class="sub">点此演示充值 200 积分</div></button>
           <button class="card" data-act="tip" data-msg="开通记录：星选会员年卡" type="button"><b>我的订单</b><div class="sub">开通与充值记录</div></button>`;
       },
@@ -651,7 +681,7 @@
       if (state.page === "home" || state.page === "recommend") {
         return `<h2>${pageTitle()}</h2><p class="sub" style="margin-bottom:12px">与小程序同源商单</p>
           <table><thead><tr><th>商单</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
-          ${visibleJobs().map((j) => `<tr data-act="open-job" data-job="${j.id}" style="cursor:pointer"><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" data-act="open-job" data-job="${j.id}" type="button">查看</button></td></tr>`).join("")}
+          ${visibleJobs().map((j) => `<tr data-act="open-job" data-job="${j.id}" style="cursor:pointer"><td><img src="${j.img}" alt="" style="width:56px;height:42px;object-fit:cover;border-radius:4px;vertical-align:middle;margin-right:8px">${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" data-act="open-job" data-job="${j.id}" type="button">查看</button></td></tr>`).join("")}
           </tbody></table>`;
       }
       if (state.page === "messages" || state.page === "chat") {
