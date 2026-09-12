@@ -4,20 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>墨典网络案例库演示 · 灵祺星选</title>
-  <meta name="description" content="灵祺星选达人履约：六套浅色商务简约风格，网页版与小程序版可切换。" />
+  <meta name="description" content="灵祺星选：按接单、发单、档期、沟通、台账五套工作流风格，小程序与网页对照。" />
   <link rel="icon" href="/assets/brand/logo-mark.png" />
   <style>
     :root {
-      --paper: #F5F7FA; --card: #fff; --ink: #334155; --mute: #64748B;
-      --line: #E5E7EB; --acc: #2B6CB0; --tint: #E8F1F8; --price: #C2410C;
-      --phone-w: 390px; --phone-h: 780px;
+      --paper: #F3F6F9; --card: #fff; --ink: #2C3A47; --mute: #5B6B78;
+      --line: #E3E8EE; --acc: #3A6EA5; --tint: #E4EEF6; --price: #C2410C;
+      --phone-w: 390px; --phone-h: 800px;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100vh;
       font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
-      background: #F4F5F7;
-      color: #1F2937;
+      background: #EEF1F4;
+      color: #24303A;
     }
     .site-bar {
       display: flex; align-items: center; justify-content: space-between;
@@ -26,20 +26,20 @@
     .site-bar a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 10px; }
     .site-bar img { width: 28px; height: 28px; object-fit: contain; }
     .site-bar b { font-size: 13px; font-weight: 650; }
-    .site-bar span { font-size: 11px; color: var(--mute); letter-spacing: .12em; }
+    .site-bar span { font-size: 12px; color: var(--mute); }
     .stage {
       display: grid;
       grid-template-columns: 280px minmax(420px, 1fr) minmax(220px, 280px);
       gap: 28px; max-width: 1320px; margin: 0 auto; padding: 24px 24px 48px;
       align-items: start;
     }
-    .kicker { font-size: 11px; letter-spacing: .2em; color: var(--acc); }
-    .panel h1 { font-size: 26px; font-weight: 650; margin-top: 6px; }
+    .kicker { font-size: 12px; color: var(--acc); }
+    .panel h1 { font-size: 26px; font-weight: 650; margin-top: 6px; letter-spacing: .02em; }
     .panel p { margin-top: 10px; color: var(--mute); font-size: 14px; line-height: 1.7; }
     .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 16px; }
     .meta-grid div { font-size: 12px; color: var(--mute); }
     .meta-grid b { display: block; color: var(--ink); font-size: 13px; margin-top: 2px; }
-    .label { margin: 22px 0 10px; font-size: 12px; letter-spacing: .16em; color: var(--mute); }
+    .label { margin: 22px 0 10px; font-size: 12px; color: var(--mute); }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip {
       border: 1px solid var(--line); background: #fff; color: var(--ink);
@@ -47,26 +47,26 @@
     }
     .chip.on { background: var(--acc); border-color: var(--acc); color: #fff; }
     .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-    .hint { margin-top: 18px; font-size: 12px; color: #94A3B8; line-height: 1.65; }
+    .hint { margin-top: 18px; font-size: 12px; color: #7A8A96; line-height: 1.65; }
     .blurb { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--tint); color: var(--ink); font-size: 13px; line-height: 1.65; }
     .preview { display: flex; justify-content: center; min-height: var(--phone-h); }
     .phone {
       width: var(--phone-w); height: var(--phone-h); background: var(--paper);
       border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
-      display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(15,23,42,.04);
+      display: flex; flex-direction: column;
     }
     .chrome { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 16px 10px; }
     .status { display: flex; justify-content: space-between; font-size: 12px; color: var(--mute); margin-bottom: 8px; }
-    .capsule { width: 78px; height: 22px; border-radius: 11px; background: #111; opacity: .12; }
+    .capsule { width: 78px; height: 22px; border-radius: 11px; background: #1F2933; opacity: .14; }
     .nav-title { font-size: 17px; font-weight: 650; color: var(--ink); }
-    .nav-sub { font-size: 11px; color: var(--mute); margin-top: 2px; }
+    .nav-sub { font-size: 12px; color: var(--mute); margin-top: 2px; }
     .screen { flex: 1; overflow: auto; padding: 12px 14px 16px; }
     .screen::-webkit-scrollbar { width: 0; }
     .tabbar {
       display: grid; grid-template-columns: repeat(5, 1fr); background: #fff;
       border-top: 1px solid var(--line); padding: 8px 4px 14px; font-size: 11px; color: var(--mute);
     }
-    .tabbar button { background: 0; border: 0; font: inherit; color: inherit; cursor: pointer; }
+    .tabbar button { background: 0; border: 0; font: inherit; color: inherit; cursor: pointer; min-height: 44px; }
     .tabbar button.on { color: var(--acc); font-weight: 650; }
     .search { display: flex; gap: 8px; margin-bottom: 10px; }
     .search input {
@@ -86,11 +86,12 @@
     .card-job h3 { font-size: 15px; font-weight: 650; color: var(--ink); }
     .card-job .meta { margin-top: 6px; font-size: 12px; color: var(--mute); }
     .card-job .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-    .price { color: var(--price); font-weight: 700; font-size: 15px; }
+    .price { color: var(--price); font-weight: 700; font-size: 16px; }
     .btn {
       background: var(--acc); color: #fff; border: 0; border-radius: 8px;
-      padding: 7px 14px; font-size: 13px; cursor: pointer;
+      padding: 8px 14px; font-size: 13px; cursor: pointer; min-height: 36px;
     }
+    .btn.ghost { background: #fff; color: var(--acc); border: 1px solid var(--acc); }
     .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; }
     .stat-row div { padding: 12px 4px; text-align: center; border-right: 1px solid var(--line); }
     .stat-row div:last-child { border-right: 0; }
@@ -99,19 +100,36 @@
     .list { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
     .list button {
       width: 100%; text-align: left; background: #fff; border: 0; border-bottom: 1px solid var(--line);
-      padding: 14px 14px; font: inherit; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between;
+      padding: 14px; font: inherit; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between;
     }
     .list button:last-child { border-bottom: 0; }
-    .list i { color: #CBD5E1; font-style: normal; }
+    .list i { color: #C5CED6; font-style: normal; }
+    .steps { display: flex; gap: 6px; margin-bottom: 14px; font-size: 11px; color: var(--mute); }
+    .steps b { color: var(--acc); font-weight: 650; }
+    .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px; }
+    .week div { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; text-align: center; font-size: 11px; color: var(--mute); }
+    .week div.on { border-color: var(--acc); color: var(--acc); background: var(--tint); }
+    .week b { display: block; font-size: 14px; color: var(--ink); margin-top: 2px; }
+    .event { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; gap: 10px; }
+    .event .t { width: 44px; font-size: 11px; color: var(--acc); font-weight: 650; }
+    .msg { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+    .msg .who { font-size: 14px; font-weight: 650; }
+    .msg .ex { font-size: 12px; color: var(--mute); margin-top: 4px; line-height: 1.5; }
+    .bubble { max-width: 78%; background: var(--tint); border-radius: 10px; padding: 8px 11px; font-size: 13px; margin: 8px 0; }
+    .bubble.me { margin-left: auto; background: var(--acc); color: #fff; }
+    .pipe { display: flex; gap: 6px; overflow: auto; margin-bottom: 12px; }
+    .pipe span { white-space: nowrap; font-size: 12px; padding: 6px 10px; border-radius: 6px; background: #fff; border: 1px solid var(--line); color: var(--mute); }
+    .pipe span.on { background: var(--acc); color: #fff; border-color: var(--acc); }
     .desk {
-      width: min(920px, 100%); background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-      min-height: 560px; display: grid; grid-template-columns: 200px 1fr;
+      width: min(960px, 100%); background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      min-height: 600px; display: grid; grid-template-columns: 188px 1fr;
     }
     .side { background: #fff; border-right: 1px solid var(--line); padding: 18px 12px; }
-    .side .logo { font-size: 15px; font-weight: 700; color: var(--acc); margin-bottom: 18px; padding: 0 8px; }
+    .side .logo { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; padding: 0 8px; }
+    .side .ed { font-size: 11px; color: var(--mute); padding: 0 8px 16px; }
     .side button {
       display: block; width: 100%; text-align: left; background: 0; border: 0; color: var(--mute);
-      padding: 10px 10px; font: inherit; cursor: pointer; border-radius: 8px;
+      padding: 10px; font: inherit; cursor: pointer; border-radius: 8px;
     }
     .side button.on { background: var(--tint); color: var(--acc); font-weight: 650; }
     .main { background: var(--paper); padding: 20px; }
@@ -119,16 +137,25 @@
     .main .sub { font-size: 12px; color: var(--mute); margin-bottom: 16px; }
     table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); font-size: 13px; }
     th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-    th { color: var(--mute); font-weight: 500; font-size: 11px; letter-spacing: .06em; }
+    th { color: var(--mute); font-weight: 500; font-size: 12px; }
     .form label { display: block; font-size: 12px; color: var(--mute); margin: 12px 0 6px; }
     .form input, .form textarea {
       width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font: inherit; background: #fff;
     }
-    .feat { display: grid; grid-template-columns: 28px 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; background: 0; border-left: 0; border-right: 0; width: 100%; text-align: left; font: inherit; color: inherit; }
+    .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+    .col { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px; min-height: 220px; }
+    .col h4 { font-size: 12px; color: var(--mute); font-weight: 550; margin-bottom: 8px; }
+    .col p { background: var(--paper); border-radius: 8px; padding: 8px; font-size: 12px; margin-bottom: 6px; color: var(--ink); }
+    .split { display: grid; grid-template-columns: 200px 1fr; gap: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; min-height: 360px; overflow: hidden; }
+    .split-list { border-right: 1px solid var(--line); }
+    .split-list button { width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--line); background: #fff; padding: 12px; font: inherit; cursor: pointer; }
+    .split-list button.on { background: var(--tint); }
+    .split-thread { padding: 14px; background: var(--paper); }
+    .feat { display: grid; grid-template-columns: 1fr; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; background: 0; border-left: 0; border-right: 0; width: 100%; text-align: left; font: inherit; color: inherit; }
     .feat:last-child { border-bottom: 0; }
-    .feat-n { font-size: 12px; color: var(--acc); font-weight: 700; padding-top: 2px; }
     .feat b { display: block; font-size: 14px; }
     .feat span { display: block; margin-top: 4px; font-size: 12px; color: var(--mute); line-height: 1.55; }
+    .feat.on b { color: var(--acc); }
     @media (max-width: 1100px) {
       .stage { grid-template-columns: 260px 1fr; }
       .features { grid-column: 1 / -1; }
@@ -137,6 +164,8 @@
       .stage { grid-template-columns: 1fr; }
       .desk { grid-template-columns: 1fr; }
       .side { display: none; }
+      .board { grid-template-columns: 1fr 1fr; }
+      .split { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -144,48 +173,52 @@
   <script src="/js/gate.js" data-case="xingxuan"></script>
   <header class="site-bar">
     <a href="/"><img src="/assets/brand/logo-mark.png" alt="" /><b>墨典网络 · 案例库</b></a>
-    <span>CASE · 灵祺星选</span>
+    <span>灵祺星选 · 工作流演示</span>
   </header>
   <div class="stage">
     <aside class="panel">
-      <div class="kicker">CASE</div>
+      <div class="kicker">达人履约</div>
       <h1>灵祺星选</h1>
-      <p>达人履约平台演示。浅色商务简约，六套主色可切换；同一套内容支持<strong>小程序</strong>与<strong>网页</strong>对照，操作与平阳景点案例库一致：左侧选风格，中间看端。</p>
+      <p>按真实用法拆成五套工作流，不是换皮肤。达人刷大厅接单，PR 发招募，双方看档期、聊消息、对台账。小程序给拇指，网页给整天盯着的工作台。</p>
       <div class="meta-grid">
         <div>产品<b>灵祺星选</b></div>
-        <div>场景<b>达人 · PR · 探店</b></div>
-        <div>类型<b>小程序 + Web</b></div>
-        <div>状态<b>风格选型演示</b></div>
+        <div>身份<b>达人 · PR</b></div>
+        <div>类型<b>小程序 + 网页</b></div>
+        <div>状态<b>案例库演示</b></div>
       </div>
       <div class="label">端</div>
       <div class="chips" id="deviceChips"></div>
-      <div class="label">六套风格</div>
+      <div class="label">五套工作流</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
-      <p class="hint">浅底、白卡片、矩形主按钮。不用黑色调。点风格即换色，非正式上线产品。</p>
+      <p class="hint">浅底、白卡片、矩形按钮。选风格会切到对应页面；右侧条目可对照跳转。非正式产品发版。</p>
     </aside>
     <div class="preview" id="preview"></div>
     <aside class="features">
-      <div class="kicker">对照看</div>
-      <p class="hint" style="margin:0 0 8px">点一条，中间跟着切页</p>
+      <div class="kicker">这一套在干什么</div>
+      <p class="hint" style="margin:0 0 8px">点一条，中间切到该页</p>
       <div id="featList"></div>
     </aside>
   </div>
   <script>
     const STYLES = [
-      { id: "jilan", name: "霁蓝", acc: "#2B6CB0", paper: "#F5F7FA", tint: "#E8F1F8", ink: "#334155", blurb: "飞书/钉钉类办公蓝，最像工具软件。" },
-      { id: "songbai", name: "松柏", acc: "#1F7A5C", paper: "#F4F7F5", tint: "#E6F4EE", ink: "#3F4A45", blurb: "信托感绿，稳健、适合对商家讲履约。" },
-      { id: "nuansha", name: "暖砂", acc: "#B45309", paper: "#F7F5F2", tint: "#F3E8D8", ink: "#44403C", blurb: "暖商务，仍是工具不是活动页。" },
-      { id: "qingci", name: "青瓷", acc: "#0F766E", paper: "#F3F7F7", tint: "#D5EDEA", ink: "#3F4F4C", blurb: "更冷、更干净的青绿。" },
-      { id: "wuqing", name: "雾青", acc: "#5B7C8A", paper: "#F4F5F6", tint: "#E4EAED", ink: "#3D4A52", blurb: "彩度最低，长时间盯着最不累。" },
-      { id: "jiangfei", name: "绛绯", acc: "#B42318", paper: "#F8F5F5", tint: "#FCE8E6", ink: "#44403C", blurb: "招商品红点缀，主色只出现在按钮。" }
+      { id: "jiedan", name: "接单", who: "达人", acc: "#3A6EA5", paper: "#F3F6F9", tint: "#E4EEF6", ink: "#2C3A47", page: "hall",
+        blurb: "达人通勤刷大厅：城市/探店/急单筛选，价格一眼看到，拇指点报名。" },
+      { id: "fadan", name: "发单", who: "PR", acc: "#0F6B63", paper: "#F3F7F6", tint: "#DCEEEC", ink: "#2A3F3C", page: "publish",
+        blurb: "PR 发招募：城市 → 预算 → Brief，发出后达人端大厅同步出现。" },
+      { id: "dangqi", name: "档期", who: "达人 / PR", acc: "#9A6B2D", paper: "#F7F4EF", tint: "#F0E6D4", ink: "#3F382E", page: "calendar",
+        blurb: "商单日历：探店日、交片日排在一周里，避免档期撞车。" },
+      { id: "goutong", name: "沟通", who: "达人 / PR", acc: "#5A7184", paper: "#F4F6F7", tint: "#E4EAEE", ink: "#334049", page: "messages",
+        blurb: "入选、待排期、改 Brief 都走消息。系统通知和私聊同一入口。" },
+      { id: "taizhang", name: "台账", who: "PR 工作台", acc: "#B45309", paper: "#F7F4F0", tint: "#F3E6D6", ink: "#3F342C", page: "ledger",
+        blurb: "待接 → 沟通 → 拍摄 → 待交片。网页看板看全流程，小程序看自己的单。" }
     ];
     const JOBS = [
       { t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店" },
       { t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单" },
       { t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪" }
     ];
-    const state = { theme: "jilan", device: "mp", page: "hall" };
+    const state = { theme: "jiedan", device: "mp", page: "hall" };
 
     function $(id) { return document.getElementById(id); }
     function style() { return STYLES.find((s) => s.id === state.theme) || STYLES[0]; }
@@ -198,83 +231,186 @@
       r.setProperty("--ink", s.ink);
       $("blurb").textContent = s.blurb;
     }
+    function isPr() { return style().id === "fadan" || style().id === "taizhang"; }
 
     function mpHall() {
       return `<div class="search"><input readonly value="搜商单 / 城市" /></div>
-        <div class="filters"><span class="on">探店</span><span>云剪</span><span>急单</span></div>
+        <div class="filters"><span class="on">探店</span><span>云剪</span><span>急单</span><span>温州</span></div>
         ${JOBS.map((j) => `<article class="card-job"><h3>${j.t}</h3><div class="meta">${j.c} · ${j.tag}</div><div class="row"><span class="price">${j.p}</span><button class="btn" type="button">报名</button></div></article>`).join("")}`;
     }
-    function mpMine() {
-      return `<div class="stat-row">
-          <div><b>12</b><span>已报名</span></div><div><b>3</b><span>待交付</span></div>
-          <div><b>860</b><span>积分</span></div><div><b>96%</b><span>完单</span></div>
-        </div>
-        <div class="list">
-          <button type="button">我的报名<i>›</i></button>
-          <button type="button">会员与积分<i>›</i></button>
-          <button type="button">帮助与客服<i>›</i></button>
+    function mpPublish() {
+      return `<div class="steps"><span>城市</span><span>→</span><b>预算</b><span>→</span><span>Brief</span><span>→</span><span>发布</span></div>
+        <div class="form">
+          <label>标题</label><input readonly value="周末探店 · 火锅品牌" />
+          <label>城市</label><input readonly value="温州 · 鹿城" />
+          <label>预算</label><input readonly value="800" />
+          <label>Brief</label><textarea rows="4" readonly>3 条成片，露出门头与招牌菜，交片周五前。</textarea>
+          <div style="margin-top:16px"><button class="btn" type="button">发布到大厅</button></div>
         </div>`;
     }
+    function mpCalendar() {
+      return `<div class="week">
+          <div>一<b>14</b></div><div class="on">二<b>15</b></div><div>三<b>16</b></div><div>四<b>17</b></div><div>五<b>18</b></div><div>六<b>19</b></div><div>日<b>20</b></div>
+        </div>
+        <div class="event"><div class="t">15:00</div><div><b>火锅探店</b><div class="meta" style="margin-top:4px;font-size:12px;color:var(--mute)">鹿城 · 到店拍摄</div></div></div>
+        <div class="event"><div class="t">18 交</div><div><b>3 条成片</b><div class="meta" style="margin-top:4px;font-size:12px;color:var(--mute)">待上传 · 门头+招牌菜</div></div></div>
+        <div class="event"><div class="t">19 空</div><div><b>可接急单</b><div class="meta" style="margin-top:4px;font-size:12px;color:var(--mute)">订阅：温州 · 探店</div></div></div>`;
+    }
+    function mpMessages() {
+      return `<div class="msg"><div class="who">系统</div><div class="ex">你已入选「温州火锅探店」，待 PR 排期。可在日历里看探店日。</div></div>
+        <div class="msg"><div class="who">PR · 小王</div><div class="ex">门头要拍全，招牌菜特写多给两条。</div></div>
+        <div class="bubble">收到，周五前交 3 条。</div>
+        <div class="bubble me">成片已传，请验收。</div>`;
+    }
+    function mpLedger() {
+      const pr = isPr();
+      return `<div class="pipe"><span>待接</span><span class="on">沟通</span><span>拍摄</span><span>待交片</span></div>
+        <div class="stat-row">
+          <div><b>${pr ? "8" : "12"}</b><span>${pr ? "已发单" : "已报名"}</span></div>
+          <div><b>3</b><span>${pr ? "招募中" : "待交付"}</span></div>
+          <div><b>5</b><span>已完结</span></div>
+          <div><b>96%</b><span>完单</span></div>
+        </div>
+        <div class="list">
+          <button type="button">${pr ? "我的发单" : "我的报名"}<i>›</i></button>
+          <button type="button">商单日历<i>›</i></button>
+          <button type="button">${pr ? "合作达人池" : "达人信用"}<i>›</i></button>
+          <button type="button">${pr ? "招募漏斗" : "商单订阅"}<i>›</i></button>
+        </div>`;
+    }
+    function mpBody() {
+      if (state.page === "publish") return mpPublish();
+      if (state.page === "calendar") return mpCalendar();
+      if (state.page === "messages") return mpMessages();
+      if (state.page === "ledger") return mpLedger();
+      return mpHall();
+    }
+    function mpTitle() {
+      return ({ hall: "推荐大厅", publish: "发招募", calendar: "商单日历", messages: "消息", ledger: "我的" })[state.page] || "推荐大厅";
+    }
     function mpFrame() {
-      const title = state.page === "mine" ? "我的" : "推荐大厅";
-      const body = state.page === "mine" ? mpMine() : mpHall();
+      const s = style();
+      const tabs = isPr()
+        ? [["首页","hall"],["推荐","hall"],["发招募","publish"],["消息","messages"],["我的","ledger"]]
+        : [["首页","hall"],["推荐","hall"],["日历","calendar"],["消息","messages"],["我的","ledger"]];
       return `<div class="phone">
         <div class="chrome">
           <div class="status"><span>9:41</span><div class="capsule"></div></div>
-          <div class="nav-title">${title}</div>
-          <div class="nav-sub">灵祺星选 · ${style().name}</div>
+          <div class="nav-title">${mpTitle()}</div>
+          <div class="nav-sub">${s.who} · ${s.name}</div>
         </div>
-        <div class="screen">${body}</div>
+        <div class="screen">${mpBody()}</div>
         <div class="tabbar">
-          <button type="button">首页</button>
-          <button class="${state.page !== "mine" ? "on" : ""}" data-page="hall" type="button">推荐</button>
-          <button type="button">发布</button>
-          <button type="button">消息</button>
-          <button class="${state.page === "mine" ? "on" : ""}" data-page="mine" type="button">我的</button>
+          ${tabs.map(([label, page]) => {
+            const active = state.page === page && (page !== "hall" || label === "推荐");
+            return `<button class="${active ? "on" : ""}" data-page="${page}" type="button">${label}</button>`;
+          }).join("")}
         </div>
       </div>`;
     }
+
     function webHall() {
-      return `<h2>招募大厅</h2><p class="sub">网页工作台 · ${style().name} · 与小程序同源商单</p>
-        <table><thead><tr><th>商家</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
-        ${JOBS.map((j) => `<tr><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" type="button">查看</button></td></tr>`).join("")}
+      return `<h2>招募大厅</h2><p class="sub">与小程序同源商单 · 网页适合对照筛选</p>
+        <table><thead><tr><th>商单</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
+        ${JOBS.map((j) => `<tr><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" type="button">${isPr() ? "看报名" : "报名"}</button></td></tr>`).join("")}
         </tbody></table>`;
     }
     function webPublish() {
-      return `<h2>发布招募</h2><p class="sub">网页发单 · 达人端同步出现在小程序大厅</p>
+      return `<h2>发布招募</h2><p class="sub">网页发单 · 达人小程序大厅同步</p>
+        <div class="steps"><span>城市</span><span>→</span><b>预算</b><span>→</span><span>Brief</span><span>→</span><span>发布</span></div>
         <div class="form">
           <label>标题</label><input readonly value="周末探店 · 火锅品牌" />
           <label>城市</label><input readonly value="温州" />
           <label>预算</label><input readonly value="800" />
-          <label>要求</label><textarea rows="3" readonly>3 条成片，露出门头与招牌菜。</textarea>
+          <label>Brief</label><textarea rows="3" readonly>3 条成片，露出门头与招牌菜。</textarea>
           <div style="margin-top:16px"><button class="btn" type="button">发布到大厅</button></div>
         </div>`;
     }
+    function webCalendar() {
+      return `<h2>商单日历</h2><p class="sub">探店与交片排在同一周</p>
+        <div class="week">
+          <div>一<b>14</b></div><div class="on">二<b>15 探店</b></div><div>三<b>16</b></div><div>四<b>17</b></div><div>五<b>18 交片</b></div><div>六<b>19</b></div><div>日<b>20</b></div>
+        </div>
+        <table><thead><tr><th>日期</th><th>事项</th><th>身份</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td>15</td><td>火锅探店到店</td><td>达人</td><td>待到店</td></tr>
+          <tr><td>18</td><td>3 条成片</td><td>达人</td><td>待上传</td></tr>
+        </tbody></table>`;
+    }
+    function webMessages() {
+      return `<h2>消息</h2><p class="sub">系统通知与私聊同一入口</p>
+        <div class="split">
+          <div class="split-list">
+            <button class="on" type="button">系统 · 入选待排期</button>
+            <button type="button">PR 小王 · Brief 补充</button>
+            <button type="button">达人 阿宁 · 成片已传</button>
+          </div>
+          <div class="split-thread">
+            <div class="bubble">你已入选「温州火锅探店」，待排期。</div>
+            <div class="bubble me">周五交片，日历已标。</div>
+          </div>
+        </div>`;
+    }
+    function webLedger() {
+      return `<h2>履约台账</h2><p class="sub">待接 → 沟通 → 拍摄 → 待交片</p>
+        <div class="board">
+          <div class="col"><h4>待接 2</h4><p>电竞网吧急单</p><p>云剪口播</p></div>
+          <div class="col"><h4>沟通 1</h4><p>火锅探店 · 改 Brief</p></div>
+          <div class="col"><h4>拍摄 1</h4><p>15 日 · 鹿城到店</p></div>
+          <div class="col"><h4>待交片 1</h4><p>3 条成片 · 周五</p></div>
+        </div>`;
+    }
+    function webBody() {
+      if (state.page === "publish") return webPublish();
+      if (state.page === "calendar") return webCalendar();
+      if (state.page === "messages") return webMessages();
+      if (state.page === "ledger") return webLedger();
+      return webHall();
+    }
     function webFrame() {
-      const nav = state.page === "publish" ? "publish" : "hall";
-      const body = nav === "publish" ? webPublish() : webHall();
+      const s = style();
+      const nav = isPr()
+        ? [["招募大厅","hall"],["发布招募","publish"],["我的发单","ledger"],["商单日历","calendar"],["消息","messages"]]
+        : [["招募大厅","hall"],["我的报名","ledger"],["商单日历","calendar"],["消息","messages"]];
       return `<div class="desk">
         <aside class="side">
           <div class="logo">灵祺星选</div>
-          <button class="${nav === "hall" ? "on" : ""}" data-page="hall" type="button">大厅</button>
-          <button class="${nav === "publish" ? "on" : ""}" data-page="publish" type="button">发招募</button>
-          <button type="button">达人库</button>
-          <button type="button">结算</button>
+          <div class="ed">${s.who} · ${s.name}</div>
+          ${nav.map(([label, page]) => `<button class="${state.page === page ? "on" : ""}" data-page="${page}" type="button">${label}</button>`).join("")}
         </aside>
-        <div class="main">${body}</div>
+        <div class="main">${webBody()}</div>
       </div>`;
     }
 
     function feats() {
-      if (state.device === "mp") {
+      const mp = state.device === "mp";
+      if (style().id === "fadan") {
         return [
-          ["01", "推荐大厅", "商单卡片、筛选、报名", "hall"],
-          ["02", "我的", "报名 / 积分 / 完单", "mine"]
+          ["发招募", mp ? "城市、预算、Brief，拇指发单" : "网页发单，大厅同步", "publish"],
+          ["大厅核对", "发出后达人端立刻能刷到", "hall"]
+        ];
+      }
+      if (style().id === "dangqi") {
+        return [
+          ["商单日历", "探店日 / 交片日", "calendar"],
+          ["消息催档期", "入选后排期走通知", "messages"]
+        ];
+      }
+      if (style().id === "goutong") {
+        return [
+          ["消息", "系统入选 + PR 改 Brief", "messages"],
+          ["我的", "从对话回到自己的单", "ledger"]
+        ];
+      }
+      if (style().id === "taizhang") {
+        return [
+          ["台账", mp ? "报名/发单数字 + 菜单" : "四列看板看履约", "ledger"],
+          ["日历", "节点落到具体日期", "calendar"]
         ];
       }
       return [
-        ["01", "网页大厅", "表格看单、与小程序同源", "hall"],
-        ["02", "发招募", "网页发单，达人端同步", "publish"]
+        ["推荐大厅", "探店 / 云剪 / 急单，报名", "hall"],
+        ["我的", "报名、日历、信用", "ledger"]
       ];
     }
 
@@ -287,22 +423,24 @@
         `<button class="chip ${state.device === "mp" ? "on" : ""}" data-device="mp" type="button">小程序</button>` +
         `<button class="chip ${state.device === "web" ? "on" : ""}" data-device="web" type="button">网页</button>`;
       $("preview").innerHTML = state.device === "web" ? webFrame() : mpFrame();
-      $("featList").innerHTML = feats().map(([n, t, d, p]) =>
-        `<button class="feat" data-page="${p}" type="button"><span class="feat-n">${n}</span><span><b>${t}</b><span>${d}</span></span></button>`
+      $("featList").innerHTML = feats().map(([t, d, p]) =>
+        `<button class="feat ${state.page === p ? "on" : ""}" data-page="${p}" type="button"><b>${t}</b><span>${d}</span></button>`
       ).join("");
     }
 
     document.querySelector(".stage").addEventListener("click", (e) => {
       const styleChip = e.target.closest("[data-id]");
       if (styleChip && styleChip.dataset.id && STYLES.some((s) => s.id === styleChip.dataset.id)) {
-        state.theme = styleChip.dataset.id;
+        const next = STYLES.find((s) => s.id === styleChip.dataset.id);
+        state.theme = next.id;
+        state.page = next.page;
         render();
         return;
       }
       const device = e.target.closest("[data-device]");
       if (device) {
         state.device = device.dataset.device;
-        state.page = "hall";
+        state.page = style().page;
         render();
         return;
       }
