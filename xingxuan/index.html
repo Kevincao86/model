@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>墨典网络案例库演示 · 灵祺星选</title>
-  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，六套风格含实拍图。" />
+  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，八套风格含实拍图。" />
   <link rel="icon" href="/assets/brand/logo-mark.png" />
   <style>
     :root { --phone-w: 390px; --phone-h: 844px; }
@@ -98,6 +98,18 @@
       --bar: #fff; --tab: #C4A8A2; --tab-on: #FF2442; --price: #FF2442;
       --radius: 14px; --chrome-text: #2B1A16; --chrome-muted: #A07870;
     }
+    .phone[data-skin="stub"], .desk[data-skin="stub"] {
+      --bg: #EFE6D6; --surface: #FBF6EA; --text: #3A2C1C; --muted: #8A7358;
+      --line: #D4C4A8; --accent: #8B1E1E; --on-accent: #FBF6EA; --chrome: #F3E9D6;
+      --bar: #F3E9D6; --tab: #A89070; --tab-on: #8B1E1E; --price: #8B1E1E;
+      --radius: 2px; --chrome-text: #3A2C1C; --chrome-muted: #8A7358;
+    }
+    .phone[data-skin="sign"], .desk[data-skin="sign"] {
+      --bg: #0E1A2B; --surface: #132338; --text: #F4F0E6; --muted: #8FA3B8;
+      --line: #24364F; --accent: #F5C518; --on-accent: #0E1A2B; --chrome: #0E1A2B;
+      --bar: #0A1422; --tab: #6E8298; --tab-on: #F5C518; --price: #F5C518;
+      --radius: 0; --chrome-text: #F4F0E6; --chrome-muted: #8FA3B8;
+    }
     .cover { overflow: hidden; background: #DDD; flex-shrink: 0; }
     .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .hero { position: relative; overflow: hidden; padding: 0 !important; }
@@ -172,18 +184,57 @@
     .phone[data-skin="feed"] .card h3 { font-size: 13px; line-height: 1.35; font-weight: 650; }
     .phone[data-skin="feed"] .row { margin-top: 6px; }
     .phone[data-skin="feed"] .btn { height: 26px; border-radius: 999px; padding: 0 10px; font-size: 11px; }
+
+    /* 票根工牌：圆章照片 + 虚线撕口 */
+    .phone[data-skin="stub"] .nav-title { font-family: "Songti SC", "STSong", "Noto Serif SC", serif; letter-spacing: .16em; }
+    .phone[data-skin="stub"] .chrome { border-bottom: 1px dashed #C4B49A; }
+    .phone[data-skin="stub"] .hero { height: 118px; border-radius: 2px; margin-bottom: 12px; }
+    .phone[data-skin="stub"] .filters button { border-radius: 2px; border-style: dashed; }
+    .phone[data-skin="stub"] .card {
+      display: grid; grid-template-columns: 86px 1fr; gap: 0; align-items: center;
+      padding: 10px 12px 10px 8px; margin-bottom: 12px;
+      border: 1px dashed #C4B49A; border-left: 10px solid #8B1E1E;
+      background: repeating-linear-gradient(0deg, #FBF6EA, #FBF6EA 12px, #F3EAD8 12px, #F3EAD8 13px);
+      box-shadow: 3px 4px 0 rgba(58,44,28,.08);
+    }
+    .phone[data-skin="stub"] .cover { width: 68px; height: 68px; border-radius: 50%; border: 3px solid #8B1E1E; margin: 4px; }
+    .phone[data-skin="stub"] .btn { border-radius: 2px; letter-spacing: .12em; }
+
+    /* 导视看板：照片在右、大号路牌字 */
+    .phone[data-skin="sign"] .chrome { border-bottom: 6px solid #F5C518; }
+    .phone[data-skin="sign"] .nav-title { font-weight: 800; letter-spacing: .28em; font-size: 15px; text-transform: uppercase; }
+    .phone[data-skin="sign"] .id-switch { background: #132338; }
+    .phone[data-skin="sign"] .id-switch .on { background: #F5C518; color: #0E1A2B; }
+    .phone[data-skin="sign"] .hero { height: 132px; border-radius: 0; margin: 0 -14px 14px; }
+    .phone[data-skin="sign"] .search { border-radius: 0; border-color: #F5C518; background: transparent; color: #F5C518; }
+    .phone[data-skin="sign"] .filters button { border-radius: 0; letter-spacing: .08em; }
+    .phone[data-skin="sign"] .card {
+      display: grid; grid-template-columns: 1fr 92px; gap: 12px; align-items: stretch;
+      padding: 0 0 0 12px; margin-bottom: 8px; border: 0; border-left: 6px solid #F5C518; background: #132338;
+    }
+    .phone[data-skin="sign"] .cover { width: 92px; height: 92px; border-radius: 0; order: 2; grid-column: 2; }
+    .phone[data-skin="sign"] .body { padding: 10px 0; grid-column: 1; }
+    .phone[data-skin="sign"] .card h3 { font-size: 16px; font-weight: 800; letter-spacing: .04em; }
+    .phone[data-skin="sign"] .price { font-size: 20px; letter-spacing: .04em; }
+    .phone[data-skin="sign"] .btn { border-radius: 0; background: #F5C518; color: #0E1A2B; }
+    .phone[data-skin="sign"] .tabbar { border-top: 6px solid #F5C518; }
     .avatar-pic { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; display: block; }
     .phone[data-skin="biz"] .avatar-pic { border-radius: 2px; }
     .phone[data-skin="min"] .avatar-pic { border-radius: 0; width: 72px; height: 72px; }
     .phone[data-skin="night"] .avatar-pic { border-radius: 0; border: 1px solid #E8C36A; }
     .phone[data-skin="feed"] .avatar-pic { border-radius: 20px; }
+    .phone[data-skin="stub"] .avatar-pic { border-radius: 50%; border: 2px solid #8B1E1E; }
+    .phone[data-skin="sign"] .avatar-pic { border-radius: 0; }
     .phone[data-skin="min"] .card { display: flex; flex-direction: column; }
     .phone[data-skin="tanshop"] .card { display: flex; flex-direction: column; }
     .desk[data-skin="biz"] .hero, .desk[data-skin="min"] .hero, .desk[data-skin="tanshop"] .hero,
-    .desk[data-skin="night"] .hero, .desk[data-skin="feed"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
+    .desk[data-skin="night"] .hero, .desk[data-skin="feed"] .hero,
+    .desk[data-skin="stub"] .hero, .desk[data-skin="sign"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
     .desk[data-skin="min"] .hero { height: 200px; border-radius: 0; }
     .desk[data-skin="night"] .hero { border-radius: 0; height: 180px; }
     .desk[data-skin="feed"] .hero { border-radius: 16px; }
+    .desk[data-skin="stub"] .hero { border-radius: 2px; }
+    .desk[data-skin="sign"] .hero { border-radius: 0; }
 
     .phone {
       width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
@@ -350,7 +401,7 @@
       <div class="chips" id="deviceChips"></div>
       <div class="label">身份</div>
       <div class="chips" id="roleChips"></div>
-      <div class="label">六套风格 · 含实拍</div>
+      <div class="label">八套风格 · 含实拍</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
       <p class="hint">手机里的筛选、卡片、按钮都可以点，和垟里GO一样会跳页或弹出演示提示。非正式上线产品。</p>
@@ -369,7 +420,9 @@
       { id: "tanshop", name: "探店画报", acc: "#C45C3A", blurb: "满幅现场照片。到店拍摄、门头和成片是主线。" },
       { id: "wechat", name: "微信接单", acc: "#07C160", blurb: "绿顶栏 + 小方图列表。达人每天打开接单、点消息。" },
       { id: "night", name: "暗夜杂志", acc: "#E8C36A", blurb: "黑底、字叠在大图上。像夜场画报，刷单时先看场面。" },
-      { id: "feed", name: "笔记瀑布", acc: "#FF2442", blurb: "双列封面墙。像小红书笔记流，适合刷探店和跟拍。" }
+      { id: "feed", name: "笔记瀑布", acc: "#FF2442", blurb: "双列封面墙。像小红书笔记流，适合刷探店和跟拍。" },
+      { id: "stub", name: "票根工牌", acc: "#8B1E1E", blurb: "圆章照片、虚线撕口、暗红票根。像入场券，适合档期和到店。" },
+      { id: "sign", name: "导视看板", acc: "#F5C518", blurb: "海军底、黄条路牌、照片在右侧。适合 PR 看大厅像看站台指示。" }
     ];
     const JOBS = [
       { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州", img: "/xingxuan/img/xx-hotpot.jpg" },
@@ -494,6 +547,8 @@
         : state.theme === "tanshop" ? "/xingxuan/img/xx-tea.jpg"
         : state.theme === "night" ? "/xingxuan/img/xx-hero-night.jpg"
         : state.theme === "feed" ? "/xingxuan/img/xx-hero-feed.jpg"
+        : state.theme === "stub" ? "/xingxuan/img/xx-hero-stub.jpg"
+        : state.theme === "sign" ? "/xingxuan/img/xx-hero-sign.jpg"
         : "/xingxuan/img/xx-hero-biz.jpg";
       return `<div class="hero"><img src="${src}" alt=""><div class="cap"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"}</span></div></div>`;
     }
