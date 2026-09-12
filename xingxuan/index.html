@@ -63,27 +63,58 @@
     .feat.on b, .feat:hover b { color: #E0C089; }
 
     .phone, .desk {
-      --bg: #F5F7FA; --surface: #fff; --text: #1E3A5F; --muted: #64748B;
-      --line: #E5E7EB; --accent: #2B6CB0; --on-accent: #fff; --chrome: #fff;
-      --bar: #fff; --tab: #94A3B8; --tab-on: #2B6CB0; --price: #C2410C;
-      --radius: 10px; --chrome-text: #1E3A5F; --chrome-muted: #64748B;
+      --bg: #F4F8FC; --surface: #fff; --text: #0F2744; --muted: #5B7390;
+      --line: #D7E4F0; --accent: #0284C7; --on-accent: #fff; --chrome: #fff;
+      --bar: #fff; --tab: #8AA0B5; --tab-on: #0284C7; --price: #E11D48;
+      --radius: 12px; --chrome-text: #0F2744; --chrome-muted: #5B7390;
     }
-    .phone[data-theme="songbai"], .desk[data-theme="songbai"] {
-      --bg: #F4F7F5; --text: #1C3D32; --muted: #5C7368; --accent: #1F7A5C;
-      --tab-on: #1F7A5C; --chrome-text: #1C3D32;
+    /* 微信绿：达人每天打开接单 */
+    .phone[data-skin="wechat"], .desk[data-skin="wechat"] {
+      --bg: #EDEDED; --surface: #fff; --text: #191919; --muted: #888;
+      --line: #E5E5E5; --accent: #07C160; --on-accent: #fff; --chrome: #07C160;
+      --bar: #F7F7F7; --tab: #999; --tab-on: #07C160; --price: #FA5151;
+      --radius: 8px; --chrome-text: #fff; --chrome-muted: rgba(255,255,255,.88);
     }
-    .phone[data-theme="nuansha"], .desk[data-theme="nuansha"] {
-      --bg: #F7F5F1; --text: #44403C; --muted: #78716C; --accent: #B45309;
-      --tab-on: #B45309; --chrome-text: #44403C; --radius: 12px;
+    /* 探店纸：到店拍摄 / 成片 */
+    .phone[data-skin="tanshop"], .desk[data-skin="tanshop"] {
+      --bg: #F3EDE3; --surface: #FFFCFA; --text: #3A2A1C; --muted: #8A6F58;
+      --line: #E6D5C3; --accent: #C45C3A; --on-accent: #fff; --chrome: #F6F0E6;
+      --bar: #F6F0E6; --tab: #A08068; --tab-on: #C45C3A; --price: #B42318;
+      --radius: 18px; --chrome-text: #3A2A1C; --chrome-muted: #8A6F58;
     }
-    .phone[data-theme="qingci"], .desk[data-theme="qingci"] {
-      --bg: #F2F7F6; --text: #134E4A; --muted: #5B7C78; --accent: #0F766E;
-      --tab-on: #0F766E; --chrome-text: #134E4A;
+    /* 发单台：PR 表单 / 漏斗 / 台账 */
+    .phone[data-skin="gongtai"], .desk[data-skin="gongtai"] {
+      --bg: #EEF1F4; --surface: #fff; --text: #1F2933; --muted: #6B7C8A;
+      --line: #D5DCE3; --accent: #1F4E79; --on-accent: #fff; --chrome: #F7F8FA;
+      --bar: #F7F8FA; --tab: #8A97A3; --tab-on: #1F4E79; --price: #C2410C;
+      --radius: 6px; --chrome-text: #1F4E79; --chrome-muted: #6B7C8A;
     }
-    .phone[data-theme="wuqing"], .desk[data-theme="wuqing"] {
-      --bg: #F4F5F6; --text: #334155; --muted: #64748B; --accent: #5B7C8A;
-      --tab-on: #5B7C8A; --chrome-text: #334155; --radius: 8px;
+    /* 档期金：日历履约，浅底不用黑 */
+    .phone[data-skin="schedule"], .desk[data-skin="schedule"] {
+      --bg: #FAF6EE; --surface: #FFFEFB; --text: #3F3424; --muted: #8A7A5C;
+      --line: #E8DCC4; --accent: #B8860B; --on-accent: #1A140C; --chrome: #F7F1E4;
+      --bar: #F7F1E4; --tab: #A09070; --tab-on: #8A6914; --price: #9A3412;
+      --radius: 10px; --chrome-text: #6B5420; --chrome-muted: #8A7A5C;
     }
+    .phone[data-skin="wechat"] .id-switch { background: rgba(255,255,255,.18); }
+    .phone[data-skin="wechat"] .id-switch button { color: rgba(255,255,255,.9); }
+    .phone[data-skin="wechat"] .id-switch .on { background: #fff; color: #07C160; }
+    .phone[data-skin="tanshop"] .hero { background: #C45C3A; }
+    .phone[data-skin="gongtai"] .hero { display: none; }
+    .phone[data-skin="gongtai"] .card { display: flex; gap: 10px; align-items: center; padding: 10px; }
+    .phone[data-skin="gongtai"] .card h3 { font-size: 14px; }
+    .phone[data-skin="tanshop"] .cover { height: 88px; border-radius: 14px; margin-bottom: 8px; }
+    .phone[data-skin="xinglan"] .cover { width: 64px; height: 64px; border-radius: 10px; flex-shrink: 0; }
+    .phone[data-skin="xinglan"] .card { display: flex; gap: 12px; align-items: stretch; }
+    .phone[data-skin="xinglan"] .card .body { flex: 1; min-width: 0; }
+    .phone[data-skin="wechat"] .cover { display: none; }
+    .phone[data-skin="gongtai"] .cover { width: 6px; height: 40px; border-radius: 3px; margin: 0; }
+    .phone[data-skin="schedule"] .cover { display: none; }
+    .cover { background: #94A3B8; }
+    .cover.t-探店 { background: linear-gradient(135deg, #FB923C, #EA580C); }
+    .cover.t-急单 { background: linear-gradient(135deg, #FB7185, #E11D48); }
+    .cover.t-拍剪 { background: linear-gradient(135deg, #60A5FA, #2563EB); }
+    .cover.t-云剪 { background: linear-gradient(135deg, #2DD4BF, #0F766E); }
 
     .phone {
       width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
@@ -131,6 +162,7 @@
     .filters button.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
     .card { padding: 12px; margin-bottom: 10px; cursor: pointer; }
     .card h3 { font-size: 15px; font-weight: 700; }
+    .card .body { flex: 1; min-width: 0; }
     .sub { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
     .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 8px; }
     .price { color: var(--price); font-weight: 700; font-size: 16px; }
@@ -244,7 +276,7 @@
     <aside class="panel">
       <div class="kicker">CASE</div>
       <h1>灵祺星选</h1>
-      <p>达人履约平台。和垟里GO一样：左侧换风格与身份，右侧点功能页，中间跟着走。小程序与网页是同一套页面，只换端。</p>
+      <p>达人履约平台。和垟里GO一样：左侧换风格与身份，右侧点功能页。手机里的筛选、卡片、按钮都能跳转。</p>
       <div class="meta-grid">
         <div>产品<b>灵祺星选</b></div>
         <div>场景<b>温州 · 达人履约</b></div>
@@ -269,11 +301,11 @@
   </div>
   <script>
     const STYLES = [
-      { id: "jilan", name: "霁蓝", acc: "#2B6CB0", blurb: "飞书/钉钉类工具蓝。大厅、发单、日历、消息都是同一套浅底。" },
-      { id: "songbai", name: "松柏", acc: "#1F7A5C", blurb: "履约绿。适合对商家讲完单、信用和档期。" },
-      { id: "nuansha", name: "暖砂", acc: "#B45309", blurb: "暖商务纸面。价格数字仍用赭石，主色只出现在按钮和选中态。" },
-      { id: "qingci", name: "青瓷", acc: "#0F766E", blurb: "更冷、更干净。网页侧栏和工作台长时间盯着不累。" },
-      { id: "wuqing", name: "雾青", acc: "#5B7C8A", blurb: "彩度最低，接近微信默认灰蓝，最克制。" }
+      { id: "xinglan", name: "星选蓝", acc: "#0284C7", blurb: "现网产品味。大厅卡片带品类色条，适合达人刷单报名。" },
+      { id: "wechat", name: "微信绿", acc: "#07C160", blurb: "顶栏微信绿。达人每天打开小程序接单、看消息的习惯。" },
+      { id: "tanshop", name: "探店纸", acc: "#C45C3A", blurb: "米纸和大封面。给到店拍摄、成片、门头特写这一路。" },
+      { id: "gongtai", name: "发单台", acc: "#1F4E79", blurb: "紧凑办公。PR 发招募、漏斗、台账长时间盯着不累。" },
+      { id: "schedule", name: "档期金", acc: "#B8860B", blurb: "浅金日历。探店日、交片日是履约主线，不用黑底。" }
     ];
     const JOBS = [
       { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州" },
@@ -326,7 +358,7 @@
     };
 
     const state = {
-      theme: "jilan", role: "talent", device: "mp", page: "home",
+      theme: "xinglan", role: "talent", device: "mp", page: "home",
       hall: "normal", plat: "全部平台", city: "全部", jobId: "hotpot",
       weekDay: 15, chat: "pr", applied: { hotpot: true }, fav: { cafe: true },
       picked: {}, kw: ""
@@ -384,10 +416,11 @@
       if (!rows.length) return `<div class="card">这个筛选下没有商单，点上面筛选项换一换。</div>`;
       return rows.map((j) =>
         `<article class="card" data-act="open-job" data-job="${j.id}">
-          <h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag} · ${j.plat}</div>
+          <div class="cover t-${j.tag}"></div>
+          <div class="body"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag} · ${j.plat}</div>
           <div class="row"><span class="price">${j.p}</span>
             <button class="btn" data-act="open-job" data-job="${j.id}" type="button">查看</button>
-          </div>
+          </div></div>
         </article>`
       ).join("");
     }
@@ -589,7 +622,7 @@
         ["消息", "messages"],
         ["我的", "mine"]
       ];
-      return `<div class="phone" data-theme="${state.theme}">
+      return `<div class="phone" data-skin="${state.theme}">
         <div class="chrome">
           <div class="status">
             <span>9:41</span>
@@ -667,7 +700,7 @@
     function webFrame() {
       const nav = webNav();
       const on = (page) => state.page === page || (page === "home" && state.page === "recommend");
-      return `<div class="desk" data-theme="${state.theme}">
+      return `<div class="desk" data-skin="${state.theme}">
         <aside class="side">
           <div class="logo">灵祺星选</div>
           <div class="ed">${isPr() ? "PR" : "达人"} · ${style().name}</div>
@@ -686,7 +719,7 @@
       ensurePage();
       $("blurb").textContent = style().blurb;
       $("styleChips").innerHTML = STYLES.map((s) =>
-        `<button class="chip ${s.id === state.theme ? "on" : ""}" data-theme="${s.id}" type="button"><span class="dot" style="background:${s.acc}"></span>${s.name}</button>`
+        `<button class="chip ${s.id === state.theme ? "on" : ""}" data-pick-style="${s.id}" type="button"><span class="dot" style="background:${s.acc}"></span>${s.name}</button>`
       ).join("");
       $("deviceChips").innerHTML =
         `<button class="chip ${state.device === "mp" ? "on" : ""}" data-device="mp" type="button">小程序</button>` +
@@ -707,9 +740,9 @@
 
     document.querySelector(".stage").addEventListener("click", (e) => {
       if (e.target.closest("[data-act='close-sheet']")) { closeSheet(); return; }
-      const theme = e.target.closest("[data-theme]");
-      if (theme && theme.dataset.theme && STYLES.some((s) => s.id === theme.dataset.theme)) {
-        state.theme = theme.dataset.theme;
+      const pick = e.target.closest("[data-pick-style]");
+      if (pick && STYLES.some((s) => s.id === pick.dataset.pickStyle)) {
+        state.theme = pick.dataset.pickStyle;
         render();
         return;
       }
