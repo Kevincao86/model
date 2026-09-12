@@ -35,7 +35,9 @@ module.exports = async function handler(req, res) {
     item.updatedAt = Date.now();
     const result = await writeStore(store);
     if (!result.persisted) {
-      return json(res, 500, { error: '密码未保存成功，请重试', ...result });
+      return json(res, 500, {
+        error: result.persistError ? `密码未保存成功（${result.persistError}）` : '密码未保存成功，请重试',
+      });
     }
     return json(res, 200, { ok: true, case: adminCase(item), ...result });
   }
