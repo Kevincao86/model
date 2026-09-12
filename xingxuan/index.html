@@ -4,168 +4,207 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>墨典网络案例库演示 · 灵祺星选</title>
-  <meta name="description" content="灵祺星选：按接单、发单、档期、沟通、台账五套工作流风格，小程序与网页对照。" />
+  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，五套风格可切换。" />
   <link rel="icon" href="/assets/brand/logo-mark.png" />
   <style>
-    :root {
-      --paper: #F3F6F9; --card: #fff; --ink: #2C3A47; --mute: #5B6B78;
-      --line: #E3E8EE; --acc: #3A6EA5; --tint: #E4EEF6; --price: #C2410C;
-      --phone-w: 390px; --phone-h: 800px;
-    }
+    :root { --phone-w: 390px; --phone-h: 844px; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       min-height: 100vh;
       font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
-      background: #EEF1F4;
-      color: #24303A;
+      background: #161310;
+      color: #F4EDE3;
     }
     .site-bar {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 28px; background: #fff; border-bottom: 1px solid var(--line);
+      padding: 14px 28px; border-bottom: 1px solid rgba(244,237,227,.08);
     }
     .site-bar a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 10px; }
     .site-bar img { width: 28px; height: 28px; object-fit: contain; }
     .site-bar b { font-size: 13px; font-weight: 650; }
-    .site-bar span { font-size: 12px; color: var(--mute); }
+    .site-bar span { font-size: 11px; color: #C9BBA8; }
     .stage {
       display: grid;
-      grid-template-columns: 280px minmax(420px, 1fr) minmax(220px, 280px);
-      gap: 28px; max-width: 1320px; margin: 0 auto; padding: 24px 24px 48px;
+      grid-template-columns: 280px minmax(var(--phone-w), 1fr) minmax(240px, 300px);
+      gap: 32px; max-width: 1320px; margin: 0 auto; padding: 28px 24px 56px;
       align-items: start;
     }
-    .kicker { font-size: 12px; color: var(--acc); }
-    .panel h1 { font-size: 26px; font-weight: 650; margin-top: 6px; letter-spacing: .02em; }
-    .panel p { margin-top: 10px; color: var(--mute); font-size: 14px; line-height: 1.7; }
-    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 16px; }
-    .meta-grid div { font-size: 12px; color: var(--mute); }
-    .meta-grid b { display: block; color: var(--ink); font-size: 13px; margin-top: 2px; }
-    .label { margin: 22px 0 10px; font-size: 12px; color: var(--mute); }
+    .kicker { font-size: 11px; letter-spacing: .22em; color: #E0C089; }
+    .panel h1 { font-size: 28px; letter-spacing: .08em; font-weight: 600; margin-top: 8px; }
+    .panel p { margin-top: 10px; color: #C9BBA8; font-size: 14px; line-height: 1.7; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 18px; }
+    .meta-grid div { font-size: 12px; color: #C9BBA8; }
+    .meta-grid b { display: block; color: #F4EDE3; font-size: 13px; margin-top: 2px; }
+    .label { margin: 26px 0 10px; font-size: 12px; letter-spacing: .16em; color: #E0C089; }
     .chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip {
-      border: 1px solid var(--line); background: #fff; color: var(--ink);
-      padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px;
+      border: 1px solid rgba(244,237,227,.22); background: transparent; color: #EDE4D6;
+      padding: 8px 14px; border-radius: 999px; cursor: pointer; font-size: 13px;
     }
-    .chip.on { background: var(--acc); border-color: var(--acc); color: #fff; }
+    .chip.on { background: #C45C3A; border-color: #C45C3A; color: #fff; }
     .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-    .hint { margin-top: 18px; font-size: 12px; color: #7A8A96; line-height: 1.65; }
-    .blurb { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--tint); color: var(--ink); font-size: 13px; line-height: 1.65; }
-    .preview { display: flex; justify-content: center; min-height: var(--phone-h); }
-    .phone {
-      width: var(--phone-w); height: var(--phone-h); background: var(--paper);
-      border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
-      display: flex; flex-direction: column;
+    .hint { margin-top: 22px; font-size: 12px; color: #B0A494; line-height: 1.65; }
+    .blurb {
+      margin-top: 18px; padding: 12px 14px; border-radius: 12px;
+      background: rgba(255,255,255,.05); color: #EDE4D6; font-size: 13px; line-height: 1.65;
     }
-    .chrome { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 16px 10px; }
-    .status { display: flex; justify-content: space-between; font-size: 12px; color: var(--mute); margin-bottom: 8px; }
-    .capsule { width: 78px; height: 22px; border-radius: 11px; background: #1F2933; opacity: .14; }
-    .nav-title { font-size: 17px; font-weight: 650; color: var(--ink); }
-    .nav-sub { font-size: 12px; color: var(--mute); margin-top: 2px; }
-    .screen { flex: 1; overflow: auto; padding: 12px 14px 16px; }
+    .preview { display: flex; justify-content: center; }
+    .feat-tip { font-size: 12px; color: #B0A494; margin: 0 0 10px; }
+    .feat {
+      display: grid; grid-template-columns: 32px 1fr; gap: 10px;
+      width: 100%; text-align: left; padding: 14px 0;
+      border: 0; border-bottom: 1px solid rgba(244,237,227,.1);
+      background: transparent; color: inherit; font: inherit; cursor: pointer;
+    }
+    .feat:last-child { border-bottom: 0; }
+    .feat-n { font-size: 12px; letter-spacing: .14em; color: #E0C089; font-weight: 700; padding-top: 3px; }
+    .feat b { display: block; font-size: 15px; font-weight: 600; color: #F4EDE3; }
+    .feat span { display: block; margin-top: 6px; font-size: 13px; line-height: 1.65; color: #C9BBA8; }
+    .feat.on b, .feat:hover b { color: #E0C089; }
+
+    .phone, .desk {
+      --bg: #F5F7FA; --surface: #fff; --text: #1E3A5F; --muted: #64748B;
+      --line: #E5E7EB; --accent: #2B6CB0; --on-accent: #fff; --chrome: #fff;
+      --bar: #fff; --tab: #94A3B8; --tab-on: #2B6CB0; --price: #C2410C;
+      --radius: 10px; --chrome-text: #1E3A5F; --chrome-muted: #64748B;
+    }
+    .phone[data-theme="songbai"], .desk[data-theme="songbai"] {
+      --bg: #F4F7F5; --text: #1C3D32; --muted: #5C7368; --accent: #1F7A5C;
+      --tab-on: #1F7A5C; --chrome-text: #1C3D32;
+    }
+    .phone[data-theme="nuansha"], .desk[data-theme="nuansha"] {
+      --bg: #F7F5F1; --text: #44403C; --muted: #78716C; --accent: #B45309;
+      --tab-on: #B45309; --chrome-text: #44403C; --radius: 12px;
+    }
+    .phone[data-theme="qingci"], .desk[data-theme="qingci"] {
+      --bg: #F2F7F6; --text: #134E4A; --muted: #5B7C78; --accent: #0F766E;
+      --tab-on: #0F766E; --chrome-text: #134E4A;
+    }
+    .phone[data-theme="wuqing"], .desk[data-theme="wuqing"] {
+      --bg: #F4F5F6; --text: #334155; --muted: #64748B; --accent: #5B7C8A;
+      --tab-on: #5B7C8A; --chrome-text: #334155; --radius: 8px;
+    }
+
+    .phone {
+      width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
+      display: flex; flex-direction: column; background: var(--bg); color: var(--text);
+      box-shadow: 0 40px 80px rgba(0,0,0,.45); border: 10px solid #2A2622; font-size: 15px;
+    }
+    .chrome { background: var(--chrome); color: var(--chrome-text); padding: 10px 10px 10px 16px; flex-shrink: 0; border-bottom: 1px solid var(--line); }
+    .status { height: 30px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 650; color: var(--chrome-muted); }
+    .status-right { display: flex; align-items: center; gap: 8px; }
+    .capsule { width: 86px; height: 30px; border-radius: 15px; background: #111; opacity: .88; }
+    .id-switch { display: flex; padding: 2px; border-radius: 10px; background: var(--bg); }
+    .id-switch button {
+      border: 0; background: transparent; min-width: 46px; height: 26px;
+      font-size: 12px; font-weight: 650; cursor: pointer; border-radius: 8px; color: var(--muted);
+    }
+    .id-switch .on { background: var(--accent); color: var(--on-accent); }
+    .nav { padding: 6px 6px 2px 0; }
+    .nav-title { font-size: 18px; font-weight: 700; color: var(--chrome-text); }
+    .nav-loc { font-size: 12px; margin-top: 2px; color: var(--chrome-muted); }
+    .screen { flex: 1; min-height: 0; overflow: auto; padding: 12px 14px 22px; background: var(--bg); }
     .screen::-webkit-scrollbar { width: 0; }
     .tabbar {
-      display: grid; grid-template-columns: repeat(5, 1fr); background: #fff;
-      border-top: 1px solid var(--line); padding: 8px 4px 14px; font-size: 11px; color: var(--mute);
+      flex-shrink: 0; height: 72px; display: flex; padding: 6px 4px 14px;
+      background: var(--bar); border-top: 1px solid var(--line); color: var(--tab);
     }
-    .tabbar button { background: 0; border: 0; font: inherit; color: inherit; cursor: pointer; min-height: 44px; }
-    .tabbar button.on { color: var(--acc); font-weight: 650; }
-    .search { display: flex; gap: 8px; margin-bottom: 10px; }
-    .search input {
-      flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px;
-      font: inherit; background: #fff; color: var(--ink);
+    .tab {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px; font-size: 11px; font-weight: 600; cursor: pointer; background: none; border: 0; color: inherit;
     }
-    .filters { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .tab.on { color: var(--tab-on); }
+
+    .search, .field, .card, .list-row, .stat, .menu, .msg, .event {
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    }
+    .search { height: 40px; display: flex; align-items: center; padding: 0 12px; font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .filters { display: flex; gap: 6px; overflow: auto; margin-bottom: 10px; }
+    .filters::-webkit-scrollbar { height: 0; }
     .filters span {
-      padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line);
-      font-size: 12px; color: var(--mute); background: #fff;
+      height: 30px; padding: 0 12px; font-size: 12px; font-weight: 650; white-space: nowrap;
+      display: inline-flex; align-items: center; border-radius: 8px; background: var(--surface);
+      border: 1px solid var(--line); color: var(--muted);
     }
-    .filters span.on { background: var(--acc); color: #fff; border-color: var(--acc); }
-    .card-job {
-      background: var(--card); border: 1px solid var(--line); border-radius: 10px;
-      padding: 12px; margin-bottom: 10px;
-    }
-    .card-job h3 { font-size: 15px; font-weight: 650; color: var(--ink); }
-    .card-job .meta { margin-top: 6px; font-size: 12px; color: var(--mute); }
-    .card-job .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .filters span.on { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .card { padding: 12px; margin-bottom: 10px; }
+    .card h3 { font-size: 15px; font-weight: 700; }
+    .sub { font-size: 12px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 8px; }
     .price { color: var(--price); font-weight: 700; font-size: 16px; }
     .btn {
-      background: var(--acc); color: #fff; border: 0; border-radius: 8px;
-      padding: 8px 14px; font-size: 13px; cursor: pointer; min-height: 36px;
+      border: 0; cursor: pointer; height: 32px; padding: 0 12px; font-size: 12px; font-weight: 700;
+      border-radius: 8px; background: var(--accent); color: var(--on-accent);
     }
-    .btn.ghost { background: #fff; color: var(--acc); border: 1px solid var(--acc); }
-    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; }
-    .stat-row div { padding: 12px 4px; text-align: center; border-right: 1px solid var(--line); }
-    .stat-row div:last-child { border-right: 0; }
-    .stat-row b { display: block; font-size: 16px; color: var(--ink); }
-    .stat-row span { font-size: 11px; color: var(--mute); }
-    .list { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-    .list button {
-      width: 100%; text-align: left; background: #fff; border: 0; border-bottom: 1px solid var(--line);
-      padding: 14px; font: inherit; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between;
+    .btn.ghost { background: transparent; border: 1px solid var(--accent); color: var(--accent); }
+    .hero {
+      height: 120px; border-radius: var(--radius); margin-bottom: 12px; padding: 16px;
+      background: var(--accent); color: var(--on-accent);
     }
-    .list button:last-child { border-bottom: 0; }
-    .list i { color: #C5CED6; font-style: normal; }
-    .steps { display: flex; gap: 6px; margin-bottom: 14px; font-size: 11px; color: var(--mute); }
-    .steps b { color: var(--acc); font-weight: 650; }
-    .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px; }
-    .week div { background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 8px 4px; text-align: center; font-size: 11px; color: var(--mute); }
-    .week div.on { border-color: var(--acc); color: var(--acc); background: var(--tint); }
-    .week b { display: block; font-size: 14px; color: var(--ink); margin-top: 2px; }
-    .event { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 8px; display: flex; gap: 10px; }
-    .event .t { width: 44px; font-size: 11px; color: var(--acc); font-weight: 650; }
-    .msg { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 8px; }
-    .msg .who { font-size: 14px; font-weight: 650; }
-    .msg .ex { font-size: 12px; color: var(--mute); margin-top: 4px; line-height: 1.5; }
-    .bubble { max-width: 78%; background: var(--tint); border-radius: 10px; padding: 8px 11px; font-size: 13px; margin: 8px 0; }
-    .bubble.me { margin-left: auto; background: var(--acc); color: #fff; }
-    .pipe { display: flex; gap: 6px; overflow: auto; margin-bottom: 12px; }
-    .pipe span { white-space: nowrap; font-size: 12px; padding: 6px 10px; border-radius: 6px; background: #fff; border: 1px solid var(--line); color: var(--mute); }
-    .pipe span.on { background: var(--acc); color: #fff; border-color: var(--acc); }
+    .hero b { display: block; font-size: 18px; }
+    .hero span { font-size: 12px; opacity: .9; }
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+    .stat { padding: 10px 4px; text-align: center; }
+    .stat b { display: block; font-size: 16px; }
+    .stat span { font-size: 11px; color: var(--muted); }
+    .menu { overflow: hidden; }
+    .menu button, .list-row {
+      width: 100%; text-align: left; background: var(--surface); border: 0; border-bottom: 1px solid var(--line);
+      padding: 13px 12px; font: inherit; color: var(--text); cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .menu button:last-child { border-bottom: 0; }
+    .menu i, .chev { color: var(--muted); font-style: normal; }
+    .field { padding: 10px 12px; margin-bottom: 8px; font-size: 13px; color: var(--muted); }
+    .field b { display: block; color: var(--text); font-weight: 600; margin-top: 2px; }
+    .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 10px; }
+    .week div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 2px; text-align: center; font-size: 11px; color: var(--muted); }
+    .week div.on { border-color: var(--accent); color: var(--accent); }
+    .week b { display: block; font-size: 14px; color: var(--text); }
+    .event { padding: 12px; margin-bottom: 8px; }
+    .msg { padding: 12px; margin-bottom: 8px; }
+    .bubble { max-width: 80%; background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 8px 11px; font-size: 13px; margin: 8px 0; }
+    .bubble.me { margin-left: auto; background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .funnel { display: flex; gap: 6px; margin-bottom: 12px; }
+    .funnel span { flex: 1; text-align: center; font-size: 11px; padding: 8px 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
+    .funnel span b { display: block; font-size: 14px; color: var(--text); }
+
     .desk {
-      width: min(960px, 100%); background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
-      min-height: 600px; display: grid; grid-template-columns: 188px 1fr;
+      width: min(980px, 100%); min-height: 640px; background: var(--surface);
+      border: 1px solid #2A2622; border-radius: 12px; overflow: hidden;
+      display: grid; grid-template-columns: 188px 1fr; box-shadow: 0 40px 80px rgba(0,0,0,.45);
     }
-    .side { background: #fff; border-right: 1px solid var(--line); padding: 18px 12px; }
-    .side .logo { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 4px; padding: 0 8px; }
-    .side .ed { font-size: 11px; color: var(--mute); padding: 0 8px 16px; }
+    .side { background: var(--chrome); border-right: 1px solid var(--line); padding: 18px 10px; }
+    .side .logo { font-size: 15px; font-weight: 700; color: var(--text); padding: 0 8px; }
+    .side .ed { font-size: 11px; color: var(--muted); padding: 4px 8px 14px; }
     .side button {
-      display: block; width: 100%; text-align: left; background: 0; border: 0; color: var(--mute);
-      padding: 10px; font: inherit; cursor: pointer; border-radius: 8px;
+      display: block; width: 100%; text-align: left; background: 0; border: 0; color: var(--muted);
+      padding: 9px 10px; font: inherit; cursor: pointer; border-radius: 8px; font-size: 13px;
     }
-    .side button.on { background: var(--tint); color: var(--acc); font-weight: 650; }
-    .main { background: var(--paper); padding: 20px; }
+    .side button.on { background: var(--bg); color: var(--accent); font-weight: 650; }
+    .main { background: var(--bg); padding: 20px; color: var(--text); overflow: auto; max-height: 640px; }
     .main h2 { font-size: 18px; margin-bottom: 4px; }
-    .main .sub { font-size: 12px; color: var(--mute); margin-bottom: 16px; }
-    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); font-size: 13px; }
     th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
-    th { color: var(--mute); font-weight: 500; font-size: 12px; }
-    .form label { display: block; font-size: 12px; color: var(--mute); margin: 12px 0 6px; }
-    .form input, .form textarea {
-      width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font: inherit; background: #fff;
-    }
+    th { color: var(--muted); font-weight: 500; font-size: 12px; }
     .board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .col { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 10px; min-height: 220px; }
-    .col h4 { font-size: 12px; color: var(--mute); font-weight: 550; margin-bottom: 8px; }
-    .col p { background: var(--paper); border-radius: 8px; padding: 8px; font-size: 12px; margin-bottom: 6px; color: var(--ink); }
-    .split { display: grid; grid-template-columns: 200px 1fr; gap: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; min-height: 360px; overflow: hidden; }
-    .split-list { border-right: 1px solid var(--line); }
-    .split-list button { width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--line); background: #fff; padding: 12px; font: inherit; cursor: pointer; }
-    .split-list button.on { background: var(--tint); }
-    .split-thread { padding: 14px; background: var(--paper); }
-    .feat { display: grid; grid-template-columns: 1fr; gap: 4px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; background: 0; border-left: 0; border-right: 0; width: 100%; text-align: left; font: inherit; color: inherit; }
-    .feat:last-child { border-bottom: 0; }
-    .feat b { display: block; font-size: 14px; }
-    .feat span { display: block; margin-top: 4px; font-size: 12px; color: var(--mute); line-height: 1.55; }
-    .feat.on b { color: var(--acc); }
+    .col { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; min-height: 180px; }
+    .col h4 { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .col p { background: var(--bg); border-radius: 8px; padding: 8px; font-size: 12px; margin-bottom: 6px; }
+    .split { display: grid; grid-template-columns: 200px 1fr; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); min-height: 320px; overflow: hidden; }
+    .split-list button { width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--line); background: var(--surface); padding: 12px; font: inherit; cursor: pointer; color: var(--text); }
+    .split-list button.on { background: var(--bg); color: var(--accent); }
+    .split-thread { padding: 14px; background: var(--bg); }
+
     @media (max-width: 1100px) {
-      .stage { grid-template-columns: 260px 1fr; }
-      .features { grid-column: 1 / -1; }
+      .stage { grid-template-columns: 280px 1fr; }
+      .features { grid-column: 1 / -1; max-width: 640px; }
     }
-    @media (max-width: 800px) {
+    @media (max-width: 860px) {
       .stage { grid-template-columns: 1fr; }
       .desk { grid-template-columns: 1fr; }
       .side { display: none; }
-      .board { grid-template-columns: 1fr 1fr; }
-      .split { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -173,282 +212,380 @@
   <script src="/js/gate.js" data-case="xingxuan"></script>
   <header class="site-bar">
     <a href="/"><img src="/assets/brand/logo-mark.png" alt="" /><b>墨典网络 · 案例库</b></a>
-    <span>灵祺星选 · 工作流演示</span>
+    <span>CASE · 灵祺星选</span>
   </header>
   <div class="stage">
     <aside class="panel">
-      <div class="kicker">达人履约</div>
+      <div class="kicker">CASE</div>
       <h1>灵祺星选</h1>
-      <p>按真实用法拆成五套工作流，不是换皮肤。达人刷大厅接单，PR 发招募，双方看档期、聊消息、对台账。小程序给拇指，网页给整天盯着的工作台。</p>
+      <p>达人履约平台。和垟里GO一样：左侧换风格与身份，右侧点功能页，中间跟着走。小程序与网页是同一套页面，只换端。</p>
       <div class="meta-grid">
         <div>产品<b>灵祺星选</b></div>
-        <div>身份<b>达人 · PR</b></div>
+        <div>场景<b>温州 · 达人履约</b></div>
         <div>类型<b>小程序 + 网页</b></div>
-        <div>状态<b>案例库演示</b></div>
+        <div>状态<b>演示中</b></div>
       </div>
       <div class="label">端</div>
       <div class="chips" id="deviceChips"></div>
-      <div class="label">五套工作流</div>
+      <div class="label">身份</div>
+      <div class="chips" id="roleChips"></div>
+      <div class="label">五套风格</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
-      <p class="hint">浅底、白卡片、矩形按钮。选风格会切到对应页面；右侧条目可对照跳转。非正式产品发版。</p>
+      <p class="hint">墨典网络案例库 · 非正式上线产品。风格只换皮肤，页面目录不变。</p>
     </aside>
     <div class="preview" id="preview"></div>
     <aside class="features">
-      <div class="kicker">这一套在干什么</div>
-      <p class="hint" style="margin:0 0 8px">点一条，中间切到该页</p>
+      <div class="kicker" id="featKicker">全部页面</div>
+      <p class="feat-tip" id="featTip">点一条，中间跟着走</p>
       <div id="featList"></div>
     </aside>
   </div>
   <script>
     const STYLES = [
-      { id: "jiedan", name: "接单", who: "达人", acc: "#3A6EA5", paper: "#F3F6F9", tint: "#E4EEF6", ink: "#2C3A47", page: "hall",
-        blurb: "达人通勤刷大厅：城市/探店/急单筛选，价格一眼看到，拇指点报名。" },
-      { id: "fadan", name: "发单", who: "PR", acc: "#0F6B63", paper: "#F3F7F6", tint: "#DCEEEC", ink: "#2A3F3C", page: "publish",
-        blurb: "PR 发招募：城市 → 预算 → Brief，发出后达人端大厅同步出现。" },
-      { id: "dangqi", name: "档期", who: "达人 / PR", acc: "#9A6B2D", paper: "#F7F4EF", tint: "#F0E6D4", ink: "#3F382E", page: "calendar",
-        blurb: "商单日历：探店日、交片日排在一周里，避免档期撞车。" },
-      { id: "goutong", name: "沟通", who: "达人 / PR", acc: "#5A7184", paper: "#F4F6F7", tint: "#E4EAEE", ink: "#334049", page: "messages",
-        blurb: "入选、待排期、改 Brief 都走消息。系统通知和私聊同一入口。" },
-      { id: "taizhang", name: "台账", who: "PR 工作台", acc: "#B45309", paper: "#F7F4F0", tint: "#F3E6D6", ink: "#3F342C", page: "ledger",
-        blurb: "待接 → 沟通 → 拍摄 → 待交片。网页看板看全流程，小程序看自己的单。" }
+      { id: "jilan", name: "霁蓝", acc: "#2B6CB0", blurb: "飞书/钉钉类工具蓝。大厅、发单、日历、消息都是同一套浅底。" },
+      { id: "songbai", name: "松柏", acc: "#1F7A5C", blurb: "履约绿。适合对商家讲完单、信用和档期。" },
+      { id: "nuansha", name: "暖砂", acc: "#B45309", blurb: "暖商务纸面。价格数字仍用赭石，主色只出现在按钮和选中态。" },
+      { id: "qingci", name: "青瓷", acc: "#0F766E", blurb: "更冷、更干净。网页侧栏和工作台长时间盯着不累。" },
+      { id: "wuqing", name: "雾青", acc: "#5B7C8A", blurb: "彩度最低，接近微信默认灰蓝，最克制。" }
     ];
     const JOBS = [
       { t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店" },
       { t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单" },
       { t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪" }
     ];
-    const state = { theme: "jiedan", device: "mp", page: "hall" };
+    const FEATS = {
+      talent: [
+        { page: "home", title: "首页", desc: "普通单 / 急单 / 拍剪分栏，定位城市后刷商单。" },
+        { page: "recommend", title: "推荐大厅", desc: "平台与城市筛选，卡片报名。" },
+        { page: "detail", title: "商单详情", desc: "Brief、预算、地点，再报名。" },
+        { page: "apply", title: "报名", desc: "填写档期与报价后提交。" },
+        { page: "messages", title: "消息", desc: "系统入选、待排期、私信入口。" },
+        { page: "chat", title: "私信", desc: "和 PR 改 Brief、催交片。" },
+        { page: "mine", title: "我的", desc: "报名数字、快捷入口、资料。" },
+        { page: "applications", title: "我的报名", desc: "已提交招募的状态列表。" },
+        { page: "calendar", title: "商单日历", desc: "探店日与交片日排在一周。" },
+        { page: "favorites", title: "我的收藏", desc: "收藏的招募商单。" },
+        { page: "quotes", title: "我的报价", desc: "给合作 PR 的专属报价。" },
+        { page: "credit", title: "达人信用", desc: "履约评分与提升建议。" },
+        { page: "points", title: "积分与会员", desc: "充值、开通记录。" },
+        { page: "support", title: "小灵同学", desc: "客服与常见问题。" }
+      ],
+      pr: [
+        { page: "home", title: "首页", desc: "看大厅里自己发出的单是否在招。" },
+        { page: "recommend", title: "推荐大厅", desc: "对照达人端看到的同一批商单。" },
+        { page: "publish", title: "发招募", desc: "城市、预算、Brief，发到大厅。" },
+        { page: "detail", title: "商单详情", desc: "预览达人看到的招募页。" },
+        { page: "applicants", title: "报名者", desc: "入选、排期、看成片。" },
+        { page: "messages", title: "消息", desc: "达人私信与系统通知。" },
+        { page: "chat", title: "私信", desc: "改 Brief、确认档期。" },
+        { page: "mine", title: "我的", desc: "发单数字、模版、漏斗入口。" },
+        { page: "orders", title: "我的发单", desc: "已发布招募列表。" },
+        { page: "calendar", title: "商单日历", desc: "探店与交片排期。" },
+        { page: "templates", title: "我的模版", desc: "达人 / 拍摄 / 剪辑报名表。" },
+        { page: "brief", title: "Brief 模版", desc: "结构化发单，一键套用。" },
+        { page: "coop", title: "合作达人池", desc: "完单沉淀，优先复用。" },
+        { page: "watch", title: "黑灰名单", desc: "团队共享，避免重复踩坑。" },
+        { page: "funnel", title: "招募漏斗", desc: "曝光 → 报名 → 入选 → 发布。" },
+        { page: "relay", title: "转发工具", desc: "外部表单代收、导出回填。" },
+        { page: "points", title: "积分与会员", desc: "充值与开通记录。" },
+        { page: "support", title: "小灵同学", desc: "客服与常见问题。" }
+      ]
+    };
+
+    const state = { theme: "jilan", role: "talent", device: "mp", page: "home" };
 
     function $(id) { return document.getElementById(id); }
     function style() { return STYLES.find((s) => s.id === state.theme) || STYLES[0]; }
-    function applyTheme() {
-      const s = style();
-      const r = document.documentElement.style;
-      r.setProperty("--acc", s.acc);
-      r.setProperty("--paper", s.paper);
-      r.setProperty("--tint", s.tint);
-      r.setProperty("--ink", s.ink);
-      $("blurb").textContent = s.blurb;
+    function feats() { return FEATS[state.role] || FEATS.talent; }
+    function isPr() { return state.role === "pr"; }
+    function pageTitle() {
+      const f = feats().find((x) => x.page === state.page);
+      return f ? f.title : "灵祺星选";
     }
-    function isPr() { return style().id === "fadan" || style().id === "taizhang"; }
 
-    function mpHall() {
-      return `<div class="search"><input readonly value="搜商单 / 城市" /></div>
-        <div class="filters"><span class="on">探店</span><span>云剪</span><span>急单</span><span>温州</span></div>
-        ${JOBS.map((j) => `<article class="card-job"><h3>${j.t}</h3><div class="meta">${j.c} · ${j.tag}</div><div class="row"><span class="price">${j.p}</span><button class="btn" type="button">报名</button></div></article>`).join("")}`;
+    function jobCards() {
+      return JOBS.map((j) =>
+        `<article class="card"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag}</div><div class="row"><span class="price">${j.p}</span><button class="btn" data-page="detail" type="button">查看</button></div></article>`
+      ).join("");
     }
-    function mpPublish() {
-      return `<div class="steps"><span>城市</span><span>→</span><b>预算</b><span>→</span><span>Brief</span><span>→</span><span>发布</span></div>
-        <div class="form">
-          <label>标题</label><input readonly value="周末探店 · 火锅品牌" />
-          <label>城市</label><input readonly value="温州 · 鹿城" />
-          <label>预算</label><input readonly value="800" />
-          <label>Brief</label><textarea rows="4" readonly>3 条成片，露出门头与招牌菜，交片周五前。</textarea>
-          <div style="margin-top:16px"><button class="btn" type="button">发布到大厅</button></div>
-        </div>`;
+    function hallFilters() {
+      return `<div class="search">搜商单 / 城市</div>
+        <div class="filters"><span class="on">普通单</span><span>急单</span><span>拍剪</span><span>云剪</span></div>
+        <div class="filters"><span class="on">全部平台</span><span>抖音</span><span>小红书</span><span>温州</span></div>`;
     }
-    function mpCalendar() {
-      return `<div class="week">
-          <div>一<b>14</b></div><div class="on">二<b>15</b></div><div>三<b>16</b></div><div>四<b>17</b></div><div>五<b>18</b></div><div>六<b>19</b></div><div>日<b>20</b></div>
-        </div>
-        <div class="event"><div class="t">15:00</div><div><b>火锅探店</b><div class="meta" style="margin-top:4px;font-size:12px;color:var(--mute)">鹿城 · 到店拍摄</div></div></div>
-        <div class="event"><div class="t">18 交</div><div><b>3 条成片</b><div class="meta" style="margin-top:4px;font-size:12px;color:var(--mute)">待上传 · 门头+招牌菜</div></div></div>
-        <div class="event"><div class="t">19 空</div><div><b>可接急单</b><div class="meta" style="margin-top:4px;font-size:12px;color:var(--mute)">订阅：温州 · 探店</div></div></div>`;
+
+    const screens = {
+      home() {
+        return `<div class="hero"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"}</span></div>
+          ${hallFilters()}${jobCards()}`;
+      },
+      recommend() { return hallFilters() + jobCards(); },
+      detail() {
+        return `<div class="card"><h3>温州火锅探店 · 3条成片</h3><div class="sub">温州 · 鹿城 · 抖音</div><div class="price" style="margin-top:8px">¥800</div></div>
+          <div class="field">Brief<b>3 条成片，露出门头与招牌菜，周五前交片。</b></div>
+          <div class="field">到店<b>鹿城人民路 · 约 90 分钟</b></div>
+          <button class="btn" data-page="${isPr() ? "applicants" : "apply"}" type="button">${isPr() ? "看报名者" : "去报名"}</button>`;
+      },
+      apply() {
+        return `<div class="field">档期<b>本周六 15:00 可到店</b></div>
+          <div class="field">报价<b>¥800（按招募预算）</b></div>
+          <div class="field">备注<b>可出竖屏 + 门头全景</b></div>
+          <button class="btn" type="button">提交报名</button>`;
+      },
+      publish() {
+        return `<div class="field">标题<b>周末探店 · 火锅品牌</b></div>
+          <div class="field">城市<b>温州 · 鹿城</b></div>
+          <div class="field">预算<b>¥800</b></div>
+          <div class="field">Brief<b>3 条成片，露出门头与招牌菜。</b></div>
+          <button class="btn" type="button">发布到大厅</button>`;
+      },
+      messages() {
+        return `<div class="msg"><b>系统</b><div class="sub">你已入选「温州火锅探店」，待排期。</div></div>
+          <div class="msg"><b>PR · 小王</b><div class="sub">门头要拍全，招牌菜特写多给两条。</div></div>
+          <div class="msg"><b>达人 · 阿宁</b><div class="sub">成片已传，请验收。</div></div>`;
+      },
+      chat() {
+        return `<div class="sub" style="margin-bottom:8px">PR · 小王</div>
+          <div class="bubble">门头要拍全，招牌菜特写多给两条。</div>
+          <div class="bubble me">收到，周五前交 3 条。</div>
+          <div class="bubble">日历已标 15 日探店、18 日交片。</div>`;
+      },
+      mine() {
+        if (isPr()) {
+          return `<div class="stats"><div class="stat"><b>8</b><span>已发单</span></div><div class="stat"><b>3</b><span>招募中</span></div><div class="stat"><b>5</b><span>已完结</span></div><div class="stat"><b>—</b><span>漏斗</span></div></div>
+            <div class="menu">
+              <button data-page="orders" type="button">我的发单<i>›</i></button>
+              <button data-page="calendar" type="button">商单日历<i>›</i></button>
+              <button data-page="coop" type="button">合作达人池<i>›</i></button>
+              <button data-page="watch" type="button">黑灰名单<i>›</i></button>
+              <button data-page="funnel" type="button">招募漏斗<i>›</i></button>
+              <button data-page="templates" type="button">我的模版<i>›</i></button>
+              <button data-page="points" type="button">积分与会员<i>›</i></button>
+              <button data-page="support" type="button">小灵同学<i>›</i></button>
+            </div>`;
+        }
+        return `<div class="stats"><div class="stat"><b>12</b><span>已报名</span></div><div class="stat"><b>3</b><span>进行中</span></div><div class="stat"><b>5</b><span>已完成</span></div><div class="stat"><b>96%</b><span>完单</span></div></div>
+          <div class="menu">
+            <button data-page="applications" type="button">我的报名<i>›</i></button>
+            <button data-page="calendar" type="button">商单日历<i>›</i></button>
+            <button data-page="favorites" type="button">我的收藏<i>›</i></button>
+            <button data-page="quotes" type="button">我的报价<i>›</i></button>
+            <button data-page="credit" type="button">达人信用<i>›</i></button>
+            <button data-page="points" type="button">积分与会员<i>›</i></button>
+            <button data-page="support" type="button">小灵同学<i>›</i></button>
+          </div>`;
+      },
+      applications() {
+        return `<div class="card"><b>温州火锅探店</b><div class="sub">已入选 · 待排期</div></div>
+          <div class="card"><b>电竞网吧急单</b><div class="sub">已报名 · 待查看</div></div>
+          <div class="card"><b>云剪口播</b><div class="sub">未入选</div></div>`;
+      },
+      orders() {
+        return `<div class="card"><b>周末探店 · 火锅品牌</b><div class="sub">招募中 · 12 人报名</div><div class="row"><button class="btn ghost" data-page="applicants" type="button">报名者</button></div></div>
+          <div class="card"><b>云剪口播</b><div class="sub">已完结 · 3 条成片</div></div>`;
+      },
+      applicants() {
+        return `<div class="card"><b>阿宁 · 抖音 12w</b><div class="sub">档期周六 · 报价 ¥800</div><div class="row"><button class="btn" type="button">入选排期</button></div></div>
+          <div class="card"><b>小周 · 小红书 8w</b><div class="sub">档期周日 · 报价 ¥900</div><div class="row"><button class="btn ghost" type="button">待定</button></div></div>`;
+      },
+      calendar() {
+        return `<div class="week"><div>一<b>14</b></div><div class="on">二<b>15</b></div><div>三<b>16</b></div><div>四<b>17</b></div><div>五<b>18</b></div><div>六<b>19</b></div><div>日<b>20</b></div></div>
+          <div class="event"><b>15 日 15:00 · 探店</b><div class="sub">鹿城火锅 · 到店拍摄</div></div>
+          <div class="event"><b>18 日 · 交片</b><div class="sub">3 条成片 · 门头+招牌菜</div></div>`;
+      },
+      favorites() {
+        return jobCards();
+      },
+      quotes() {
+        return `<div class="field">探店<b>¥600–1200 / 条</b></div>
+          <div class="field">云剪<b>¥400–800 / 条</b></div>
+          <div class="field">口播<b>¥800 起</b></div>`;
+      },
+      credit() {
+        return `<div class="stats"><div class="stat"><b>96</b><span>信用分</span></div><div class="stat"><b>5</b><span>完单</span></div><div class="stat"><b>0</b><span>违约</span></div><div class="stat"><b>A</b><span>档位</span></div></div>
+          <div class="card"><b>按时交片</b><div class="sub">近 30 天无逾期</div></div>
+          <div class="card"><b>建议</b><div class="sub">补充小红书主页，提高入选率</div></div>`;
+      },
+      points() {
+        return `<div class="hero"><b>860 积分</b><span>会员有效期至 2026-12</span></div>
+          <div class="card"><b>积分充值</b><div class="sub">视频检核 / Brief 生成</div></div>
+          <div class="card"><b>我的订单</b><div class="sub">开通与充值记录</div></div>`;
+      },
+      support() {
+        return `<div class="card"><b>小灵同学</b><div class="sub">报名后多久能知道结果？</div></div>
+          <div class="card"><b>使用手册</b><div class="sub">探店、交片、排期图文说明</div></div>`;
+      },
+      templates() {
+        return `<div class="card"><b>达人报名表</b><div class="sub">粉丝、城市、档期、报价</div></div>
+          <div class="card"><b>拍摄团队表</b><div class="sub">设备、人数、档期</div></div>
+          <div class="card"><b>剪辑团队表</b><div class="sub">风格、周期、报价</div></div>`;
+      },
+      brief() {
+        return `<div class="field">模版<b>餐饮探店 · 3 条成片</b></div>
+          <div class="field">必拍<b>门头、招牌菜、环境</b></div>
+          <div class="field">时长<b>15–30 秒</b></div>
+          <button class="btn" data-page="publish" type="button">套用并发单</button>`;
+      },
+      coop() {
+        return `<div class="card"><b>阿宁</b><div class="sub">完单 3 次 · 火锅/夜宵</div></div>
+          <div class="card"><b>小周</b><div class="sub">完单 1 次 · 亲子</div></div>`;
+      },
+      watch() {
+        return `<div class="card"><b>灰名单 · 某达人</b><div class="sub">交片逾期 · 团队共享</div></div>
+          <div class="card"><b>黑名单</b><div class="sub">空</div></div>`;
+      },
+      funnel() {
+        return `<div class="funnel"><span><b>320</b>曝光</span><span><b>48</b>报名</span><span><b>6</b>入选</span><span><b>3</b>发布</span></div>
+          <div class="card"><b>本周转化</b><div class="sub">报名率 15% · 入选率 12.5%</div></div>`;
+      },
+      relay() {
+        return `<div class="field">外部表单<b>金数据 · 探店报名</b></div>
+          <div class="field">回填<b>导出 12 条待入选</b></div>
+          <button class="btn" type="button">同步到发单</button>`;
+      }
+    };
+
+    function bodyHtml() {
+      const fn = screens[state.page] || screens.home;
+      return fn();
     }
-    function mpMessages() {
-      return `<div class="msg"><div class="who">系统</div><div class="ex">你已入选「温州火锅探店」，待 PR 排期。可在日历里看探店日。</div></div>
-        <div class="msg"><div class="who">PR · 小王</div><div class="ex">门头要拍全，招牌菜特写多给两条。</div></div>
-        <div class="bubble">收到，周五前交 3 条。</div>
-        <div class="bubble me">成片已传，请验收。</div>`;
-    }
-    function mpLedger() {
-      const pr = isPr();
-      return `<div class="pipe"><span>待接</span><span class="on">沟通</span><span>拍摄</span><span>待交片</span></div>
-        <div class="stat-row">
-          <div><b>${pr ? "8" : "12"}</b><span>${pr ? "已发单" : "已报名"}</span></div>
-          <div><b>3</b><span>${pr ? "招募中" : "待交付"}</span></div>
-          <div><b>5</b><span>已完结</span></div>
-          <div><b>96%</b><span>完单</span></div>
-        </div>
-        <div class="list">
-          <button type="button">${pr ? "我的发单" : "我的报名"}<i>›</i></button>
-          <button type="button">商单日历<i>›</i></button>
-          <button type="button">${pr ? "合作达人池" : "达人信用"}<i>›</i></button>
-          <button type="button">${pr ? "招募漏斗" : "商单订阅"}<i>›</i></button>
-        </div>`;
-    }
-    function mpBody() {
-      if (state.page === "publish") return mpPublish();
-      if (state.page === "calendar") return mpCalendar();
-      if (state.page === "messages") return mpMessages();
-      if (state.page === "ledger") return mpLedger();
-      return mpHall();
-    }
-    function mpTitle() {
-      return ({ hall: "推荐大厅", publish: "发招募", calendar: "商单日历", messages: "消息", ledger: "我的" })[state.page] || "推荐大厅";
-    }
+
     function mpFrame() {
-      const s = style();
-      const tabs = isPr()
-        ? [["首页","hall"],["推荐","hall"],["发招募","publish"],["消息","messages"],["我的","ledger"]]
-        : [["首页","hall"],["推荐","hall"],["日历","calendar"],["消息","messages"],["我的","ledger"]];
-      return `<div class="phone">
+      const tabs = [
+        ["首页", "home"],
+        ["推荐", "recommend"],
+        ["发招募", "publish"],
+        ["消息", "messages"],
+        ["我的", "mine"]
+      ];
+      return `<div class="phone" data-theme="${state.theme}">
         <div class="chrome">
-          <div class="status"><span>9:41</span><div class="capsule"></div></div>
-          <div class="nav-title">${mpTitle()}</div>
-          <div class="nav-sub">${s.who} · ${s.name}</div>
+          <div class="status">
+            <span>9:41</span>
+            <div class="status-right">
+              <div class="id-switch">
+                <button class="${!isPr() ? "on" : ""}" data-role="talent" type="button">达人</button>
+                <button class="${isPr() ? "on" : ""}" data-role="pr" type="button">PR</button>
+              </div>
+              <div class="capsule"></div>
+            </div>
+          </div>
+          <div class="nav">
+            <div class="nav-title">${pageTitle()}</div>
+            <div class="nav-loc">温州 · ${style().name}</div>
+          </div>
         </div>
-        <div class="screen">${mpBody()}</div>
+        <div class="screen">${bodyHtml()}</div>
         <div class="tabbar">
-          ${tabs.map(([label, page]) => {
-            const active = state.page === page && (page !== "hall" || label === "推荐");
-            return `<button class="${active ? "on" : ""}" data-page="${page}" type="button">${label}</button>`;
-          }).join("")}
+          ${tabs.map(([label, page]) => `<button class="tab ${state.page === page ? "on" : ""}" data-page="${page}" type="button">${label}</button>`).join("")}
         </div>
       </div>`;
     }
 
-    function webHall() {
-      return `<h2>招募大厅</h2><p class="sub">与小程序同源商单 · 网页适合对照筛选</p>
-        <table><thead><tr><th>商单</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
-        ${JOBS.map((j) => `<tr><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" type="button">${isPr() ? "看报名" : "报名"}</button></td></tr>`).join("")}
-        </tbody></table>`;
-    }
-    function webPublish() {
-      return `<h2>发布招募</h2><p class="sub">网页发单 · 达人小程序大厅同步</p>
-        <div class="steps"><span>城市</span><span>→</span><b>预算</b><span>→</span><span>Brief</span><span>→</span><span>发布</span></div>
-        <div class="form">
-          <label>标题</label><input readonly value="周末探店 · 火锅品牌" />
-          <label>城市</label><input readonly value="温州" />
-          <label>预算</label><input readonly value="800" />
-          <label>Brief</label><textarea rows="3" readonly>3 条成片，露出门头与招牌菜。</textarea>
-          <div style="margin-top:16px"><button class="btn" type="button">发布到大厅</button></div>
-        </div>`;
-    }
-    function webCalendar() {
-      return `<h2>商单日历</h2><p class="sub">探店与交片排在同一周</p>
-        <div class="week">
-          <div>一<b>14</b></div><div class="on">二<b>15 探店</b></div><div>三<b>16</b></div><div>四<b>17</b></div><div>五<b>18 交片</b></div><div>六<b>19</b></div><div>日<b>20</b></div>
-        </div>
-        <table><thead><tr><th>日期</th><th>事项</th><th>身份</th><th>状态</th></tr></thead>
-        <tbody>
-          <tr><td>15</td><td>火锅探店到店</td><td>达人</td><td>待到店</td></tr>
-          <tr><td>18</td><td>3 条成片</td><td>达人</td><td>待上传</td></tr>
-        </tbody></table>`;
-    }
-    function webMessages() {
-      return `<h2>消息</h2><p class="sub">系统通知与私聊同一入口</p>
-        <div class="split">
-          <div class="split-list">
-            <button class="on" type="button">系统 · 入选待排期</button>
-            <button type="button">PR 小王 · Brief 补充</button>
-            <button type="button">达人 阿宁 · 成片已传</button>
-          </div>
-          <div class="split-thread">
-            <div class="bubble">你已入选「温州火锅探店」，待排期。</div>
-            <div class="bubble me">周五交片，日历已标。</div>
-          </div>
-        </div>`;
-    }
-    function webLedger() {
-      return `<h2>履约台账</h2><p class="sub">待接 → 沟通 → 拍摄 → 待交片</p>
-        <div class="board">
-          <div class="col"><h4>待接 2</h4><p>电竞网吧急单</p><p>云剪口播</p></div>
-          <div class="col"><h4>沟通 1</h4><p>火锅探店 · 改 Brief</p></div>
-          <div class="col"><h4>拍摄 1</h4><p>15 日 · 鹿城到店</p></div>
-          <div class="col"><h4>待交片 1</h4><p>3 条成片 · 周五</p></div>
-        </div>`;
-    }
     function webBody() {
-      if (state.page === "publish") return webPublish();
-      if (state.page === "calendar") return webCalendar();
-      if (state.page === "messages") return webMessages();
-      if (state.page === "ledger") return webLedger();
-      return webHall();
+      if (state.page === "home" || state.page === "recommend") {
+        return `<h2>${pageTitle()}</h2><p class="sub" style="margin-bottom:12px">与小程序同源商单</p>
+          <table><thead><tr><th>商单</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
+          ${JOBS.map((j) => `<tr><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" data-page="detail" type="button">查看</button></td></tr>`).join("")}
+          </tbody></table>`;
+      }
+      if (state.page === "messages" || state.page === "chat") {
+        return `<h2>消息</h2><p class="sub" style="margin-bottom:12px">系统通知与私聊</p>
+          <div class="split"><div class="split-list">
+            <button class="on" type="button">系统 · 入选待排期</button>
+            <button type="button">PR 小王 · Brief</button>
+            <button type="button">达人 阿宁 · 成片</button>
+          </div><div class="split-thread">${screens.chat()}</div></div>`;
+      }
+      if (state.page === "funnel" || state.page === "orders") {
+        return `<h2>履约台账</h2><p class="sub" style="margin-bottom:12px">待接 → 沟通 → 拍摄 → 待交片</p>
+          <div class="board">
+            <div class="col"><h4>待接</h4><p>电竞网吧急单</p></div>
+            <div class="col"><h4>沟通</h4><p>火锅探店 · 改 Brief</p></div>
+            <div class="col"><h4>拍摄</h4><p>15 日鹿城到店</p></div>
+            <div class="col"><h4>待交片</h4><p>3 条成片 · 周五</p></div>
+          </div>`;
+      }
+      return `<h2>${pageTitle()}</h2><p class="sub" style="margin-bottom:12px">网页工作台 · 与小程序同一功能</p>${bodyHtml()}`;
     }
+
+    function webNav() {
+      if (isPr()) {
+        return [
+          ["招募大厅", "home"],
+          ["发布招募", "publish"],
+          ["我的发单", "orders"],
+          ["商单日历", "calendar"],
+          ["转发工具", "relay"],
+          ["我的模版", "templates"],
+          ["消息", "messages"],
+          ["我的", "mine"]
+        ];
+      }
+      return [
+        ["招募大厅", "home"],
+        ["我的报名", "applications"],
+        ["商单日历", "calendar"],
+        ["消息", "messages"],
+        ["我的订单", "points"],
+        ["我的", "mine"]
+      ];
+    }
+
     function webFrame() {
-      const s = style();
-      const nav = isPr()
-        ? [["招募大厅","hall"],["发布招募","publish"],["我的发单","ledger"],["商单日历","calendar"],["消息","messages"]]
-        : [["招募大厅","hall"],["我的报名","ledger"],["商单日历","calendar"],["消息","messages"]];
-      return `<div class="desk">
+      const nav = webNav();
+      const on = (page) => state.page === page || (page === "home" && state.page === "recommend");
+      return `<div class="desk" data-theme="${state.theme}">
         <aside class="side">
           <div class="logo">灵祺星选</div>
-          <div class="ed">${s.who} · ${s.name}</div>
-          ${nav.map(([label, page]) => `<button class="${state.page === page ? "on" : ""}" data-page="${page}" type="button">${label}</button>`).join("")}
+          <div class="ed">${isPr() ? "PR" : "达人"} · ${style().name}</div>
+          ${nav.map(([label, page]) => `<button class="${on(page) ? "on" : ""}" data-page="${page}" type="button">${label}</button>`).join("")}
         </aside>
         <div class="main">${webBody()}</div>
       </div>`;
     }
 
-    function feats() {
-      const mp = state.device === "mp";
-      if (style().id === "fadan") {
-        return [
-          ["发招募", mp ? "城市、预算、Brief，拇指发单" : "网页发单，大厅同步", "publish"],
-          ["大厅核对", "发出后达人端立刻能刷到", "hall"]
-        ];
-      }
-      if (style().id === "dangqi") {
-        return [
-          ["商单日历", "探店日 / 交片日", "calendar"],
-          ["消息催档期", "入选后排期走通知", "messages"]
-        ];
-      }
-      if (style().id === "goutong") {
-        return [
-          ["消息", "系统入选 + PR 改 Brief", "messages"],
-          ["我的", "从对话回到自己的单", "ledger"]
-        ];
-      }
-      if (style().id === "taizhang") {
-        return [
-          ["台账", mp ? "报名/发单数字 + 菜单" : "四列看板看履约", "ledger"],
-          ["日历", "节点落到具体日期", "calendar"]
-        ];
-      }
-      return [
-        ["推荐大厅", "探店 / 云剪 / 急单，报名", "hall"],
-        ["我的", "报名、日历、信用", "ledger"]
-      ];
+    function ensurePage() {
+      if (!feats().some((f) => f.page === state.page)) state.page = "home";
     }
 
     function render() {
-      applyTheme();
+      ensurePage();
+      $("blurb").textContent = style().blurb;
       $("styleChips").innerHTML = STYLES.map((s) =>
-        `<button class="chip ${s.id === state.theme ? "on" : ""}" data-id="${s.id}" type="button"><span class="dot" style="background:${s.acc}"></span>${s.name}</button>`
+        `<button class="chip ${s.id === state.theme ? "on" : ""}" data-theme="${s.id}" type="button"><span class="dot" style="background:${s.acc}"></span>${s.name}</button>`
       ).join("");
       $("deviceChips").innerHTML =
         `<button class="chip ${state.device === "mp" ? "on" : ""}" data-device="mp" type="button">小程序</button>` +
         `<button class="chip ${state.device === "web" ? "on" : ""}" data-device="web" type="button">网页</button>`;
-      $("preview").innerHTML = state.device === "web" ? webFrame() : mpFrame();
-      $("featList").innerHTML = feats().map(([t, d, p]) =>
-        `<button class="feat ${state.page === p ? "on" : ""}" data-page="${p}" type="button"><b>${t}</b><span>${d}</span></button>`
+      $("roleChips").innerHTML =
+        `<button class="chip ${state.role === "talent" ? "on" : ""}" data-role="talent" type="button">达人</button>` +
+        `<button class="chip ${state.role === "pr" ? "on" : ""}" data-role="pr" type="button">PR</button>`;
+      $("featKicker").textContent = isPr() ? "全部页面 · PR" : "全部页面 · 达人";
+      $("featTip").textContent = (state.device === "web" ? "网页" : "小程序") + " · 点一条，中间跟着走";
+      $("featList").innerHTML = feats().map((f, i) =>
+        `<button type="button" class="feat ${state.page === f.page ? "on" : ""}" data-page="${f.page}">
+          <div class="feat-n">${String(i + 1).padStart(2, "0")}</div>
+          <div><b>${f.title}</b><span>${f.desc}</span></div>
+        </button>`
       ).join("");
+      $("preview").innerHTML = state.device === "web" ? webFrame() : mpFrame();
     }
 
     document.querySelector(".stage").addEventListener("click", (e) => {
-      const styleChip = e.target.closest("[data-id]");
-      if (styleChip && styleChip.dataset.id && STYLES.some((s) => s.id === styleChip.dataset.id)) {
-        const next = STYLES.find((s) => s.id === styleChip.dataset.id);
-        state.theme = next.id;
-        state.page = next.page;
+      const theme = e.target.closest("[data-theme]");
+      if (theme && theme.dataset.theme && STYLES.some((s) => s.id === theme.dataset.theme)) {
+        state.theme = theme.dataset.theme;
         render();
         return;
       }
       const device = e.target.closest("[data-device]");
-      if (device) {
-        state.device = device.dataset.device;
-        state.page = style().page;
-        render();
-        return;
-      }
+      if (device) { state.device = device.dataset.device; render(); return; }
+      const role = e.target.closest("[data-role]");
+      if (role) { state.role = role.dataset.role; render(); return; }
       const page = e.target.closest("[data-page]");
-      if (page) {
-        state.page = page.dataset.page;
-        render();
-      }
+      if (page) { state.page = page.dataset.page; render(); }
     });
     render();
   </script>

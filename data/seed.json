@@ -49,7 +49,7 @@
       "id": "xingxuan",
       "title": "灵祺星选",
       "tag": "达人履约 · 小程序 / Web",
-      "blurb": "按接单、发单、档期、沟通、台账五套工作流切换。小程序给达人刷单报名，网页给 PR 发单与履约看板，操作与平阳案例库相同。",
+      "blurb": "达人履约演示。和小程序垟里GO一样：全部功能页可点，达人/PR 身份切换，五套浅色风格只换皮肤。另有网页工作台对照。",
       "cover": "/assets/covers/cover-xingxuan.jpg",
       "demoUrl": "/xingxuan/",
       "passwordHash": "3db32b11936a82c4ff03365d1864dba8ff511bacfe6965a36e2e0629e025f81f",
