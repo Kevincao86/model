@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>墨典网络案例库演示 · 灵祺星选</title>
-  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，四套风格含实拍图。" />
+  <meta name="description" content="灵祺星选案例库演示：全部功能页可点，小程序与网页对照，六套风格含实拍图。" />
   <link rel="icon" href="/assets/brand/logo-mark.png" />
   <style>
     :root { --phone-w: 390px; --phone-h: 844px; }
@@ -86,6 +86,18 @@
       --bar: #F7F7F7; --tab: #999; --tab-on: #07C160; --price: #FA5151;
       --radius: 8px; --chrome-text: #fff; --chrome-muted: rgba(255,255,255,.88);
     }
+    .phone[data-skin="night"], .desk[data-skin="night"] {
+      --bg: #0B0B0D; --surface: #16161A; --text: #F4F1EA; --muted: #9A958C;
+      --line: #2A2A30; --accent: #E8C36A; --on-accent: #111; --chrome: #0B0B0D;
+      --bar: #0B0B0D; --tab: #6E6A64; --tab-on: #E8C36A; --price: #E8C36A;
+      --radius: 0; --chrome-text: #F4F1EA; --chrome-muted: #9A958C;
+    }
+    .phone[data-skin="feed"], .desk[data-skin="feed"] {
+      --bg: #FFF7F4; --surface: #fff; --text: #2B1A16; --muted: #A07870;
+      --line: #F3D9D2; --accent: #FF2442; --on-accent: #fff; --chrome: #fff;
+      --bar: #fff; --tab: #C4A8A2; --tab-on: #FF2442; --price: #FF2442;
+      --radius: 14px; --chrome-text: #2B1A16; --chrome-muted: #A07870;
+    }
     .cover { overflow: hidden; background: #DDD; flex-shrink: 0; }
     .cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .hero { position: relative; overflow: hidden; padding: 0 !important; }
@@ -129,13 +141,49 @@
     .phone[data-skin="wechat"] .hero { display: none; }
     .phone[data-skin="wechat"] .card { display: flex; gap: 12px; align-items: center; border: 0; border-bottom: 1px solid #E5E5E5; border-radius: 0; padding: 12px 0; background: transparent; }
     .phone[data-skin="wechat"] .cover { width: 52px; height: 52px; border-radius: 6px; }
+
+    /* 暗夜杂志：字叠在大图上 */
+    .phone[data-skin="night"] .chrome { border-bottom: 0; }
+    .phone[data-skin="night"] .nav-title { font-family: "Songti SC", "STSong", "Noto Serif SC", serif; letter-spacing: .22em; font-weight: 500; }
+    .phone[data-skin="night"] .id-switch { background: #1C1C22; }
+    .phone[data-skin="night"] .id-switch .on { background: #E8C36A; color: #111; }
+    .phone[data-skin="night"] .screen { padding: 0 0 18px; }
+    .phone[data-skin="night"] .hero { height: 220px; border-radius: 0; margin: 0 0 4px; }
+    .phone[data-skin="night"] .search { margin: 10px 14px 8px; width: calc(100% - 28px); background: #16161A; border-color: #2A2A30; }
+    .phone[data-skin="night"] .filters { padding: 0 14px; }
+    .phone[data-skin="night"] .card { position: relative; padding: 0; margin: 0 0 6px; border: 0; border-radius: 0; overflow: hidden; background: #111; }
+    .phone[data-skin="night"] .cover { width: 100%; height: 248px; }
+    .phone[data-skin="night"] .body {
+      position: absolute; left: 0; right: 0; bottom: 0; padding: 18px 14px 14px;
+      background: linear-gradient(transparent, rgba(0,0,0,.78)); color: #fff;
+    }
+    .phone[data-skin="night"] .sub { color: rgba(255,255,255,.82); }
+    .phone[data-skin="night"] .btn { background: #fff; color: #111; border-radius: 0; }
+    .phone[data-skin="night"] .tabbar { border-top: 1px solid #2A2A30; }
+
+    /* 笔记瀑布：双列封面墙 */
+    .phone[data-skin="feed"] .nav-title { font-weight: 800; letter-spacing: 0; }
+    .phone[data-skin="feed"] .hero { height: 110px; border-radius: 18px; margin-bottom: 12px; }
+    .phone[data-skin="feed"] .filters button { border-radius: 999px; }
+    .phone[data-skin="feed"] .feed-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .phone[data-skin="feed"] .card { padding: 0; margin: 0; border: 0; background: transparent; display: flex; flex-direction: column; }
+    .phone[data-skin="feed"] .cover { width: 100%; height: 152px; border-radius: 12px; }
+    .phone[data-skin="feed"] .body { padding: 8px 2px 4px; }
+    .phone[data-skin="feed"] .card h3 { font-size: 13px; line-height: 1.35; font-weight: 650; }
+    .phone[data-skin="feed"] .row { margin-top: 6px; }
+    .phone[data-skin="feed"] .btn { height: 26px; border-radius: 999px; padding: 0 10px; font-size: 11px; }
     .avatar-pic { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; display: block; }
     .phone[data-skin="biz"] .avatar-pic { border-radius: 2px; }
     .phone[data-skin="min"] .avatar-pic { border-radius: 0; width: 72px; height: 72px; }
+    .phone[data-skin="night"] .avatar-pic { border-radius: 0; border: 1px solid #E8C36A; }
+    .phone[data-skin="feed"] .avatar-pic { border-radius: 20px; }
     .phone[data-skin="min"] .card { display: flex; flex-direction: column; }
     .phone[data-skin="tanshop"] .card { display: flex; flex-direction: column; }
-    .desk[data-skin="biz"] .hero, .desk[data-skin="min"] .hero, .desk[data-skin="tanshop"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
+    .desk[data-skin="biz"] .hero, .desk[data-skin="min"] .hero, .desk[data-skin="tanshop"] .hero,
+    .desk[data-skin="night"] .hero, .desk[data-skin="feed"] .hero { height: 160px; margin-bottom: 16px; overflow: hidden; border-radius: 6px; }
     .desk[data-skin="min"] .hero { height: 200px; border-radius: 0; }
+    .desk[data-skin="night"] .hero { border-radius: 0; height: 180px; }
+    .desk[data-skin="feed"] .hero { border-radius: 16px; }
 
     .phone {
       width: var(--phone-w); height: var(--phone-h); border-radius: 40px; overflow: hidden;
@@ -302,7 +350,7 @@
       <div class="chips" id="deviceChips"></div>
       <div class="label">身份</div>
       <div class="chips" id="roleChips"></div>
-      <div class="label">四套风格 · 含实拍</div>
+      <div class="label">六套风格 · 含实拍</div>
       <div class="chips" id="styleChips"></div>
       <div class="blurb" id="blurb"></div>
       <p class="hint">手机里的筛选、卡片、按钮都可以点，和垟里GO一样会跳页或弹出演示提示。非正式上线产品。</p>
@@ -319,7 +367,9 @@
       { id: "biz", name: "商务风", acc: "#1F4E79", blurb: "宋体标题、横排实拍、细金线。给 PR 和商家看履约台。" },
       { id: "min", name: "简约风", acc: "#222222", blurb: "大图、留白、几乎没有框。给达人慢慢刷探店封面。" },
       { id: "tanshop", name: "探店画报", acc: "#C45C3A", blurb: "满幅现场照片。到店拍摄、门头和成片是主线。" },
-      { id: "wechat", name: "微信接单", acc: "#07C160", blurb: "绿顶栏 + 小方图列表。达人每天打开接单、点消息。" }
+      { id: "wechat", name: "微信接单", acc: "#07C160", blurb: "绿顶栏 + 小方图列表。达人每天打开接单、点消息。" },
+      { id: "night", name: "暗夜杂志", acc: "#E8C36A", blurb: "黑底、字叠在大图上。像夜场画报，刷单时先看场面。" },
+      { id: "feed", name: "笔记瀑布", acc: "#FF2442", blurb: "双列封面墙。像小红书笔记流，适合刷探店和跟拍。" }
     ];
     const JOBS = [
       { id: "hotpot", t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店", hall: "normal", plat: "抖音", city: "温州", img: "/xingxuan/img/xx-hotpot.jpg" },
@@ -428,7 +478,7 @@
     function jobCards() {
       const rows = visibleJobs();
       if (!rows.length) return `<div class="card">这个筛选下没有商单，点上面筛选项换一换。</div>`;
-      return rows.map((j) =>
+      const html = rows.map((j) =>
         `<article class="card" data-act="open-job" data-job="${j.id}">
           <div class="cover"><img src="${j.img}" alt=""></div>
           <div class="body"><h3>${j.t}</h3><div class="sub">${j.c} · ${j.tag} · ${j.plat}</div>
@@ -437,10 +487,13 @@
           </div></div>
         </article>`
       ).join("");
+      return state.theme === "feed" ? `<div class="feed-grid">${html}</div>` : html;
     }
     function heroBanner() {
       const src = state.theme === "min" ? "/xingxuan/img/xx-hero-min.jpg"
         : state.theme === "tanshop" ? "/xingxuan/img/xx-tea.jpg"
+        : state.theme === "night" ? "/xingxuan/img/xx-hero-night.jpg"
+        : state.theme === "feed" ? "/xingxuan/img/xx-hero-feed.jpg"
         : "/xingxuan/img/xx-hero-biz.jpg";
       return `<div class="hero"><img src="${src}" alt=""><div class="cap"><b>让好内容，遇见好机会</b><span>温州 · ${isPr() ? "PR 工作台" : "达人接单"}</span></div></div>`;
     }
