@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>墨典网络案例库演示 · 灵祺星选</title>
+  <meta name="description" content="灵祺星选达人履约：六套浅色商务简约风格，网页版与小程序版可切换。" />
+  <link rel="icon" href="/assets/brand/logo-mark.png" />
+  <style>
+    :root {
+      --paper: #F5F7FA; --card: #fff; --ink: #334155; --mute: #64748B;
+      --line: #E5E7EB; --acc: #2B6CB0; --tint: #E8F1F8; --price: #C2410C;
+      --phone-w: 390px; --phone-h: 780px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+      background: #F4F5F7;
+      color: #1F2937;
+    }
+    .site-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 28px; background: #fff; border-bottom: 1px solid var(--line);
+    }
+    .site-bar a { color: inherit; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .site-bar img { width: 28px; height: 28px; object-fit: contain; }
+    .site-bar b { font-size: 13px; font-weight: 650; }
+    .site-bar span { font-size: 11px; color: var(--mute); letter-spacing: .12em; }
+    .stage {
+      display: grid;
+      grid-template-columns: 280px minmax(420px, 1fr) minmax(220px, 280px);
+      gap: 28px; max-width: 1320px; margin: 0 auto; padding: 24px 24px 48px;
+      align-items: start;
+    }
+    .kicker { font-size: 11px; letter-spacing: .2em; color: var(--acc); }
+    .panel h1 { font-size: 26px; font-weight: 650; margin-top: 6px; }
+    .panel p { margin-top: 10px; color: var(--mute); font-size: 14px; line-height: 1.7; }
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; margin-top: 16px; }
+    .meta-grid div { font-size: 12px; color: var(--mute); }
+    .meta-grid b { display: block; color: var(--ink); font-size: 13px; margin-top: 2px; }
+    .label { margin: 22px 0 10px; font-size: 12px; letter-spacing: .16em; color: var(--mute); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      border: 1px solid var(--line); background: #fff; color: var(--ink);
+      padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 13px;
+    }
+    .chip.on { background: var(--acc); border-color: var(--acc); color: #fff; }
+    .chip .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+    .hint { margin-top: 18px; font-size: 12px; color: #94A3B8; line-height: 1.65; }
+    .blurb { margin-top: 14px; padding: 12px 14px; border-radius: 10px; background: var(--tint); color: var(--ink); font-size: 13px; line-height: 1.65; }
+    .preview { display: flex; justify-content: center; min-height: var(--phone-h); }
+    .phone {
+      width: var(--phone-w); height: var(--phone-h); background: var(--paper);
+      border: 1px solid var(--line); border-radius: 28px; overflow: hidden;
+      display: flex; flex-direction: column; box-shadow: 0 1px 0 rgba(15,23,42,.04);
+    }
+    .chrome { background: #fff; border-bottom: 1px solid var(--line); padding: 8px 16px 10px; }
+    .status { display: flex; justify-content: space-between; font-size: 12px; color: var(--mute); margin-bottom: 8px; }
+    .capsule { width: 78px; height: 22px; border-radius: 11px; background: #111; opacity: .12; }
+    .nav-title { font-size: 17px; font-weight: 650; color: var(--ink); }
+    .nav-sub { font-size: 11px; color: var(--mute); margin-top: 2px; }
+    .screen { flex: 1; overflow: auto; padding: 12px 14px 16px; }
+    .screen::-webkit-scrollbar { width: 0; }
+    .tabbar {
+      display: grid; grid-template-columns: repeat(5, 1fr); background: #fff;
+      border-top: 1px solid var(--line); padding: 8px 4px 14px; font-size: 11px; color: var(--mute);
+    }
+    .tabbar button { background: 0; border: 0; font: inherit; color: inherit; cursor: pointer; }
+    .tabbar button.on { color: var(--acc); font-weight: 650; }
+    .search { display: flex; gap: 8px; margin-bottom: 10px; }
+    .search input {
+      flex: 1; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px;
+      font: inherit; background: #fff; color: var(--ink);
+    }
+    .filters { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .filters span {
+      padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line);
+      font-size: 12px; color: var(--mute); background: #fff;
+    }
+    .filters span.on { background: var(--acc); color: #fff; border-color: var(--acc); }
+    .card-job {
+      background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+      padding: 12px; margin-bottom: 10px;
+    }
+    .card-job h3 { font-size: 15px; font-weight: 650; color: var(--ink); }
+    .card-job .meta { margin-top: 6px; font-size: 12px; color: var(--mute); }
+    .card-job .row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+    .price { color: var(--price); font-weight: 700; font-size: 15px; }
+    .btn {
+      background: var(--acc); color: #fff; border: 0; border-radius: 8px;
+      padding: 7px 14px; font-size: 13px; cursor: pointer;
+    }
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); background: #fff; border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; }
+    .stat-row div { padding: 12px 4px; text-align: center; border-right: 1px solid var(--line); }
+    .stat-row div:last-child { border-right: 0; }
+    .stat-row b { display: block; font-size: 16px; color: var(--ink); }
+    .stat-row span { font-size: 11px; color: var(--mute); }
+    .list { background: #fff; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+    .list button {
+      width: 100%; text-align: left; background: #fff; border: 0; border-bottom: 1px solid var(--line);
+      padding: 14px 14px; font: inherit; color: var(--ink); cursor: pointer; display: flex; justify-content: space-between;
+    }
+    .list button:last-child { border-bottom: 0; }
+    .list i { color: #CBD5E1; font-style: normal; }
+    .desk {
+      width: min(920px, 100%); background: #fff; border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+      min-height: 560px; display: grid; grid-template-columns: 200px 1fr;
+    }
+    .side { background: #fff; border-right: 1px solid var(--line); padding: 18px 12px; }
+    .side .logo { font-size: 15px; font-weight: 700; color: var(--acc); margin-bottom: 18px; padding: 0 8px; }
+    .side button {
+      display: block; width: 100%; text-align: left; background: 0; border: 0; color: var(--mute);
+      padding: 10px 10px; font: inherit; cursor: pointer; border-radius: 8px;
+    }
+    .side button.on { background: var(--tint); color: var(--acc); font-weight: 650; }
+    .main { background: var(--paper); padding: 20px; }
+    .main h2 { font-size: 18px; margin-bottom: 4px; }
+    .main .sub { font-size: 12px; color: var(--mute); margin-bottom: 16px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); font-size: 13px; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    th { color: var(--mute); font-weight: 500; font-size: 11px; letter-spacing: .06em; }
+    .form label { display: block; font-size: 12px; color: var(--mute); margin: 12px 0 6px; }
+    .form input, .form textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font: inherit; background: #fff;
+    }
+    .feat { display: grid; grid-template-columns: 28px 1fr; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--line); cursor: pointer; background: 0; border-left: 0; border-right: 0; width: 100%; text-align: left; font: inherit; color: inherit; }
+    .feat:last-child { border-bottom: 0; }
+    .feat-n { font-size: 12px; color: var(--acc); font-weight: 700; padding-top: 2px; }
+    .feat b { display: block; font-size: 14px; }
+    .feat span { display: block; margin-top: 4px; font-size: 12px; color: var(--mute); line-height: 1.55; }
+    @media (max-width: 1100px) {
+      .stage { grid-template-columns: 260px 1fr; }
+      .features { grid-column: 1 / -1; }
+    }
+    @media (max-width: 800px) {
+      .stage { grid-template-columns: 1fr; }
+      .desk { grid-template-columns: 1fr; }
+      .side { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <script src="/js/gate.js" data-case="xingxuan"></script>
+  <header class="site-bar">
+    <a href="/"><img src="/assets/brand/logo-mark.png" alt="" /><b>墨典网络 · 案例库</b></a>
+    <span>CASE · 灵祺星选</span>
+  </header>
+  <div class="stage">
+    <aside class="panel">
+      <div class="kicker">CASE</div>
+      <h1>灵祺星选</h1>
+      <p>达人履约平台演示。浅色商务简约，六套主色可切换；同一套内容支持<strong>小程序</strong>与<strong>网页</strong>对照，操作与平阳景点案例库一致：左侧选风格，中间看端。</p>
+      <div class="meta-grid">
+        <div>产品<b>灵祺星选</b></div>
+        <div>场景<b>达人 · PR · 探店</b></div>
+        <div>类型<b>小程序 + Web</b></div>
+        <div>状态<b>风格选型演示</b></div>
+      </div>
+      <div class="label">端</div>
+      <div class="chips" id="deviceChips"></div>
+      <div class="label">六套风格</div>
+      <div class="chips" id="styleChips"></div>
+      <div class="blurb" id="blurb"></div>
+      <p class="hint">浅底、白卡片、矩形主按钮。不用黑色调。点风格即换色，非正式上线产品。</p>
+    </aside>
+    <div class="preview" id="preview"></div>
+    <aside class="features">
+      <div class="kicker">对照看</div>
+      <p class="hint" style="margin:0 0 8px">点一条，中间跟着切页</p>
+      <div id="featList"></div>
+    </aside>
+  </div>
+  <script>
+    const STYLES = [
+      { id: "jilan", name: "霁蓝", acc: "#2B6CB0", paper: "#F5F7FA", tint: "#E8F1F8", ink: "#334155", blurb: "飞书/钉钉类办公蓝，最像工具软件。" },
+      { id: "songbai", name: "松柏", acc: "#1F7A5C", paper: "#F4F7F5", tint: "#E6F4EE", ink: "#3F4A45", blurb: "信托感绿，稳健、适合对商家讲履约。" },
+      { id: "nuansha", name: "暖砂", acc: "#B45309", paper: "#F7F5F2", tint: "#F3E8D8", ink: "#44403C", blurb: "暖商务，仍是工具不是活动页。" },
+      { id: "qingci", name: "青瓷", acc: "#0F766E", paper: "#F3F7F7", tint: "#D5EDEA", ink: "#3F4F4C", blurb: "更冷、更干净的青绿。" },
+      { id: "wuqing", name: "雾青", acc: "#5B7C8A", paper: "#F4F5F6", tint: "#E4EAED", ink: "#3D4A52", blurb: "彩度最低，长时间盯着最不累。" },
+      { id: "jiangfei", name: "绛绯", acc: "#B42318", paper: "#F8F5F5", tint: "#FCE8E6", ink: "#44403C", blurb: "招商品红点缀，主色只出现在按钮。" }
+    ];
+    const JOBS = [
+      { t: "温州火锅探店 · 3条成片", c: "温州 · 鹿城", p: "¥800", tag: "探店" },
+      { t: "电竞网吧周末急单", c: "温州 · 龙湾", p: "¥1,200", tag: "急单" },
+      { t: "云剪混剪 · 品牌口播", c: "杭州 · 不限", p: "¥600", tag: "云剪" }
+    ];
+    const state = { theme: "jilan", device: "mp", page: "hall" };
+
+    function $(id) { return document.getElementById(id); }
+    function style() { return STYLES.find((s) => s.id === state.theme) || STYLES[0]; }
+    function applyTheme() {
+      const s = style();
+      const r = document.documentElement.style;
+      r.setProperty("--acc", s.acc);
+      r.setProperty("--paper", s.paper);
+      r.setProperty("--tint", s.tint);
+      r.setProperty("--ink", s.ink);
+      $("blurb").textContent = s.blurb;
+    }
+
+    function mpHall() {
+      return `<div class="search"><input readonly value="搜商单 / 城市" /></div>
+        <div class="filters"><span class="on">探店</span><span>云剪</span><span>急单</span></div>
+        ${JOBS.map((j) => `<article class="card-job"><h3>${j.t}</h3><div class="meta">${j.c} · ${j.tag}</div><div class="row"><span class="price">${j.p}</span><button class="btn" type="button">报名</button></div></article>`).join("")}`;
+    }
+    function mpMine() {
+      return `<div class="stat-row">
+          <div><b>12</b><span>已报名</span></div><div><b>3</b><span>待交付</span></div>
+          <div><b>860</b><span>积分</span></div><div><b>96%</b><span>完单</span></div>
+        </div>
+        <div class="list">
+          <button type="button">我的报名<i>›</i></button>
+          <button type="button">会员与积分<i>›</i></button>
+          <button type="button">帮助与客服<i>›</i></button>
+        </div>`;
+    }
+    function mpFrame() {
+      const title = state.page === "mine" ? "我的" : "推荐大厅";
+      const body = state.page === "mine" ? mpMine() : mpHall();
+      return `<div class="phone">
+        <div class="chrome">
+          <div class="status"><span>9:41</span><div class="capsule"></div></div>
+          <div class="nav-title">${title}</div>
+          <div class="nav-sub">灵祺星选 · ${style().name}</div>
+        </div>
+        <div class="screen">${body}</div>
+        <div class="tabbar">
+          <button type="button">首页</button>
+          <button class="${state.page !== "mine" ? "on" : ""}" data-page="hall" type="button">推荐</button>
+          <button type="button">发布</button>
+          <button type="button">消息</button>
+          <button class="${state.page === "mine" ? "on" : ""}" data-page="mine" type="button">我的</button>
+        </div>
+      </div>`;
+    }
+    function webHall() {
+      return `<h2>招募大厅</h2><p class="sub">网页工作台 · ${style().name} · 与小程序同源商单</p>
+        <table><thead><tr><th>商家</th><th>城市</th><th>类型</th><th>预算</th><th></th></tr></thead><tbody>
+        ${JOBS.map((j) => `<tr><td>${j.t}</td><td>${j.c}</td><td>${j.tag}</td><td class="price">${j.p}</td><td><button class="btn" type="button">查看</button></td></tr>`).join("")}
+        </tbody></table>`;
+    }
+    function webPublish() {
+      return `<h2>发布招募</h2><p class="sub">网页发单 · 达人端同步出现在小程序大厅</p>
+        <div class="form">
+          <label>标题</label><input readonly value="周末探店 · 火锅品牌" />
+          <label>城市</label><input readonly value="温州" />
+          <label>预算</label><input readonly value="800" />
+          <label>要求</label><textarea rows="3" readonly>3 条成片，露出门头与招牌菜。</textarea>
+          <div style="margin-top:16px"><button class="btn" type="button">发布到大厅</button></div>
+        </div>`;
+    }
+    function webFrame() {
+      const nav = state.page === "publish" ? "publish" : "hall";
+      const body = nav === "publish" ? webPublish() : webHall();
+      return `<div class="desk">
+        <aside class="side">
+          <div class="logo">灵祺星选</div>
+          <button class="${nav === "hall" ? "on" : ""}" data-page="hall" type="button">大厅</button>
+          <button class="${nav === "publish" ? "on" : ""}" data-page="publish" type="button">发招募</button>
+          <button type="button">达人库</button>
+          <button type="button">结算</button>
+        </aside>
+        <div class="main">${body}</div>
+      </div>`;
+    }
+
+    function feats() {
+      if (state.device === "mp") {
+        return [
+          ["01", "推荐大厅", "商单卡片、筛选、报名", "hall"],
+          ["02", "我的", "报名 / 积分 / 完单", "mine"]
+        ];
+      }
+      return [
+        ["01", "网页大厅", "表格看单、与小程序同源", "hall"],
+        ["02", "发招募", "网页发单，达人端同步", "publish"]
+      ];
+    }
+
+    function render() {
+      applyTheme();
+      $("styleChips").innerHTML = STYLES.map((s) =>
+        `<button class="chip ${s.id === state.theme ? "on" : ""}" data-id="${s.id}" type="button"><span class="dot" style="background:${s.acc}"></span>${s.name}</button>`
+      ).join("");
+      $("deviceChips").innerHTML =
+        `<button class="chip ${state.device === "mp" ? "on" : ""}" data-device="mp" type="button">小程序</button>` +
+        `<button class="chip ${state.device === "web" ? "on" : ""}" data-device="web" type="button">网页</button>`;
+      $("preview").innerHTML = state.device === "web" ? webFrame() : mpFrame();
+      $("featList").innerHTML = feats().map(([n, t, d, p]) =>
+        `<button class="feat" data-page="${p}" type="button"><span class="feat-n">${n}</span><span><b>${t}</b><span>${d}</span></span></button>`
+      ).join("");
+    }
+
+    document.querySelector(".stage").addEventListener("click", (e) => {
+      const styleChip = e.target.closest("[data-id]");
+      if (styleChip && styleChip.dataset.id && STYLES.some((s) => s.id === styleChip.dataset.id)) {
+        state.theme = styleChip.dataset.id;
+        render();
+        return;
+      }
+      const device = e.target.closest("[data-device]");
+      if (device) {
+        state.device = device.dataset.device;
+        state.page = "hall";
+        render();
+        return;
+      }
+      const page = e.target.closest("[data-page]");
+      if (page) {
+        state.page = page.dataset.page;
+        render();
+      }
+    });
+    render();
+  </script>
+</body>
+</html>

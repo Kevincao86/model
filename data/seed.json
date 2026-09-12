@@ -44,6 +44,17 @@
       "passwordHash": "c4f6baca3fbd20f3117b48cb67b8eaa8f93548dd86d952a24d2e4523a360fea0",
       "sort": 4,
       "visible": true
+    },
+    {
+      "id": "xingxuan",
+      "title": "灵祺星选",
+      "tag": "达人履约 · 小程序 / Web",
+      "blurb": "达人履约演示。六套浅色商务简约可切换（霁蓝、松柏、暖砂、青瓷、雾青、绛绯），网页版与小程序版对照，操作与平阳景点案例库相同。",
+      "cover": "/assets/covers/cover-xingxuan.jpg",
+      "demoUrl": "/xingxuan/",
+      "passwordHash": "3db32b11936a82c4ff03365d1864dba8ff511bacfe6965a36e2e0629e025f81f",
+      "sort": 5,
+      "visible": true
     }
   ]
 }
